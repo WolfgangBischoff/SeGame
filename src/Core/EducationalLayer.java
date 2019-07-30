@@ -1,8 +1,11 @@
+package Core;
+
 import java.util.Random;
+import static Util.Config.*;
 
 public enum EducationalLayer
 {
-    NoEducation(0), BasicEducation(1), apprenticeship(2), HighEducation(3);
+    BASE(0), APPRENTICESHIP(1), HIGHER(2), UNIVERSITY(3);
 
     private int nr;
     static Random rand = new Random();
@@ -21,18 +24,22 @@ public enum EducationalLayer
     {
         return fromInt(rand.nextInt(4));
     }
+    static EducationalLayer getRatioEdu(Integer base, Integer app, Integer high, Integer university)
+    {
+      return null;
+    }
 
     static EducationalLayer fromInt(int n)
     {
         switch(n) {
             case 0:
-                return NoEducation;
+                return BASE;
             case 1:
-                return BasicEducation;
+                return APPRENTICESHIP;
             case 2:
-                    return apprenticeship;
+                    return HIGHER;
             case 3:
-                    return HighEducation;
+                    return UNIVERSITY;
             default:
                 return null;
         }
