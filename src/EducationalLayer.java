@@ -2,12 +2,23 @@ import java.util.Random;
 
 public enum EducationalLayer
 {
-    NoEducation, BasicEducation, apprenticeship, HighEducation;
+    NoEducation(0), BasicEducation(1), apprenticeship(2), HighEducation(3);
 
+    private int nr;
     static Random rand = new Random();
+
+    EducationalLayer(int nr)
+    {
+        this.nr = nr;
+    }
+
+    public int getNr()
+    {
+        return nr;
+    }
+
     static EducationalLayer getRandomEdu()
     {
-
         return fromInt(rand.nextInt(4));
     }
 
@@ -25,6 +36,5 @@ public enum EducationalLayer
             default:
                 return null;
         }
-
     }
 }
