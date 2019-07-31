@@ -1,6 +1,6 @@
 package Core;
 
-import static Util.Config.*;
+import static Util.Util.*;
 
 
 public class Person
@@ -10,6 +10,8 @@ public class Person
     int baseHappiness;
     int effectiveHappiness;
     int GrossIncome;
+    Workposition worksAt;
+
 
     EconomicLayer economicLayer;
     EducationalLayer educationalLayer;
@@ -18,12 +20,24 @@ public class Person
     EducationalLayer persGoalEducation;
     EconomicLayer persGoalEconomic;
 
+
+
+    public void setWorksAt(Workposition worksAt)
+    {
+        this.worksAt = worksAt;
+        calcState();
+    }
+
+    void initState()
+    {
+        calcBaseHappiness();
+        GrossIncome = setIncomeOnEducation(educationalLayer);
+    }
     void calcState()
     {
         calculateEconomicLayer();
-        calcBaseHappiness();
         calcEffectiveHappiness();
-        politicalOpinion = calcPoliticalOpinion();
+        calcPoliticalOpinion();
     }
 
     void calculateEconomicLayer()
@@ -42,12 +56,41 @@ public class Person
 
     @Override
     public String toString() {
-        return "Person{" +
+        return "\nPerson{" +
                 "name='" + name + '\'' +
                 ", GrossIncome=" + GrossIncome +
                 ", educationalLayer=" + educationalLayer +
-                ", politicalOpinion=" + politicalOpinion +
+                ", works at: " + printWorksAt() +
+                ", Politcal: " + politicalOpinion +
                 '}';
+    }
+
+    public String printBasicData()
+    {
+        return name + "(" + age + ") \t\t";
+    }
+
+    public String printHappiness()
+    {
+        return  "Base: " + baseHappiness + " effective: " + effectiveHappiness + " ";
+    }
+
+    public String printWorksAt()
+    {
+        if(worksAt == null)
+            return "unemployed ";
+        else
+            return worksAt.company.name + " ";
+    }
+
+    public String printEconomical()
+    {
+        return "GrossIncome: " + GrossIncome;
+    }
+
+    public String printLayers()
+    {
+        return educationalLayer + " " + economicLayer + " " + politicalOpinion;
     }
 
     static Person createRandomPerson()
@@ -78,12 +121,10 @@ public class Person
 
     Person(String name, int age, EducationalLayer edu)
     {
-        baseHappiness = calcBaseHappiness();
         this.name = name;
         this.age = age;
         educationalLayer = edu;
-        this.GrossIncome = this.setIncomeOnEducation(educationalLayer);
-        calculateEconomicLayer();
+        //calcState();
     }
 
     static String getRandomName()
@@ -93,31 +134,30 @@ public class Person
         return firstnames[getRandom().nextInt(firstnames.length)] + " " + lastnames[getRandom().nextInt(lastnames.length)];
     }
 
-    int calcBaseHappiness()
+    void calcBaseHappiness()
     {
-        //Calc on base of sickness, age and external things
-        return 100;
-
+        baseHappiness = INIT_BASE_HAPPINESS;
     }
 
     void calcEffectiveHappiness()
     {
         //calc on base of internal vars
-        double avginc = SocietyStatistics.getSocietyStatistics().getAvgIncome();
+        double avginc = Society.getSociety().getSocietyStatistics().getAvgIncome();
         effectiveHappiness = baseHappiness;
 
         if(GrossIncome < avginc)
             effectiveHappiness -= 10;
         else
             effectiveHappiness += 10;
-        effectiveHappiness += educationalLayer.getNr();
+        effectiveHappiness += educationalLayer.getInt();
     }
 
-    PoliticalOpinion calcPoliticalOpinion()
+    void calcPoliticalOpinion()
     {
-        if(effectiveHappiness < baseHappiness)
-            return PoliticalOpinion.SocialDemocratic;
+        if(effectiveHappiness < baseHappiness || worksAt == null)
+        {
+            politicalOpinion =  PoliticalOpinion.SocialDemocratic;}
         else
-            return PoliticalOpinion.Conservativ;
+            politicalOpinion =  PoliticalOpinion.Conservativ;
     }
 }

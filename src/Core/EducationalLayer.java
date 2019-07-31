@@ -1,23 +1,22 @@
 package Core;
 
 import java.util.Random;
-import static Util.Config.*;
 
 public enum EducationalLayer
 {
     BASE(0), APPRENTICESHIP(1), HIGHER(2), UNIVERSITY(3);
 
-    private int nr;
+    private int IntNr;
     static Random rand = new Random();
 
     EducationalLayer(int nr)
     {
-        this.nr = nr;
+        this.IntNr = nr;
     }
 
-    public int getNr()
+    public int getInt()
     {
-        return nr;
+        return IntNr;
     }
 
     static EducationalLayer getRandomEdu()

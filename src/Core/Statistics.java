@@ -2,9 +2,8 @@ package Core;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Map;
 
-import static Util.Config.*;
+import static Util.Util.*;
 
 public abstract class Statistics
 {

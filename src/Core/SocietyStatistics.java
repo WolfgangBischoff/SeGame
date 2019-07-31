@@ -13,22 +13,6 @@ import java.util.ArrayList;
     Integer numberHigherEdu = 0;
     Integer numberUnivEdu = 0;
 
-    public static SocietyStatistics getSocietyStatistics()
-    {
-        if (singleton == null)
-        {
-            singleton = new SocietyStatistics();
-            return singleton;
-        }
-        else return singleton;
-    }
-
-    public void setPersons(ArrayList<Person> pers)
-    {
-        this.persons = pers;
-        createStatistics();
-    }
-
     @Override
     public String toString() {
         return "SocietyStatistics{" +
@@ -41,12 +25,13 @@ import java.util.ArrayList;
                 '}';
     }
 
-    private SocietyStatistics()
+    public SocietyStatistics(Society base)
     {
-
+        persons = base.people;
+        initStatistics();
     }
 
-    private void createStatistics()
+    void initStatistics()
     {
         ArrayList<Integer> grossIncomes = new ArrayList<>();
         for(Person p :persons)
