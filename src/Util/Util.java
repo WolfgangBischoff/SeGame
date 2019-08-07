@@ -37,6 +37,9 @@ public class Util
     //Economy
     public static final int NUMBER_COMPANIES = 10;
 
+    //Government
+
+
     //Random
     static Random rand = new Random();
     public static Random getRandom()

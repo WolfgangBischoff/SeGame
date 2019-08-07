@@ -36,7 +36,7 @@ import java.util.ArrayList;
         ArrayList<Integer> grossIncomes = new ArrayList<>();
         for(Person p :persons)
         {
-            grossIncomes.add(p.GrossIncome);
+            grossIncomes.add(p.getGrossIncome());
             addEduLayer(p);
         }
 

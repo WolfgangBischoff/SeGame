@@ -1,5 +1,15 @@
-Add Time, effective happiness changes if income difference increases
 
+BUG:
+Due to changes in income calculation everybody has 0 income. Check sequence of workpositon to income calc
 
-Influences:
-Demonstration, Flyer, Musik, Add, Strike
+TODOS:
+    Add Time
+    Add Class Government with IncomeTax
+    Add Housing conditions (quality and price)
+
+Ideas:
+    Influences:
+    Tax, Housing Cost, MedialFocus/Property, Gini-coefficent
+
+    Opinion Influences:
+    Demonstration, Flyer, Musik, Add, Strike

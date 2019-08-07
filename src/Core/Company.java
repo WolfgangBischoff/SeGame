@@ -18,6 +18,7 @@ public class Company
         {
             workposition.worker = p;
             p.setWorksAt(workposition);
+            //p.calcState();
             return true;
         }
         else

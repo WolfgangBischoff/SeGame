@@ -9,7 +9,8 @@ public class Person
     int age;
     int baseHappiness;
     int effectiveHappiness;
-    int GrossIncome;
+    private int GrossIncome;
+    private Integer NetIncome;
     Workposition worksAt;
 
 
@@ -20,7 +21,10 @@ public class Person
     EducationalLayer persGoalEducation;
     EconomicLayer persGoalEconomic;
 
-
+    public int getGrossIncome()
+    {
+        return GrossIncome;
+    }
 
     public void setWorksAt(Workposition worksAt)
     {
@@ -31,7 +35,8 @@ public class Person
     void initState()
     {
         calcBaseHappiness();
-        GrossIncome = setIncomeOnEducation(educationalLayer);
+        //GrossIncome = setIncomeOnEducation(educationalLayer);
+        setGrossIncomeFromWorkposition(worksAt);
     }
     void calcState()
     {
@@ -118,12 +123,24 @@ public class Person
         }
     }
 
+    void setGrossIncomeFromWorkposition(Workposition work)
+    {
+        if(work == null)
+            GrossIncome = 0;
+        else
+            GrossIncome = work.grossIncomeWork;
+    }
+
+    void setIncomeWithTax(Integer grossIncome)
+    {
+        NetIncome = grossIncome - Government.getGoverment().calcTaxPercentage(grossIncome, Government.getGoverment().INCOME_TAX_RATE);
+    }
+
     Person(String name, int age, EducationalLayer edu)
     {
         this.name = name;
         this.age = age;
         educationalLayer = edu;
-        //calcState();
     }
 
     static String getRandomName()
