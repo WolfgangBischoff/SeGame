@@ -48,10 +48,10 @@ import java.util.ArrayList;
     {
         switch (p.educationalLayer)
         {
-            case BASE: numberBasicEdu++; break;
-            case APPRENTICESHIP: numberApprenEdu++; break;
-            case HIGHER: numberHigherEdu++; break;
-            case UNIVERSITY: numberUnivEdu++; break;
+            case EDU_BASE: numberBasicEdu++; break;
+            case EDU_APPRENTICESHIP: numberApprenEdu++; break;
+            case EDU_HIGHER: numberHigherEdu++; break;
+            case EDU_UNIVERSITY: numberUnivEdu++; break;
             default: System.out.println("NO EDU");
         }
     }

@@ -43,15 +43,15 @@ public class Person
     void calculateEconomicLayer()
     {
         if(GrossIncome < THRESHOLD_VERY_POOR)
-            economicLayer = EconomicLayer.veryPoor;
+            economicLayer = EconomicLayer.ECO_VERYPOOR;
         else if(GrossIncome < THRESHOLD_POOR)
-            economicLayer = EconomicLayer.poor;
+            economicLayer = EconomicLayer.ECO_POOR;
         else if(GrossIncome < THRESHOLD_MEDIUM)
-            economicLayer = EconomicLayer.medium;
+            economicLayer = EconomicLayer.ECO_MIDDLE;
         else if (GrossIncome < THRESHOLD_RICH)
-            economicLayer = EconomicLayer.rich;
+            economicLayer = EconomicLayer.ECO_RICH;
         else if (GrossIncome > THRESHOLD_RICH)
-            economicLayer = EconomicLayer.veryRich;
+            economicLayer = EconomicLayer.ECO_VERYRICH;
     }
 
     @Override
@@ -60,7 +60,6 @@ public class Person
                 "name='" + name + '\'' +
                 ", GrossIncome=" + GrossIncome +
                 ", educationalLayer=" + educationalLayer +
-                ", works at: " + printWorksAt() +
                 ", Politcal: " + politicalOpinion +
                 '}';
     }
@@ -85,7 +84,7 @@ public class Person
 
     public String printEconomical()
     {
-        return "GrossIncome: " + GrossIncome;
+        return "Works at: " + printWorksAt() + "GrossIncome: " + GrossIncome;
     }
 
     public String printLayers()
@@ -111,10 +110,10 @@ public class Person
         switch (edu)
         {
 
-            case BASE: return MIN_GROSS_INCOME_BASE_EDU + getRandom().nextInt(SPAN_GROSS_INCOME_BASE_EDU);
-            case APPRENTICESHIP: return MIN_GROSS_INCOME_APPRENTICE_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_APPRENTICE_EDU);
-            case HIGHER: return MIN_GROSS_INCOME_HIGHER_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_HIGHER_EDU);
-            case UNIVERSITY: return MIN_GROSS_INCOME_UNIVERSITY_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_UNIVERSITY_EDU);
+            case EDU_BASE: return MIN_GROSS_INCOME_BASE_EDU + getRandom().nextInt(SPAN_GROSS_INCOME_BASE_EDU);
+            case EDU_APPRENTICESHIP: return MIN_GROSS_INCOME_APPRENTICE_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_APPRENTICE_EDU);
+            case EDU_HIGHER: return MIN_GROSS_INCOME_HIGHER_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_HIGHER_EDU);
+            case EDU_UNIVERSITY: return MIN_GROSS_INCOME_UNIVERSITY_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_UNIVERSITY_EDU);
                 default: return 0;
         }
     }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public enum EducationalLayer
 {
-    BASE(0), APPRENTICESHIP(1), HIGHER(2), UNIVERSITY(3);
+    EDU_BASE(0), EDU_APPRENTICESHIP(1), EDU_HIGHER(2), EDU_UNIVERSITY(3);
 
     private int IntNr;
     static Random rand = new Random();
@@ -32,13 +32,13 @@ public enum EducationalLayer
     {
         switch(n) {
             case 0:
-                return BASE;
+                return EDU_BASE;
             case 1:
-                return APPRENTICESHIP;
+                return EDU_APPRENTICESHIP;
             case 2:
-                    return HIGHER;
+                    return EDU_HIGHER;
             case 3:
-                    return UNIVERSITY;
+                    return EDU_UNIVERSITY;
             default:
                 return null;
         }

@@ -2,5 +2,5 @@ package Core;
 
 public enum EconomicLayer
 {
-    veryPoor, poor, medium, rich, veryRich
+    ECO_VERYPOOR, ECO_POOR, ECO_MIDDLE, ECO_RICH, ECO_VERYRICH
 }

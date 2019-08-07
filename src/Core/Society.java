@@ -44,10 +44,9 @@ public class Society {
         StringBuilder ret = new StringBuilder();
         for(Person person : people)
             ret.append("\nPerson: " +
-                    person.printBasicData() +
-                    person.printHappiness()  +
-                    person.printWorksAt() +
-                    person.printLayers() +
+                    person.printBasicData() + "\n\t" +
+                    person.printHappiness()  + "\n\t" +
+                    person.printLayers() + "\n\t" +
                     person.printEconomical()
             );
         return ret.toString();
