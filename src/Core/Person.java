@@ -29,17 +29,20 @@ public class Person
     public void setWorksAt(Workposition worksAt)
     {
         this.worksAt = worksAt;
-        calcState();
+        setGrossIncomeFromWorkposition(worksAt);
     }
 
     void initState()
     {
         calcBaseHappiness();
-        //GrossIncome = setIncomeOnEducation(educationalLayer);
+        effectiveHappiness = baseHappiness;
         setGrossIncomeFromWorkposition(worksAt);
+        calculateEconomicLayer();
+        calcPoliticalOpinion();
     }
     void calcState()
     {
+
         calculateEconomicLayer();
         calcEffectiveHappiness();
         calcPoliticalOpinion();
@@ -94,7 +97,7 @@ public class Person
 
     public String printLayers()
     {
-        return educationalLayer + " " + economicLayer + " " + politicalOpinion;
+        return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
     }
 
     static Person createRandomPerson()
@@ -129,6 +132,7 @@ public class Person
             GrossIncome = 0;
         else
             GrossIncome = work.grossIncomeWork;
+        //calcState();
     }
 
     void setIncomeWithTax(Integer grossIncome)
@@ -170,10 +174,11 @@ public class Person
 
     void calcPoliticalOpinion()
     {
-        if(effectiveHappiness < baseHappiness || worksAt == null)
-        {
-            politicalOpinion =  PoliticalOpinion.SocialDemocratic;}
-        else
+       if(effectiveHappiness < baseHappiness || worksAt == null)
+            politicalOpinion =  PoliticalOpinion.SocialDemocratic;
+        else if (effectiveHappiness > baseHappiness)
             politicalOpinion =  PoliticalOpinion.Conservativ;
+        else if(effectiveHappiness == baseHappiness)
+            politicalOpinion = PoliticalOpinion.Unpolitical;
     }
 }

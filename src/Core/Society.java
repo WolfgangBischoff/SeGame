@@ -6,12 +6,20 @@ import static Util.Util.*;
 public class Society {
 
     private static Society singleton = null;
-    ArrayList<Person> people = new ArrayList<>();
+    private ArrayList<Person> people = new ArrayList<>();
     private SocietyStatistics societyStatistics;
 
-    private Society()
-    {
+    private Society(){}
 
+    public ArrayList<Person> getPeople()
+    {
+        return people;
+    }
+
+    public void calcSociety()
+    {
+        for(Person person : people)
+            person.calcState();
     }
 
     public SocietyStatistics getSocietyStatistics()
@@ -66,14 +74,11 @@ public class Society {
             people.add(
                     Person.createRandomPerson(
                             EducationalLayer.fromInt(Statistics.randomWithRatio(ratios))));
+            people.get(i).initState();
         }
 
-//TODO Refactor/Implement Calculation sewuence for time
-        for(Person p : people)
-            p.initState();
         societyStatistics =  new SocietyStatistics(this);
-        for(Person p : people)
-            p.calcState();
+
     }
 
 }

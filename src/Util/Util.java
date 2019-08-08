@@ -5,7 +5,7 @@ import java.util.Random;
 public class Util
 {
     //Society
-    public static final int NUMBER_PERSONS = 20;
+    public static final int NUMBER_PERSONS = 25;
     public static final Integer RATION_BASIC_EDU = 20;
     public static final Integer RATION_APP_EDU = 35;
     public static final Integer RATION_HIGHER_EDU = 30;
@@ -35,7 +35,7 @@ public class Util
     public static final int RATIO_NEEDED_UNIV_EDU = 5;
 
     //Economy
-    public static final int NUMBER_COMPANIES = 10;
+    public static final int NUMBER_COMPANIES = 4;
 
     //Government
 

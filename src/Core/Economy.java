@@ -18,9 +18,8 @@ public class Economy
         }
     }
 
-    public void populateEconomy(ArrayList<Person> worker)
+    public void fillWorkspaces(ArrayList<Person> worker)
     {
-        populateEconomy();
         for(Company company : companies)
         {
             for(Workposition workposition : company.workpositions)
@@ -30,10 +29,14 @@ public class Economy
                     if(person.worksAt == null && company.hireWorker(workposition, person))
                     {break;}
                 }
-
             }
-
         }
+    }
+
+    public void populateEconomy(ArrayList<Person> worker)
+    {
+        populateEconomy();
+        fillWorkspaces(worker);
     }
 
     @Override

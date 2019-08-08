@@ -2,5 +2,5 @@ package Core;
 
 public enum PoliticalOpinion
 {
-    SocialDemocratic, Conservativ, Enviromental;
+    Unpolitical, SocialDemocratic, Conservativ, Enviromental;
 }
