@@ -1,15 +1,23 @@
 
-BUG:
+KNOWN BUGS:
 
 TODOS:
     Add SocStatistics: EmploymentRate and Political Views (General Solution for EnumRatios)
+    implement Test Mode without random
     Add Time
     Add Class Government with IncomeTax
     Add Housing conditions (quality and price)
 
 Ideas:
     Influences:
-    Tax, Housing Cost, MedialFocus/Property, Gini-coefficent
+    Tax, Housing Cost, MedialFocus/Ownership of Media, Gini-coefficent
 
     Opinion Influences:
-    Demonstration, Flyer, Musik, Add, Strike
+    Demonstration, Flyer, Musik, Add, Strike, Scandal7
+
+    Gameplay:
+    1) Define your layers (first easy grow)
+    2) Grow by anpassung or change their minds (several instruments that work different on different layers)
+    3) Overcome foes
+
+    Winconditions: Small, core law implementet, smash party, big: time of dominance, Putsch
