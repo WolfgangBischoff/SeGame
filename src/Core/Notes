@@ -2,7 +2,7 @@
 KNOWN BUGS:
 
 TODOS:
-    Add SocStatistics: EmploymentRate and Political Views (General Solution for EnumRatios)
+    Add SocStatistics: Political Views (Code general Solution for EnumRatios in Statistics)
     implement Test Mode without random
     Add Time
     Add Class Government with IncomeTax

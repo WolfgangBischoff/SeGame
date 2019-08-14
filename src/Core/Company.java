@@ -27,8 +27,9 @@ public class Company
 
     public static Company createRandomCompany()
     {
-        String[] names = {"HOFER", "Capgemini", "Allianz", "Löwenherz", "SwingKitchen", "PWC", "Kiss Bar", "Segafredo", "Merkur", "Maran Vegan", "Lenovo", "Bayer"};
-        return new Company(names[Util.getRandom().nextInt(names.length)], Util.getRandom().nextInt(4)+1);
+        String[] names = {"HOFER", "Capgemini", "Allianz", "Löwenherz", "SwingKitchen", "PWC", "Kiss Bar", "Segafredo", "Merkur", "Maran Vegan", "Lenovo", "Bayer", "Young Living"};
+        return new Company(names[Util.getRandom().nextInt(names.length)],
+                Util.getRandom().nextInt(MAX_WORKPOSITIONS_RDM) + MIN_WORKPOSITIONS_RDM);
     }
 
     @Override

@@ -13,6 +13,7 @@ public class SocietyStatistics extends Statistics
     Map<EducationalLayer, Integer> eduStat;
     Double avgGrossIncome;
     Double medianIncome;
+    Double unemploymentRate;
 
 
     @Override
@@ -22,6 +23,7 @@ public class SocietyStatistics extends Statistics
                 "eduStat=" + eduStat +
                 ", avgGrossIncome=" + avgGrossIncome +
                 ", medianIncome=" + medianIncome +
+                ", UNEmployed: " + unemploymentRate +
                 '}';
     }
 
@@ -29,6 +31,17 @@ public class SocietyStatistics extends Statistics
     {
         persons = soc.getPeople();
         calcStatistics();
+    }
+
+    void calcEmploymentRate()
+    {
+        Double employed = 0.0;
+        for(Person person : persons)
+            if(person.worksAt != null)
+                employed++;
+
+            Double employmentRate = employed / persons.size();
+            unemploymentRate = 1-employmentRate;
     }
 
     public void calcStatistics()
@@ -57,6 +70,8 @@ public class SocietyStatistics extends Statistics
         eduStat.put(EDU_APPRENTICESHIP, numberApprenEdu);
         eduStat.put(EDU_HIGHER, numberHigherEdu);
         eduStat.put(EDU_UNIVERSITY, numberUnivEdu);
+
+        calcEmploymentRate();
     }
 
     private void addEduLayer(Person p)

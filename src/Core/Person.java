@@ -163,13 +163,13 @@ public class Person
     {
         //calc on base of internal vars
         double avginc = Society.getSociety().getSocietyStatistics().getAvgIncome();
+        //System.out.println(avginc);
         effectiveHappiness = baseHappiness;
-
         if(GrossIncome < avginc)
             effectiveHappiness -= 10;
         else
             effectiveHappiness += 10;
-        effectiveHappiness += educationalLayer.getInt();
+        //effectiveHappiness += educationalLayer.getInt();
     }
 
     void calcPoliticalOpinion()
