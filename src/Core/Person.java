@@ -9,34 +9,37 @@ public class Person
     int age;
     int baseHappiness;
     int effectiveHappiness;
-    private int GrossIncome;
-    private Integer NetIncome;
     Workposition worksAt;
-
 
     EconomicLayer economicLayer;
     EducationalLayer educationalLayer;
     PoliticalOpinion politicalOpinion;
 
-    EducationalLayer persGoalEducation;
-    EconomicLayer persGoalEconomic;
-
     public int getGrossIncome()
     {
-        return GrossIncome;
+        if(worksAt != null)
+            return worksAt.grossIncomeWork;
+        else
+            return 0;
+    }
+
+    public Integer getNettIncome()
+    {
+        if(worksAt != null)
+            return worksAt.netIncomeWork;
+        else
+            return 0;
     }
 
     public void setWorksAt(Workposition worksAt)
     {
         this.worksAt = worksAt;
-        setGrossIncomeFromWorkposition(worksAt);
     }
 
     void initState()
     {
         calcBaseHappiness();
         effectiveHappiness = baseHappiness;
-        setGrossIncomeFromWorkposition(worksAt);
         calculateEconomicLayer();
         calcPoliticalOpinion();
     }
@@ -50,25 +53,24 @@ public class Person
 
     void calculateEconomicLayer()
     {
-        if(GrossIncome < THRESHOLD_VERY_POOR)
+        if(getGrossIncome() < THRESHOLD_VERY_POOR)
             economicLayer = EconomicLayer.ECO_VERYPOOR;
-        else if(GrossIncome < THRESHOLD_POOR)
+        else if(getGrossIncome() < THRESHOLD_POOR)
             economicLayer = EconomicLayer.ECO_POOR;
-        else if(GrossIncome < THRESHOLD_MEDIUM)
+        else if(getGrossIncome() < THRESHOLD_MEDIUM)
             economicLayer = EconomicLayer.ECO_MIDDLE;
-        else if (GrossIncome < THRESHOLD_RICH)
+        else if (getGrossIncome() < THRESHOLD_RICH)
             economicLayer = EconomicLayer.ECO_RICH;
-        else if (GrossIncome > THRESHOLD_RICH)
+        else if (getGrossIncome() > THRESHOLD_RICH)
             economicLayer = EconomicLayer.ECO_VERYRICH;
     }
 
     @Override
     public String toString() {
-        return "\nPerson{" +
+        return "Person{" +
                 "name='" + name + '\'' +
-                ", GrossIncome=" + GrossIncome +
-                ", educationalLayer=" + educationalLayer +
-                ", Politcal: " + politicalOpinion +
+                ", effectiveHappiness=" + effectiveHappiness +
+                ", politicalOpinion=" + politicalOpinion +
                 '}';
     }
 
@@ -92,19 +94,12 @@ public class Person
 
     public String printEconomical()
     {
-        return "Works at: " + printWorksAt() + "GrossIncome: " + GrossIncome;
+        return "Works at: " + printWorksAt() + "grossIncome: " + getGrossIncome() + "NettIncome: " + getNettIncome();
     }
 
     public String printLayers()
     {
         return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
-    }
-
-    static Person createRandomPerson()
-    {
-        int age = getRandom().nextInt(100);
-        EducationalLayer edu = EducationalLayer.getRandomEdu();
-        return new Person(getRandomName(), age, edu);
     }
 
     static Person createRandomPerson(EducationalLayer definedEdu)
@@ -113,32 +108,6 @@ public class Person
         return new Person(getRandomName(), age, definedEdu);
     }
 
-    int setIncomeOnEducation(EducationalLayer edu)
-    {
-        switch (edu)
-        {
-
-            case EDU_BASE: return MIN_GROSS_INCOME_BASE_EDU + getRandom().nextInt(SPAN_GROSS_INCOME_BASE_EDU);
-            case EDU_APPRENTICESHIP: return MIN_GROSS_INCOME_APPRENTICE_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_APPRENTICE_EDU);
-            case EDU_HIGHER: return MIN_GROSS_INCOME_HIGHER_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_HIGHER_EDU);
-            case EDU_UNIVERSITY: return MIN_GROSS_INCOME_UNIVERSITY_EDU  + getRandom().nextInt(SPAN_GROSS_INCOME_UNIVERSITY_EDU);
-                default: return 0;
-        }
-    }
-
-    void setGrossIncomeFromWorkposition(Workposition work)
-    {
-        if(work == null)
-            GrossIncome = 0;
-        else
-            GrossIncome = work.grossIncomeWork;
-        //calcState();
-    }
-
-    void setIncomeWithTax(Integer grossIncome)
-    {
-        NetIncome = grossIncome - Government.getGoverment().calcTaxPercentage(grossIncome, Government.getGoverment().INCOME_TAX_RATE);
-    }
 
     Person(String name, int age, EducationalLayer edu)
     {
@@ -163,13 +132,11 @@ public class Person
     {
         //calc on base of internal vars
         double avginc = Society.getSociety().getSocietyStatistics().getAvgIncome();
-        //System.out.println(avginc);
         effectiveHappiness = baseHappiness;
-        if(GrossIncome < avginc)
+        if(getGrossIncome() < avginc)
             effectiveHappiness -= 10;
         else
             effectiveHappiness += 10;
-        //effectiveHappiness += educationalLayer.getInt();
     }
 
     void calcPoliticalOpinion()

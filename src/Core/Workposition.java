@@ -1,14 +1,11 @@
 package Core;
 
-import static Util.Util.*;
-import static Util.Util.SPAN_GROSS_INCOME_UNIVERSITY_EDU;
-import static Util.Util.getRandom;
-
 public class Workposition
 {
     EducationalLayer neededEducation;
     Paygrade paygrade;
     Integer grossIncomeWork = 0;
+    Integer netIncomeWork = 0;
     Person worker = null;
     Company company;
 
@@ -17,7 +14,20 @@ public class Workposition
         this.company = company;
         this.neededEducation = edu;
         setPaygrade();
+        setIncome();
+        //setGrossIncomeWorkOnPaygrade();
+    }
+
+    void setIncome()
+    {
         setGrossIncomeWorkOnPaygrade();
+        setNetIncome();
+    }
+    void setNetIncome()
+    {
+        Integer tax = Government.CalcIncomeTax(grossIncomeWork);
+        netIncomeWork = grossIncomeWork - tax;
+        Government.getGoverment().raiseIncomeTax(tax);
     }
 
     void setGrossIncomeWorkOnPaygrade()
@@ -36,10 +46,7 @@ public class Workposition
 
     public boolean isWorkerAppropriate(Person worker)
     {
-        if (neededEducation.getInt() <= worker.educationalLayer.getInt() && worker.worksAt == null)
-            return true;
-        else
-            return false;
+        return neededEducation.getInt() <= worker.educationalLayer.getInt() && worker.worksAt == null;
     }
 
     @Override

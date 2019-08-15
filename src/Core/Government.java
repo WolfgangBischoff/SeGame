@@ -4,8 +4,8 @@ public class Government
 {
     static Government singleton = null;
     Integer balance = 0;
-    PoliticalOpinion rulingParty = null;
-    Integer INCOME_TAX_RATE = 30;
+    PoliticalOpinion rulingParty = PoliticalOpinion.Unpolitical;
+    static Integer INCOME_TAX_RATE = 30;
 
     public static Government getGoverment()
     {
@@ -14,9 +14,17 @@ public class Government
         return singleton;
     }
 
-    public Integer calcTaxPercentage(Integer base, Integer perc)
+    @Override
+    public String toString() {
+        return "Government{" +
+                "balance=" + balance +
+                ", rulingParty=" + rulingParty +
+                '}';
+    }
+
+    public static Integer CalcIncomeTax(Integer base)
     {
-        return (base * perc) / 100;
+        return (base * INCOME_TAX_RATE) / 100;
     }
 
     public void raiseIncomeTax(Integer amount)

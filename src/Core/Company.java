@@ -11,7 +11,6 @@ public class Company
     String name;
     ArrayList<Workposition> workpositions = new ArrayList();
 
-
     boolean hireWorker(Workposition workposition, Person p)
     {
         if(workposition.isWorkerAppropriate(p))
@@ -25,11 +24,11 @@ public class Company
             return false;
     }
 
-    public static Company createRandomCompany()
+
+    static String getRandomCompanyName()
     {
         String[] names = {"HOFER", "Capgemini", "Allianz", "Löwenherz", "SwingKitchen", "PWC", "Kiss Bar", "Segafredo", "Merkur", "Maran Vegan", "Lenovo", "Bayer", "Young Living"};
-        return new Company(names[Util.getRandom().nextInt(names.length)],
-                Util.getRandom().nextInt(MAX_WORKPOSITIONS_RDM) + MIN_WORKPOSITIONS_RDM);
+        return names[Util.getRandom().nextInt(names.length)];
     }
 
     @Override
@@ -39,6 +38,16 @@ public class Company
                 "name='" + name + '\'' +
                 ", workpositions=" + workpositions +
                 '}';
+    }
+
+    public Company()
+    {
+        this(NUM_WORKPLACES_DEFAULT);
+    }
+
+    public Company(Integer numberWorkpostions)
+    {
+        this(getRandomCompanyName(), numberWorkpostions);
     }
 
     public Company(String name, int numberWorkpositions)

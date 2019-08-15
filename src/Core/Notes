@@ -3,7 +3,7 @@ KNOWN BUGS:
 
 TODOS:
     Add SocStatistics: Political Views (Code general Solution for EnumRatios in Statistics)
-    implement Test Mode without random
+    implement Test Mode without random + ConsoleBefehle
     Add Time
     Add Class Government with IncomeTax
     Add Housing conditions (quality and price)
@@ -24,3 +24,5 @@ Ideas:
     1) Achieve personal goals like education, money or move to another country
 
     Winconditions: Small, core law implementet, smash party, big: time of dominance, Putsch
+
+    Minigame: WriteSpeechw with Stilmittel/ActualNews/AndGeschicklichkeit

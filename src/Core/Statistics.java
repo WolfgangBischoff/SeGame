@@ -2,6 +2,8 @@ package Core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static Util.Util.*;
 
@@ -31,7 +33,7 @@ public abstract class Statistics
             return Double.valueOf(data.get((data.size()/2)));
         else
         {
-            return Double.valueOf( (data.get((data.size()/2)-1)  + data.get(data.size()/2))  /2 );
+            return (double) ((data.get((data.size() / 2) - 1) + data.get(data.size() / 2)) / 2);
         }
     }
 
@@ -61,6 +63,18 @@ public abstract class Statistics
         return -1;
     }
 
+    static <E extends Enum<E>>  Map<E, Double> calcPercFromEnumCount(Map<E, Integer> input)
+    {
+        Map<E, Double> ret = new HashMap<>();
+        Double polSum = 0.0;
+        for(Map.Entry<E,Integer> entry : input.entrySet())
+            polSum += entry.getValue();
 
+     for(Map.Entry<E,Integer> entry : input.entrySet())
+     {
+         ret.put(entry.getKey(), entry.getValue() / polSum);
+     }
+        return ret;
+    }
 
 }

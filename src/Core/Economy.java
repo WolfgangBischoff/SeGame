@@ -1,7 +1,5 @@
 package Core;
 
-import java.lang.reflect.Array;
-import java.net.CookieManager;
 import java.util.ArrayList;
 
 import static Util.Util.NUMBER_COMPANIES;
@@ -14,7 +12,7 @@ public class Economy
     {
         for(int i=0; i<NUMBER_COMPANIES; i++)
         {
-            companies.add(Company.createRandomCompany());
+            companies.add(new Company());
         }
     }
 
@@ -33,11 +31,6 @@ public class Economy
         }
     }
 
-    public void populateEconomy(ArrayList<Person> worker)
-    {
-        populateEconomy();
-        fillWorkspaces(worker);
-    }
 
     @Override
     public String toString()
