@@ -2,8 +2,7 @@
 KNOWN BUGS:
 
 TODOS:
-    Add SocStatistics: Political Views (Code general Solution for EnumRatios in Statistics)
-    implement Test Mode without random + ConsoleBefehle
+    implement Test Mode without random + ConsoleBefehle (TaxChange, new Person/Company)
     Add Time
     Add Class Government with IncomeTax
     Add Housing conditions (quality and price)
