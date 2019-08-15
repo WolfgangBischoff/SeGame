@@ -148,4 +148,21 @@ public class Person
         else if(effectiveHappiness == baseHappiness)
             politicalOpinion = PoliticalOpinion.Unpolitical;
     }
+
+    public static Person getNewPerson()
+    {
+        return getNewPerson(DEFAULT_NAME);
+        //return new Person(getRandomName()+ " junior", 0, EducationalLayer.EDU_BASE);
+    }
+
+    public static Person getNewPerson(String name)
+    {
+        return getNewPerson(name, DEFAULT_AGE, DEFAULT_EDU);
+        //return new Person(name, DEFAULT_AGE, DEFAULT_EDU);
+    }
+
+    public static Person getNewPerson(String name, Integer age, EducationalLayer edu)
+    {
+        return new Person(name, age, edu);
+    }
 }

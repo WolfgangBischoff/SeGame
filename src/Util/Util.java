@@ -1,5 +1,7 @@
 package Util;
 
+import Core.EducationalLayer;
+import Core.EducationalLayer.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Random;
@@ -13,6 +15,9 @@ public class Util
     public static final Integer RATION_UNIVERSITY_EDU = 15;
 
     //Person
+    public static final Integer DEFAULT_AGE = 0;
+    public static final String DEFAULT_NAME = "NO NAME";
+    public static final EducationalLayer DEFAULT_EDU = EducationalLayer.EDU_UNKNOWN;
     public static final int INIT_BASE_HAPPINESS = 100;
     public static final int THRESHOLD_VERY_POOR = 1000;
     public static final int THRESHOLD_POOR = 1400;
@@ -44,6 +49,15 @@ public class Util
         point.setDecimalSeparator('.');
         DecimalFormat df = new DecimalFormat("#.##", point);
         return Double.valueOf(df.format(input));
+    }
+
+    public static boolean tryParseInt(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 }

@@ -104,4 +104,28 @@ public class Society {
         societyStatistics = new SocietyStatistics(this);
     }
 
+    public Person addPerson(String name, Integer age, EducationalLayer edu)
+    {
+        Person newPerson = Person.getNewPerson(name, age, edu);
+        people.add(newPerson);
+        return newPerson;
+    }
+
+    public Person addPerson(String name, EducationalLayer edu)
+    {
+        return addPerson(name, DEFAULT_AGE, edu);
+    }
+
+    public Person addPerson(String name)
+    {
+        return addPerson(name, EducationalLayer.EDU_BASE);
+    }
+
+    public Person addPerson()
+    {
+        return addPerson(DEFAULT_NAME);
+    }
+
+
+
 }

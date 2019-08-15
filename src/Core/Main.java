@@ -24,13 +24,14 @@ public class Main
         soc.getSocietyStatistics().calcStatistics();
         soc.calcSociety();
 
-        System.out.println(soc.printSocPeople());
+        //System.out.println(soc.printSocPeople());
         System.out.println(economy);
         System.out.println(soc.printSocStatistics());
 
         //Init Interpreter
         Interpreter interpreter = Interpreter.getInterpreter(soc, economy);
-        while (true)
+        boolean run = true;
+        while (run)
         {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             System.out.print(">>> ");
@@ -39,7 +40,7 @@ public class Main
 
             try
             {
-                interpreter.readInstruction(s);
+                run = interpreter.readInstruction(s);
             }
             catch(IllegalArgumentException e)
             {

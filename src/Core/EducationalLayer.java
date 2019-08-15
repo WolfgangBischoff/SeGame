@@ -2,7 +2,7 @@ package Core;
 
 public enum EducationalLayer
 {
-    EDU_BASE(0), EDU_APPRENTICESHIP(1), EDU_HIGHER(2), EDU_UNIVERSITY(3);
+    EDU_BASE(0), EDU_APPRENTICESHIP(1), EDU_HIGHER(2), EDU_UNIVERSITY(3), EDU_UNKNOWN(4);
 
     private int IntNr;
 
@@ -16,7 +16,7 @@ public enum EducationalLayer
         return IntNr;
     }
 
-    static EducationalLayer fromInt(int n)
+    public static EducationalLayer fromInt(int n)
     {
         switch(n) {
             case 0:
@@ -24,9 +24,11 @@ public enum EducationalLayer
             case 1:
                 return EDU_APPRENTICESHIP;
             case 2:
-                    return EDU_HIGHER;
+                return EDU_HIGHER;
             case 3:
-                    return EDU_UNIVERSITY;
+                return EDU_UNIVERSITY;
+            case 4:
+                return EDU_UNKNOWN;
             default:
                 return null;
         }

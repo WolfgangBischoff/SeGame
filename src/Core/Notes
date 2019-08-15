@@ -2,18 +2,24 @@
 KNOWN BUGS:
 
 TODOS:
-    Add ConsoleBefehle (TaxChange, new Person/Company, prints, quit)
+    Add/Change ConsoleBefehle (new Company, print economy/gov, tests)
     Add Time
     Add EcoStatistics with Number Workplaces/Companies
-    Add Class Government with IncomeTax
-    Add Housing conditions (quality and price)
+    Add GovermentStatistics with balance
+    Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
 
 Ideas:
     Influences:
-    Tax, Housing Cost, MedialFocus/Ownership of Media, Gini-coefficent, scope(City/Country)
+    Tax, Housing Cost and other Goods, MedialFocus/Ownership of Media, Gini-coefficent, scope(City/Country)
 
     Opinion Influences:
-    Demonstration, Flyer, Musik, Add, Strike, Scandal7
+    Demonstration, Flyer, Musik, Add, Strike, Scandals
+
+    Mechanics:
+    You can be a Party or Company(Shadow gov?) to win.
+    Different Econical Choices: Central PLanning or markets => Market Distribution logics
+    Society Politics: autoritan or liberal
+    Money politics
 
     Gameplay:
     1) Define your layers (first easy grow)
@@ -26,3 +32,5 @@ Ideas:
     Winconditions: Small, core law implementet, smash party, big: time of dominance, Putsch
 
     Minigame: WriteSpeechw with Stilmittel/ActualNews/AndGeschicklichkeit
+
+
