@@ -7,7 +7,6 @@ import java.util.Random;
 public class Util
 {
     //Society
-    public static final int NUMBER_PERSONS = 12;
     public static final Integer RATION_BASIC_EDU = 20;
     public static final Integer RATION_APP_EDU = 35;
     public static final Integer RATION_HIGHER_EDU = 30;
@@ -21,14 +20,13 @@ public class Util
     public static final int THRESHOLD_RICH = 3500;
 
     //Company
-    public static final Integer NUM_WORKPLACES_DEFAULT = 10;
-    public static final int RATIO_NEEDED_BASE_EDU = 15;
-    public static final int RATIO_NEEDED_APPR_EDU = 40;
-    public static final int RATIO_NEEDED_HIGH_EDU = 40;
-    public static final int RATIO_NEEDED_UNIV_EDU = 5;
+    public static final Integer NUM_BASE_EDU_WORK = 3;
+    public static final Integer NUM_APPR_EDU_WORK = 4;
+    public static final Integer NUM_HIGH_EDU_WORK = 2;
+    public static final Integer NUM_UNIV_EDU_WORK = 1;
 
     //Economy
-    public static final int NUMBER_COMPANIES = 1;
+    public static final int NUMBER_COMPANIES = 4;
 
     //Government
 

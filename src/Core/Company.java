@@ -40,23 +40,36 @@ public class Company
                 '}';
     }
 
-    public Company()
+    /*public Company()
     {
         this(NUM_WORKPLACES_DEFAULT);
+    }*/
+    public Company()
+    {
+        name = Company.getRandomCompanyName();
     }
 
-    public Company(Integer numberWorkpostions)
+    /*
+    public Company(int numberWorkpositions)
     {
-        this(getRandomCompanyName(), numberWorkpostions);
-    }
-
-    public Company(String name, int numberWorkpositions)
-    {
-        this.name = name;
+        this();
         Integer[] ratio = {RATIO_NEEDED_BASE_EDU, RATIO_NEEDED_APPR_EDU, RATIO_NEEDED_HIGH_EDU, RATIO_NEEDED_UNIV_EDU};
         for(int i=0; i<numberWorkpositions; i++)
             workpositions.add(new Workposition(this,
                     EducationalLayer.fromInt(
                             Statistics.randomWithRatio(ratio))));
+    }*/
+
+    public Company(Integer base, Integer app, Integer high, Integer univ)
+    {
+        this();
+        for(int i=0; i < base; i++)
+            workpositions.add(new Workposition(this, EducationalLayer.EDU_BASE));
+        for(int i=0; i < app; i++)
+            workpositions.add(new Workposition(this, EducationalLayer.EDU_APPRENTICESHIP));
+        for(int i=0; i < high; i++)
+            workpositions.add(new Workposition(this, EducationalLayer.EDU_HIGHER));
+        for(int i=0; i < univ; i++)
+            workpositions.add(new Workposition(this, EducationalLayer.EDU_UNIVERSITY));
     }
 }

@@ -1,5 +1,8 @@
 package Core;
 
+import static Util.Util.NUMBER_COMPANIES;
+
+
 public class Main
 {
 
@@ -7,10 +10,10 @@ public class Main
     {
         //Init Society
         Society soc = Society.getSociety();
-        soc.populateSociety();
+        soc.populateSociety(15, 20, 10, 5);
 
         Economy economy = new Economy();
-        economy.populateEconomy();
+        economy.populateEconomy(NUMBER_COMPANIES);
         economy.fillWorkspaces(soc.getPeople());
 
         //Calc after Init

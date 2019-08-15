@@ -26,12 +26,15 @@ public class SocietyStatistics extends Statistics
     @Override
     public String toString()
     {
-        return "\nSocietyStatistics" +
+        return "\nSocietyStatistics " +
+                printGeneral() +
                 "\n" + printIncomeStat() +
                 "\n" + printPolStat() +
                 "\n" + printEduStat()
                 ;
     }
+
+    String printGeneral() { return "Population: " + persons.size(); }
 
     String printIncomeStat()
     {

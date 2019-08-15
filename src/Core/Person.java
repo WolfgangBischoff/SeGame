@@ -102,18 +102,18 @@ public class Person
         return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
     }
 
-    static Person createRandomPerson(EducationalLayer definedEdu)
+    public Person (EducationalLayer definedEdu)
     {
-        int age = getRandom().nextInt(100);
-        return new Person(getRandomName(), age, definedEdu);
+        this(getRandomName(), getRandom().nextInt(100) , definedEdu);
     }
 
 
-    Person(String name, int age, EducationalLayer edu)
+    public Person(String name, int age, EducationalLayer edu)
     {
         this.name = name;
         this.age = age;
         educationalLayer = edu;
+        initState();
     }
 
     static String getRandomName()

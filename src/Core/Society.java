@@ -65,20 +65,43 @@ public class Society {
         return societyStatistics.toString();
     }
 
-    public void populateSociety()
+    /***
+     * Creates a population randomly based on defined educational Ratios
+     * @param numberPersons Number of people
+     */
+    public void populateSociety(Integer numberPersons)
     {
         //Create People
-        for(int i=0; i<NUMBER_PERSONS; i++)
+        for(int i=0; i<numberPersons; i++)
         {
+            //Random generation of EduLayer
             Integer[] ratios = {RATION_BASIC_EDU,RATION_APP_EDU,RATION_HIGHER_EDU,RATION_UNIVERSITY_EDU};
             people.add(
-                    Person.createRandomPerson(
+                    new Person(
                             EducationalLayer.fromInt(Statistics.randomWithRatio(ratios))));
-            people.get(i).initState();
         }
-
         societyStatistics =  new SocietyStatistics(this);
+    }
 
+    public void populateSociety(Integer baseEdu, Integer apprEdu, Integer higherEdu, Integer unicEdu)
+    {
+        for(int i=0; i < baseEdu; i++)
+        {
+            people.add(new Person(EducationalLayer.EDU_BASE));
+        }
+        for(int i=0; i < apprEdu; i++)
+        {
+            people.add(new Person(EducationalLayer.EDU_APPRENTICESHIP));
+        }
+        for(int i=0; i < higherEdu; i++)
+        {
+            people.add(new Person(EducationalLayer.EDU_HIGHER));
+        }
+        for(int i=0; i < unicEdu; i++)
+        {
+            people.add(new Person(EducationalLayer.EDU_UNIVERSITY));
+        }
+        societyStatistics = new SocietyStatistics(this);
     }
 
 }
