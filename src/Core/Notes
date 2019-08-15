@@ -2,8 +2,9 @@
 KNOWN BUGS:
 
 TODOS:
-    implement Test Mode without random + ConsoleBefehle (TaxChange, new Person/Company)
+    Add ConsoleBefehle (TaxChange, new Person/Company, prints, quit)
     Add Time
+    Add EcoStatistics with Number Workplaces/Companies
     Add Class Government with IncomeTax
     Add Housing conditions (quality and price)
 
