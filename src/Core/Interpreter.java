@@ -5,6 +5,19 @@ import java.util.Map;
 
 import static Util.Util.*;
 
+
+/*
+Existing Instructions:
+
+add Person -name Firstname lastname -age 42
+quit/end
+print
+
+
+
+
+
+ */
 public class Interpreter
 {
     private static Interpreter instance = null;
