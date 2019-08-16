@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class SocietyStatistics extends Statistics
 {
-    static SocietyStatistics singleton = null;
     ArrayList<Person> persons;
     Map<EducationalLayer, Double> eduStat = new HashMap<>();
     Map<EducationalLayer, Integer> eduStatAbsolut;

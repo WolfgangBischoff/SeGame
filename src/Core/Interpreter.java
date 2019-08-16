@@ -78,7 +78,7 @@ public class Interpreter
                 add(newParam);
                 break;
             case "print":
-                print();
+                print(newParam);
                 break;
             case "quit":
             case "end":
@@ -89,9 +89,54 @@ public class Interpreter
 
     }
 
-    private void print()
+    private void print(String[] param)
     {
-        System.out.println(society.printSocPeople());
+        String[] newParam = cutFirstIndexPositions(param, 1);
+        switch (param[0].toLowerCase())
+        {
+            case "person":
+                printPerson(newParam);
+                break;
+
+            case "soc":
+            case "society":
+                System.out.println(society.printSocPeople());
+                break;
+
+            default:
+                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+        }
+    }
+
+    private void printPerson(String[] param)
+    {
+        Map<String, String> options;
+        String name = DEFAULT_NAME;
+        Integer age = DEFAULT_AGE;
+        EducationalLayer edu = DEFAULT_EDU;
+        Person newPerson = null;
+
+        if (param.length == 0)
+        {
+            System.out.println(society.printSocPeople());
+        }
+        else
+        {
+            options = readPersonOption(param);
+            if(options.containsKey("name"))
+                name = options.get("name");
+            if(options.containsKey("age"))
+                age = Integer.valueOf(options.get("age"));
+            //if(options.containsKey("education"))
+            //   edu = EducationalLayer.fromInt(0);
+
+            //TODO ADD Search Logik in Society and use here
+            for(Person p : society.getPeople())
+            {
+                if(p.name.equals(name))
+                    System.out.println(p);
+            }
+        }
     }
 
     private void add(String[] param)

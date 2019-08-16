@@ -2,10 +2,26 @@ package Core;
 
 public class Government
 {
-    static Government singleton = null;
-    Integer balance = 0;
-    PoliticalOpinion rulingParty = PoliticalOpinion.Unpolitical;
-    static Integer INCOME_TAX_RATE = 30;
+    private static Government singleton = null;
+    private static GovermentStatistics govermentStatistics = null;
+    private Integer balance = 0;
+    private PoliticalOpinion rulingParty = PoliticalOpinion.Unpolitical;
+    private static Integer INCOME_TAX_RATE = 30;
+
+    private Government()
+    {
+        govermentStatistics = new GovermentStatistics(this);
+    }
+
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public PoliticalOpinion getRulingParty() {
+        return rulingParty;
+    }
+
 
     public static Government getGoverment()
     {
@@ -16,10 +32,7 @@ public class Government
 
     @Override
     public String toString() {
-        return "Government{" +
-                "balance=" + balance +
-                ", rulingParty=" + rulingParty +
-                '}';
+        return "Goverment: " + govermentStatistics.print();
     }
 
     public static Integer CalcIncomeTax(Integer base)

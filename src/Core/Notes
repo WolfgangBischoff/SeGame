@@ -2,10 +2,11 @@
 KNOWN BUGS:
 
 TODOS:
+    Add EcoStatistics with Number Workplaces/Companies/Sum Loans
+    Add balances for companies and Persons, check money sum
     Add/Change ConsoleBefehle (new Company, print economy/gov, tests)
     Add Time
-    Add EcoStatistics with Number Workplaces/Companies
-    Add GovermentStatistics with balance
+    ADD Person ID
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
 
 Ideas:
