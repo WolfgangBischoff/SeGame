@@ -114,7 +114,7 @@ public class Person
 
     public String printBasicData()
     {
-        return "ID: " + id + " " + firstname+ " " + lastname + "(" + age + ")";
+        return "ID: " + id + " " + firstname+ " " + lastname + " (" + age + ")";
     }
 
     public String printHappiness()
