@@ -32,7 +32,7 @@ public class Main
         System.out.println(government);
 
         //Init Interpreter
-        Interpreter interpreter = Interpreter.getInterpreter(soc, economy);
+        Interpreter interpreter = Interpreter.getInterpreter(soc, economy, government);
         boolean run = true;
         while (run)
         {

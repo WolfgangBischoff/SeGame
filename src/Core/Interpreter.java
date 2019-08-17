@@ -20,14 +20,16 @@ public class Interpreter
     private static Interpreter instance = null;
     private Society society;
     private Economy economy;
+    private Government government;
     private boolean returnRun = true;
     private String inputString = null;
 
     //Constructors
-    private Interpreter(Society soc, Economy eco)
+    private Interpreter(Society soc, Economy eco, Government gov)
     {
         society = soc;
         economy = eco;
+        government = gov;
     }
 
     public boolean readInstruction(String inputParam)
@@ -53,10 +55,13 @@ public class Interpreter
         {
             case "person":
                 processSecondParamAfterPerson(newParam); break;
-            case "society":
-                processSecondParamAfterSociety(newParam);break;
-            case "company":
-                processSecondParamAfterCompany(newParam); break;
+                case "society":
+                    processSecondParamAfterSociety(newParam);break;
+                case "company":
+                    processSecondParamAfterCompany(newParam); break;
+                case "government":
+                case "gov":
+                processSecondParamAfterGovernment(newParam); break;
 
             case "quit":
             case "end":
@@ -70,7 +75,8 @@ public class Interpreter
     //SECOND INSTRUCTION
     private void processSecondParamAfterPerson(String[] param)
     {
-        Map<String, String> options;
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
         String firstname = null;
         String lastname = null;
         Integer age = null;
@@ -81,12 +87,11 @@ public class Interpreter
         {
             System.out.println("Further arguments needed"); return;
         }
-        String[] optionPara = cutFirstIndexPositions(param, 1);
+
 
         //fill person options
         if (optionPara.length > 0)
         {
-            options = readOptionParameter(optionPara);
             for(Map.Entry<String, String> entry : options.entrySet())
             {
                 switch (entry.getKey())
@@ -122,6 +127,10 @@ public class Interpreter
 
     private void processSecondParamAfterSociety(String[] param)
     {
+        //Ggf Option parameter processing in future
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
+
         if(param.length == 0)
         {
             System.out.println("Further arguments needed"); return;
@@ -140,7 +149,31 @@ public class Interpreter
 
     private void processSecondParamAfterCompany(String[] param)
     {
+        //GGF OPtions Processing in future
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
         System.out.println("TODO");
+    }
+
+    private void processSecondParamAfterGovernment(String[] param)
+    {
+        if(param.length == 0)
+        {
+            System.out.println("Further arguments needed"); return;
+        }
+
+        //Ggf options processing in future
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
+
+        switch (param[0].toLowerCase())
+        {
+            case "print":
+                System.out.println(government);
+                break;
+            default:
+                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+        }
     }
 
     //OPTIONS
@@ -233,13 +266,13 @@ public class Interpreter
         }
     }
 
-    public static Interpreter getInterpreter(Society soc, Economy eco)
+    public static Interpreter getInterpreter(Society soc, Economy eco, Government gov)
     {
         if(instance != null)
             throw new RuntimeException("Interpreter already initialized");
         else
         {
-            return new Interpreter(soc, eco);
+            return new Interpreter(soc, eco, gov);
         }
     }
 }
