@@ -7,7 +7,9 @@ public class Person
 {
     private static Integer nextId = 1;
     private Integer id;
-    String name;
+    //String name;
+    String firstname;
+    String lastname;
     int age;
     int baseHappiness;
     int effectiveHappiness;
@@ -21,13 +23,14 @@ public class Person
     //Constructor and Creators
     public Person (EducationalLayer definedEdu)
     {
-        this(getRandomName(), getRandom().nextInt(100) , definedEdu);
+        this(chooseRandomFirstname(), chooseRandomLastname(), getRandom().nextInt(100) , definedEdu);
     }
 
-    public Person(String name, int age, EducationalLayer edu)
+    public Person(String firstname, String lastname, int age, EducationalLayer edu)
     {
         id = nextId++;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.age = age;
         educationalLayer = edu;
         initState();
@@ -35,19 +38,19 @@ public class Person
 
     public static Person createNewPerson()
     {
-        return createNewPerson(DEFAULT_NAME);
-        //return new Person(getRandomName()+ " junior", 0, EducationalLayer.EDU_BASE);
+        return createNewPerson(DEFAULT_FIRSTNAME, DEFAULT_LASTNAME);
+        //return new Person(chooseRandomFirstname()+ " junior", 0, EducationalLayer.EDU_BASE);
     }
 
-    public static Person createNewPerson(String name)
+    public static Person createNewPerson(String firstname, String lastname)
     {
-        return createNewPerson(name, DEFAULT_AGE, DEFAULT_EDU);
+        return createNewPerson(firstname, lastname, DEFAULT_AGE, DEFAULT_EDU);
         //return new Person(name, DEFAULT_AGE, DEFAULT_EDU);
     }
 
-    public static Person createNewPerson(String name, Integer age, EducationalLayer edu)
+    public static Person createNewPerson(String firstname, String lastname, Integer age, EducationalLayer edu)
     {
-        return new Person(name, age, edu);
+        return new Person(firstname, lastname, age, edu);
     }
 
 
@@ -110,16 +113,12 @@ public class Person
     //Prints
     @Override
     public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", effectiveHappiness=" + effectiveHappiness +
-                ", politicalOpinion=" + politicalOpinion +
-                '}';
+        return "Person: " + printBasicData();
     }
 
     public String printBasicData()
     {
-        return "ID: " + id + " " + name + "(" + age + ") \t\t";
+        return "ID: " + id + " " + firstname+ " " + lastname + "(" + age + ") \t\t";
     }
 
     public String printHappiness()
@@ -147,13 +146,20 @@ public class Person
 
 
 
-    //Getter and Setter
-    static String getRandomName()
+
+    static String chooseRandomFirstname()
     {
-        String[] firstnames = {"Wolfgang", "Markus", "Hans", "Stefan", "Elisabeth", "Sebastian", "Juraj", "Anna", "Michael", "Eva", "Stefanie", "Tobias"};
-        String[] lastnames = {"Bischoff", "Delitz", "Otto", "Lempa", "Rosenkranz", "Pay", "Veres", "Markt", "Mitterer", "Storf", "Sprengnagel", "Park"};
-        return firstnames[getRandom().nextInt(firstnames.length)] + " " + lastnames[getRandom().nextInt(lastnames.length)];
+        String[] firstnames = {"Wolfgang", "Markus", "Hans", "Stefan", "Elisabeth", "Sebastian", "Juraj", "Anna", "Michael", "Eva", "Stefanie", "Tobias", "Alexander"};
+        return firstnames[getRandom().nextInt(firstnames.length)];
     }
+
+    static String chooseRandomLastname()
+    {
+        String[] lastnames = {"Bischoff", "Delitz", "Otto", "Lempa", "Rosenkranz", "Pay", "Veres", "Markt", "Mitterer", "Storf", "Sprengnagel", "Park", "Husarl"};
+        return lastnames[getRandom().nextInt(lastnames.length)];
+    }
+
+    //Getter and Setter
 
     public int getGrossIncome()
     {

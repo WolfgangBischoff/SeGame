@@ -22,40 +22,14 @@ public class SocietyStatistics extends Statistics
     Double unemploymentRate;
 
 
-    @Override
-    public String toString()
-    {
-        return "\nSocietyStatistics " +
-                printGeneral() +
-                "\n" + printIncomeStat() +
-                "\n" + printPolStat() +
-                "\n" + printEduStat()
-                ;
-    }
-
-    String printGeneral() { return "Population: " + persons.size(); }
-
-    String printIncomeStat()
-    {
-        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome + " Unemployed: " + unemploymentRate;
-    }
-
-    String printPolStat()
-    {
-        return "Political: " + polStatAbsolut + " " + polStat;
-    }
-
-    String printEduStat()
-    {
-        return "Educational: " + eduStatAbsolut + " " + eduStat;
-    }
-
+    //Constructors
     public SocietyStatistics(Society soc)
     {
         persons = soc.getPeople();
         calcStatistics();
     }
 
+    //Calculations
     void calcEmploymentRate()
     {
         Integer employed = 0;
@@ -63,11 +37,11 @@ public class SocietyStatistics extends Statistics
             if(person.worksAt != null)
                 employed++;
 
-            Double employmentRate = ((double) employed) / persons.size();
+        Double employmentRate = ((double) employed) / persons.size();
 
-            unemploymentRate = Util.roundTwoDigits((1-employmentRate));
-            employedNumber = employed;
-            unemployedNumber = persons.size() - employed;
+        unemploymentRate = Util.roundTwoDigits((1-employmentRate));
+        employedNumber = employed;
+        unemployedNumber = persons.size() - employed;
     }
 
     void calcEnumStatsViews()
@@ -119,6 +93,36 @@ public class SocietyStatistics extends Statistics
         calcEnumStatsViews();
     }
 
+    //Prints
+    @Override
+    public String toString()
+    {
+        return "\nSocietyStatistics " +
+                printGeneral() +
+                "\n" + printIncomeStat() +
+                "\n" + printPolStat() +
+                "\n" + printEduStat()
+                ;
+    }
+
+    String printGeneral() { return "Population: " + persons.size(); }
+
+    String printIncomeStat()
+    {
+        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome + " Unemployed: " + unemploymentRate;
+    }
+
+    String printPolStat()
+    {
+        return "Political: " + polStatAbsolut + " " + polStat;
+    }
+
+    String printEduStat()
+    {
+        return "Educational: " + eduStatAbsolut + " " + eduStat;
+    }
+
+    //Getter and Setter
     public double getAvgIncome()
     {
         return avgGrossIncome;

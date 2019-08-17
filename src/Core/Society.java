@@ -9,36 +9,19 @@ public class Society {
     private ArrayList<Person> people = new ArrayList<>();
     private SocietyStatistics societyStatistics;
 
+    //Constructors
     private Society(){}
 
-    public ArrayList<Person> getPeople()
-    {
-        return people;
-    }
-
+    //Calculations
     public void calcSociety()
     {
         for(Person person : people)
             person.calcState();
     }
 
-    public SocietyStatistics getSocietyStatistics()
-    {
-        return societyStatistics;
-    }
 
-    public static Society getSociety()
-    {
-        if(singleton == null)
-        {
-            singleton = new Society();
-            return singleton;
-        }
 
-        else
-            return singleton;
-    }
-
+    //Prints
     @Override
     public String toString()
     {
@@ -104,28 +87,49 @@ public class Society {
         societyStatistics = new SocietyStatistics(this);
     }
 
-    public Person addPerson(String name, Integer age, EducationalLayer edu)
+    public Person addPerson(String firstname, String lastname, Integer age, EducationalLayer edu)
     {
-        Person newPerson = Person.createNewPerson(name, age, edu);
+        Person newPerson = Person.createNewPerson(firstname, lastname, age, edu);
         people.add(newPerson);
         return newPerson;
     }
 
-    public Person addPerson(String name, EducationalLayer edu)
+    public Person addPerson(String firstname, String lastname, EducationalLayer edu)
     {
-        return addPerson(name, DEFAULT_AGE, edu);
+        return addPerson(firstname, lastname, DEFAULT_AGE, edu);
     }
 
-    public Person addPerson(String name)
+    public Person addPerson(String firstname, String lastname)
     {
-        return addPerson(name, EducationalLayer.EDU_BASE);
+        return addPerson(firstname, lastname, EducationalLayer.EDU_BASE);
     }
 
     public Person addPerson()
     {
-        return addPerson(DEFAULT_NAME);
+        return addPerson(DEFAULT_FIRSTNAME, DEFAULT_LASTNAME);
     }
 
+    //Getter and Setter
+    public ArrayList<Person> getPeople()
+    {
+        return people;
+    }
 
+    public SocietyStatistics getSocietyStatistics()
+    {
+        return societyStatistics;
+    }
+
+    public static Society getSociety()
+    {
+        if(singleton == null)
+        {
+            singleton = new Society();
+            return singleton;
+        }
+
+        else
+            return singleton;
+    }
 
 }

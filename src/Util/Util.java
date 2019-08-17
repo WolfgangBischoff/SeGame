@@ -16,7 +16,8 @@ public class Util
 
     //Person
     public static final Integer DEFAULT_AGE = 0;
-    public static final String DEFAULT_NAME = "NO NAME";
+    public static final String DEFAULT_FIRSTNAME = "FIRSTNAME";
+    public static final String DEFAULT_LASTNAME = "LASTNAME";
     public static final EducationalLayer DEFAULT_EDU = EducationalLayer.EDU_UNKNOWN;
     public static final int INIT_BASE_HAPPINESS = 100;
     public static final int THRESHOLD_VERY_POOR = 1000;

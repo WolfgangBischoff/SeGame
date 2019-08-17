@@ -41,14 +41,8 @@ public class Main
             String s = null;
             s = br.readLine();
 
-            try
-            {
-                run = interpreter.readInstruction(s);
-            }
-            catch(IllegalArgumentException e)
-            {
-                System.out.println(e.getMessage());
-            }
+            run = interpreter.readInstruction(s);
+
         }
 
 
