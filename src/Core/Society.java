@@ -106,7 +106,7 @@ public class Society {
 
     public Person addPerson(String name, Integer age, EducationalLayer edu)
     {
-        Person newPerson = Person.getNewPerson(name, age, edu);
+        Person newPerson = Person.createNewPerson(name, age, edu);
         people.add(newPerson);
         return newPerson;
     }

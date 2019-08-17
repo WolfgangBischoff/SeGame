@@ -11,7 +11,7 @@ Existing Instructions:
 
 add Person -name Firstname lastname -age 42
 quit/end
-print
+print Person
 
 
 

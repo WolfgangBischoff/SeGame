@@ -5,37 +5,53 @@ import static Util.Util.*;
 
 public class Person
 {
+    private static Integer nextId = 1;
+    private Integer id;
     String name;
     int age;
     int baseHappiness;
     int effectiveHappiness;
     Workposition worksAt;
+    private Integer deposit = 0;
 
     EconomicLayer economicLayer;
     EducationalLayer educationalLayer;
     PoliticalOpinion politicalOpinion;
 
-    public int getGrossIncome()
+    //Constructor and Creators
+    public Person (EducationalLayer definedEdu)
     {
-        if(worksAt != null)
-            return worksAt.grossIncomeWork;
-        else
-            return 0;
+        this(getRandomName(), getRandom().nextInt(100) , definedEdu);
     }
 
-    public Integer getNettIncome()
+    public Person(String name, int age, EducationalLayer edu)
     {
-        if(worksAt != null)
-            return worksAt.netIncomeWork;
-        else
-            return 0;
+        id = nextId++;
+        this.name = name;
+        this.age = age;
+        educationalLayer = edu;
+        initState();
     }
 
-    public void setWorksAt(Workposition worksAt)
+    public static Person createNewPerson()
     {
-        this.worksAt = worksAt;
+        return createNewPerson(DEFAULT_NAME);
+        //return new Person(getRandomName()+ " junior", 0, EducationalLayer.EDU_BASE);
     }
 
+    public static Person createNewPerson(String name)
+    {
+        return createNewPerson(name, DEFAULT_AGE, DEFAULT_EDU);
+        //return new Person(name, DEFAULT_AGE, DEFAULT_EDU);
+    }
+
+    public static Person createNewPerson(String name, Integer age, EducationalLayer edu)
+    {
+        return new Person(name, age, edu);
+    }
+
+
+    //Init und Calculate
     void initState()
     {
         calcBaseHappiness();
@@ -65,64 +81,6 @@ public class Person
             economicLayer = EconomicLayer.ECO_VERYRICH;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", effectiveHappiness=" + effectiveHappiness +
-                ", politicalOpinion=" + politicalOpinion +
-                '}';
-    }
-
-    public String printBasicData()
-    {
-        return name + "(" + age + ") \t\t";
-    }
-
-    public String printHappiness()
-    {
-        return  "Base: " + baseHappiness + " effective: " + effectiveHappiness + " ";
-    }
-
-    public String printWorksAt()
-    {
-        if(worksAt == null)
-            return "unemployed ";
-        else
-            return worksAt.company.name + " ";
-    }
-
-    public String printEconomical()
-    {
-        return "Works at: " + printWorksAt() + "grossIncome: " + getGrossIncome() + "NettIncome: " + getNettIncome();
-    }
-
-    public String printLayers()
-    {
-        return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
-    }
-
-    public Person (EducationalLayer definedEdu)
-    {
-        this(getRandomName(), getRandom().nextInt(100) , definedEdu);
-    }
-
-
-    public Person(String name, int age, EducationalLayer edu)
-    {
-        this.name = name;
-        this.age = age;
-        educationalLayer = edu;
-        initState();
-    }
-
-    static String getRandomName()
-    {
-        String[] firstnames = {"Wolfgang", "Markus", "Hans", "Stefan", "Elisabeth", "Sebastian", "Juraj", "Anna", "Michael", "Eva", "Stefanie", "Tobias"};
-        String[] lastnames = {"Bischoff", "Delitz", "Otto", "Lempa", "Rosenkranz", "Pay", "Veres", "Markt", "Mitterer", "Storf", "Sprengnagel", "Park"};
-        return firstnames[getRandom().nextInt(firstnames.length)] + " " + lastnames[getRandom().nextInt(lastnames.length)];
-    }
-
     void calcBaseHappiness()
     {
         baseHappiness = INIT_BASE_HAPPINESS;
@@ -141,7 +99,7 @@ public class Person
 
     void calcPoliticalOpinion()
     {
-       if(effectiveHappiness < baseHappiness || worksAt == null)
+        if(effectiveHappiness < baseHappiness || worksAt == null)
             politicalOpinion =  PoliticalOpinion.SocialDemocratic;
         else if (effectiveHappiness > baseHappiness)
             politicalOpinion =  PoliticalOpinion.Conservativ;
@@ -149,20 +107,72 @@ public class Person
             politicalOpinion = PoliticalOpinion.Unpolitical;
     }
 
-    public static Person getNewPerson()
-    {
-        return getNewPerson(DEFAULT_NAME);
-        //return new Person(getRandomName()+ " junior", 0, EducationalLayer.EDU_BASE);
+    //Prints
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", effectiveHappiness=" + effectiveHappiness +
+                ", politicalOpinion=" + politicalOpinion +
+                '}';
     }
 
-    public static Person getNewPerson(String name)
+    public String printBasicData()
     {
-        return getNewPerson(name, DEFAULT_AGE, DEFAULT_EDU);
-        //return new Person(name, DEFAULT_AGE, DEFAULT_EDU);
+        return "ID: " + id + " " + name + "(" + age + ") \t\t";
     }
 
-    public static Person getNewPerson(String name, Integer age, EducationalLayer edu)
+    public String printHappiness()
     {
-        return new Person(name, age, edu);
+        return  "Base: " + baseHappiness + " effective: " + effectiveHappiness + " ";
+    }
+
+    public String printWorksAt()
+    {
+        if(worksAt == null)
+            return "unemployed";
+        else
+            return worksAt.company.name;
+    }
+
+    public String printEconomical()
+    {
+        return "Works at: " + printWorksAt() + " grossIncome: " + getGrossIncome() + " NettIncome: " + getNettIncome() + " Deposit: " + deposit;
+    }
+
+    public String printLayers()
+    {
+        return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
+    }
+
+
+
+    //Getter and Setter
+    static String getRandomName()
+    {
+        String[] firstnames = {"Wolfgang", "Markus", "Hans", "Stefan", "Elisabeth", "Sebastian", "Juraj", "Anna", "Michael", "Eva", "Stefanie", "Tobias"};
+        String[] lastnames = {"Bischoff", "Delitz", "Otto", "Lempa", "Rosenkranz", "Pay", "Veres", "Markt", "Mitterer", "Storf", "Sprengnagel", "Park"};
+        return firstnames[getRandom().nextInt(firstnames.length)] + " " + lastnames[getRandom().nextInt(lastnames.length)];
+    }
+
+    public int getGrossIncome()
+    {
+        if(worksAt != null)
+            return worksAt.grossIncomeWork;
+        else
+            return 0;
+    }
+
+    public Integer getNettIncome()
+    {
+        if(worksAt != null)
+            return worksAt.netIncomeWork;
+        else
+            return 0;
+    }
+
+    public void setWorksAt(Workposition worksAt)
+    {
+        this.worksAt = worksAt;
     }
 }
