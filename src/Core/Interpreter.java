@@ -10,8 +10,8 @@ import java.util.Map;
 /*
 Existing Instructions:
 Person print -fn -ln -a
-
-
+economy print -base -all
+society print
 
  */
 public class Interpreter {
@@ -40,7 +40,7 @@ public class Interpreter {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println("readInstruction()\n\t" + e.getMessage() + "\nInput: " + inputString);
+            System.out.println("At readInstruction()\n\t" + e.getMessage() + "\nInput: " + inputString);
         }
         return returnRun;
     }
