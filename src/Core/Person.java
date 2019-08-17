@@ -10,9 +10,9 @@ public class Person
     //String name;
     String firstname;
     String lastname;
-    int age;
-    int baseHappiness;
-    int effectiveHappiness;
+    Integer age;
+    Integer baseHappiness;
+    Integer effectiveHappiness;
     Workposition worksAt;
     private Integer deposit = 0;
 
@@ -26,7 +26,12 @@ public class Person
         this(chooseRandomFirstname(), chooseRandomLastname(), getRandom().nextInt(100) , definedEdu);
     }
 
-    public Person(String firstname, String lastname, int age, EducationalLayer edu)
+    public Person(String fn, String ln, Integer ag)
+    {
+        this(fn, ln, ag, null);
+    }
+
+    public Person(String firstname, String lastname, Integer age, EducationalLayer edu)
     {
         id = nextId++;
         this.firstname = firstname;
@@ -36,27 +41,18 @@ public class Person
         initState();
     }
 
-    public static Person createNewPerson()
-    {
-        return createNewPerson(DEFAULT_FIRSTNAME, DEFAULT_LASTNAME);
-        //return new Person(chooseRandomFirstname()+ " junior", 0, EducationalLayer.EDU_BASE);
-    }
-
-    public static Person createNewPerson(String firstname, String lastname)
-    {
-        return createNewPerson(firstname, lastname, DEFAULT_AGE, DEFAULT_EDU);
-        //return new Person(name, DEFAULT_AGE, DEFAULT_EDU);
-    }
-
-    public static Person createNewPerson(String firstname, String lastname, Integer age, EducationalLayer edu)
-    {
-        return new Person(firstname, lastname, age, edu);
-    }
-
-
     //Init und Calculate
     void initState()
     {
+        if(firstname == null)
+            firstname = DEFAULT_FIRSTNAME;
+        if(lastname == null)
+            lastname = DEFAULT_LASTNAME;
+        if(age == null)
+            age = DEFAULT_AGE;
+        if(educationalLayer == null)
+            educationalLayer = DEFAULT_EDU;
+
         calcBaseHappiness();
         effectiveHappiness = baseHappiness;
         calculateEconomicLayer();
@@ -118,7 +114,7 @@ public class Person
 
     public String printBasicData()
     {
-        return "ID: " + id + " " + firstname+ " " + lastname + "(" + age + ") \t\t";
+        return "ID: " + id + " " + firstname+ " " + lastname + "(" + age + ")";
     }
 
     public String printHappiness()

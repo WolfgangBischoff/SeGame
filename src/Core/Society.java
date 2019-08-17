@@ -87,26 +87,9 @@ public class Society {
         societyStatistics = new SocietyStatistics(this);
     }
 
-    public Person addPerson(String firstname, String lastname, Integer age, EducationalLayer edu)
+    public void addPerson(Person person)
     {
-        Person newPerson = Person.createNewPerson(firstname, lastname, age, edu);
-        people.add(newPerson);
-        return newPerson;
-    }
-
-    public Person addPerson(String firstname, String lastname, EducationalLayer edu)
-    {
-        return addPerson(firstname, lastname, DEFAULT_AGE, edu);
-    }
-
-    public Person addPerson(String firstname, String lastname)
-    {
-        return addPerson(firstname, lastname, EducationalLayer.EDU_BASE);
-    }
-
-    public Person addPerson()
-    {
-        return addPerson(DEFAULT_FIRSTNAME, DEFAULT_LASTNAME);
+        people.add(person);
     }
 
     //Getter and Setter

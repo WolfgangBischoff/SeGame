@@ -70,19 +70,50 @@ public class Interpreter
     //SECOND INSTRUCTION
     private void processSecondParamAfterPerson(String[] param)
     {
+        Map<String, String> options;
+        String firstname = null;
+        String lastname = null;
+        Integer age = null;
+
+
+        //just "person"
         if(param.length == 0)
         {
             System.out.println("Further arguments needed"); return;
         }
+        String[] optionPara = cutFirstIndexPositions(param, 1);
 
-        String[] newParam = cutFirstIndexPositions(param, 1);
+        //fill person options
+        if (optionPara.length > 0)
+        {
+            options = readOptionParameter(optionPara);
+            for(Map.Entry<String, String> entry : options.entrySet())
+            {
+                switch (entry.getKey())
+                {
+                    case "-firstname":
+                    case "-fn":
+                        firstname = entry.getValue(); break;
+                    case "-lastname":
+                    case "-ln":
+                        lastname = entry.getValue(); break;
+                    case "-age":
+                    case "-a":
+                        age = Integer.valueOf(entry.getValue()); break;
+                    default:
+                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                }
+            }
+        }
+
+        //Switch to second param
         switch (param[0].toLowerCase())
         {
             case "add":
-                personAdd(newParam);
+                personAdd(firstname, lastname, age);
                 break;
             case "print":
-                personPrint(newParam);
+                personPrint(firstname, lastname, age);
                 break;
             default:
                 throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
@@ -119,46 +150,13 @@ public class Interpreter
         System.out.println(society.getSocietyStatistics().printGeneral());
     }
 
-    /***
-     * Looks for Persons who match all given cmd parameters
-     * @param param given cmd parameters
-     */
-    private void personPrint(String[] param) throws NumberFormatException
+    private void personPrint(String firstname, String lastname, Integer age) throws NumberFormatException
     {
-        //No options
-        if (param.length == 0)
-        {
-            System.out.println(society.printSocPeople());
-        }
-        //Option Parameters exist
-        else
-        {
-            Map<String, String> options = readOptionParameter(param);
-            //Possible Queries
-            String firstname = null;
-            String lastname = null;
-            Integer age = null;
-
-            //Populate Query options
-            for(Map.Entry<String, String> entry : options.entrySet())
-            {
-                switch (entry.getKey())
-                {
-                    case "-firstname":
-                    case "-fn":
-                        firstname = entry.getValue(); break;
-                    case "-lastname":
-                    case "-ln":
-                        lastname = entry.getValue(); break;
-                    case "-age":
-                    case "-a":
-                        age = Integer.valueOf(entry.getValue()); break;
-                        default:
-                            throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
-                }
-            }
+        if(firstname == null && lastname == null && age == null)
+            System.out.println("No search-parameters given");
 
             //Iterate all persons and check query
+        boolean foundEntry = false;
             for(Person p : society.getPeople())
             {
                 if //if query == null => we dont need to check => true
@@ -167,46 +165,19 @@ public class Interpreter
                                 (lastname == null || lastname.equals(p.lastname)) &&
                                 (age == null || age.equals(p.age))
                 )
-                System.out.println(p);
-            }
-        }
-    }
-
-    private void personAdd(String[] param)
-    {
-        Map<String, String> options;
-        String firstname = DEFAULT_FIRSTNAME;
-        String lastname = DEFAULT_LASTNAME;
-        Integer age = DEFAULT_AGE;
-        Person newPerson;
-
-        if (param.length == 0)
-        {
-            newPerson = society.addPerson();
-        }
-        else
-        {
-            options = readOptionParameter(param);
-
-            for(Map.Entry<String, String> entry : options.entrySet())
-            {
-                switch (entry.getKey())
                 {
-                    case "-firstname":
-                    case "-fn":
-                        firstname = entry.getValue(); break;
-                    case "-lastname":
-                    case "-ln":
-                        lastname = entry.getValue(); break;
-                    case "-age":
-                    case "-a":
-                        age = Integer.valueOf(entry.getValue()); break;
-                    default:
-                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                    System.out.println(p);
+                    foundEntry = true;
                 }
             }
-            newPerson = society.addPerson(firstname, lastname, age, DEFAULT_EDU);
-        }
+            if(!foundEntry)
+                System.out.println("No Entries found");
+    }
+
+    private void personAdd(String firstname, String lastname, Integer age)
+    {
+        Person newPerson = new Person(firstname, lastname, age);
+        society.addPerson(newPerson);
         System.out.println("Added Person: " + newPerson);
     }
 
