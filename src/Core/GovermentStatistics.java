@@ -12,6 +12,6 @@ public class GovermentStatistics
 
     public String print()
     {
-        return "Balance: " + goverment.getBalance() + " ruled by " + goverment.getRulingParty();
+        return "Balance: " + goverment.getDeposit() + " ruled by " + goverment.getRulingParty();
     }
 }

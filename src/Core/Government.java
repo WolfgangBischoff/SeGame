@@ -4,7 +4,7 @@ public class Government
 {
     private static Government singleton = null;
     private static GovermentStatistics govermentStatistics = null;
-    private Integer balance = 0;
+    private Integer deposit = 0;
     private PoliticalOpinion rulingParty = PoliticalOpinion.Unpolitical;
     private static Integer INCOME_TAX_RATE = 30;
 
@@ -14,8 +14,8 @@ public class Government
     }
 
 
-    public Integer getBalance() {
-        return balance;
+    public Integer getDeposit() {
+        return deposit;
     }
 
     public PoliticalOpinion getRulingParty() {
@@ -42,6 +42,6 @@ public class Government
 
     public void raiseIncomeTax(Integer amount)
     {
-        balance += amount;
+        deposit += amount;
     }
 }

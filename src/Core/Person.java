@@ -7,14 +7,14 @@ public class Person
 {
     private static Integer nextId = 1;
     private Integer id;
-    //String name;
     String firstname;
     String lastname;
     Integer age;
     Integer baseHappiness;
     Integer effectiveHappiness;
     Workposition worksAt;
-    private Integer deposit = 0;
+    private Integer deposit;
+
 
     EconomicLayer economicLayer;
     EducationalLayer educationalLayer;
@@ -52,6 +52,8 @@ public class Person
             age = DEFAULT_AGE;
         if(educationalLayer == null)
             educationalLayer = DEFAULT_EDU;
+        if(deposit == null)
+            deposit = DEFAULT_DEPOSIT;
 
         calcBaseHappiness();
         effectiveHappiness = baseHappiness;
@@ -176,5 +178,25 @@ public class Person
     public void setWorksAt(Workposition worksAt)
     {
         this.worksAt = worksAt;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public Integer getDeposit() {
+        return deposit;
     }
 }

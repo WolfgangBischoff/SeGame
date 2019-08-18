@@ -13,6 +13,7 @@ public class SocietyStatistics extends Statistics
     Map<EducationalLayer, Integer> eduStatAbsolut;
     Map<PoliticalOpinion, Double> polStat = new HashMap<>();
     Map<PoliticalOpinion, Integer> polStatAbsolut;
+    Integer depositSumPeople = 0;
     Double avgGrossIncome;
     Double medianGrossIncome;
     Double avgNetIncome;
@@ -30,6 +31,13 @@ public class SocietyStatistics extends Statistics
     }
 
     //Calculations
+    public void calcStatistics()
+    {
+        calcIncomes();
+        calcEmploymentRate();
+        calcEnumStatsViews();
+    }
+
     void calcEmploymentRate()
     {
         Integer employed = 0;
@@ -42,6 +50,24 @@ public class SocietyStatistics extends Statistics
         unemploymentRate = Util.roundTwoDigits((1-employmentRate));
         employedNumber = employed;
         unemployedNumber = persons.size() - employed;
+    }
+
+    void calcIncomes()
+    {
+        depositSumPeople = 0;
+        ArrayList<Integer> grossIncomes = new ArrayList<>();
+        ArrayList<Integer> netIncomes = new ArrayList<>();
+        for(Person p :persons)
+        {
+            grossIncomes.add(p.getGrossIncome());
+            netIncomes.add(p.getNettIncome());
+            depositSumPeople += p.getDeposit();
+        }
+
+        avgGrossIncome = Statistics.calcAvg(grossIncomes);
+        medianGrossIncome = Statistics.calcMedian(grossIncomes);
+        avgNetIncome = Statistics.calcAvg(netIncomes);
+        medianNetIncome = Statistics.calcMedian(netIncomes);
     }
 
     void calcEnumStatsViews()
@@ -70,28 +96,9 @@ public class SocietyStatistics extends Statistics
         eduStat = Statistics.calcPercFromEnumCount(eduInput);
     }
 
-    void calcIncomes()
-    {
-        ArrayList<Integer> grossIncomes = new ArrayList<>();
-        ArrayList<Integer> netIncomes = new ArrayList<>();
-        for(Person p :persons)
-        {
-            grossIncomes.add(p.getGrossIncome());
-            netIncomes.add(p.getNettIncome());
-        }
 
-        avgGrossIncome = Statistics.calcAvg(grossIncomes);
-        medianGrossIncome = Statistics.calcMedian(grossIncomes);
-        avgNetIncome = Statistics.calcAvg(netIncomes);
-        medianNetIncome = Statistics.calcMedian(netIncomes);
-    }
 
-    public void calcStatistics()
-    {
-        calcIncomes();
-        calcEmploymentRate();
-        calcEnumStatsViews();
-    }
+
 
     //Prints
     @Override
@@ -109,7 +116,7 @@ public class SocietyStatistics extends Statistics
 
     String printIncomeStat()
     {
-        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome + " Unemployed: " + unemploymentRate;
+        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome + " Unemployed: " + unemploymentRate + " SumDeposits: " + depositSumPeople;
     }
 
     String printPolStat()

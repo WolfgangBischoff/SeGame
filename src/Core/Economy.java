@@ -7,6 +7,12 @@ import static Util.Util.*;
 public class Economy
 {
     ArrayList<Company> companies = new ArrayList<>();
+    EconomyStatistics economyStatistics;
+
+    public Economy()
+    {
+        economyStatistics = new EconomyStatistics(this);
+    }
 
     //Calculations
     public Integer calcNumberFreeWorkpositions()

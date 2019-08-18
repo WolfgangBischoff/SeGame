@@ -8,6 +8,7 @@ import static Util.Util.*;
 
 public class Company {
     String name;
+    Integer deposit = 0;
     ArrayList<Workposition> workpositions = new ArrayList();
 
     //Constructors
