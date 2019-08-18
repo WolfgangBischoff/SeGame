@@ -10,8 +10,9 @@ import java.util.Map;
 /*
 Existing Instructions:
 Person print -fn -ln -a
+Person add -fn -ln -a
 economy print -base -all
-society print
+society print -income
 
  */
 public class Interpreter {
@@ -144,9 +145,6 @@ public class Interpreter {
 
     private void processSecondParamAfterSociety(String[] param)
     {
-        //Ggf Option parameter processing in future
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
 
         if (param.length == 0)
         {
@@ -154,11 +152,33 @@ public class Interpreter {
             return;
         }
 
+        //Fill possible option parameter like person ??? -fn Wolfgang -a -b
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
+        Boolean printIncomeStat = false;
+        if (optionPara.length > 0)
+        {
+            for (Map.Entry<String, String> entry : options.entrySet())
+            {
+                switch (entry.getKey())
+                {
+                    case "-income":
+                    case "-inc":
+                        if(entry.getValue() != null)
+                            throw new IllegalArgumentException("processSecondParamAfterSociety\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                        printIncomeStat = true;
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                }
+            }
+        }
+
         String[] newParam = cutFirstIndexPositions(param, 1);
         switch (param[0].toLowerCase())
         {
             case "print":
-                societyPrint();
+                societyPrint(printIncomeStat);
                 break;
             default:
                 throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
@@ -250,10 +270,12 @@ public class Interpreter {
             System.out.println(economy.economyCompanyData());
     }
 
-    private void societyPrint()
+    private void societyPrint(Boolean printIncomeStats)
     {
         //Analyse Options
         System.out.println(society.getSocietyStatistics().printGeneral());
+        if(printIncomeStats)
+            System.out.println(society.getSocietyStatistics().printIncomeStat());
     }
 
     private void personPrint(String firstname, String lastname, Integer age, Boolean Printall) throws NumberFormatException

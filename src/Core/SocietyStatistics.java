@@ -112,11 +112,11 @@ public class SocietyStatistics extends Statistics
                 ;
     }
 
-    String printGeneral() { return "Population: " + persons.size(); }
+    String printGeneral() { return "Population: " + persons.size() + " Unemployed: " + unemploymentRate; }
 
     String printIncomeStat()
     {
-        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome + " Unemployed: " + unemploymentRate + " SumDeposits: " + depositSumPeople;
+        return "Incomes: " + "AvgGross: " + avgGrossIncome + " AvgNet: " + avgNetIncome + " MedianGross " + medianGrossIncome  + " SumDeposits: " + depositSumPeople;
     }
 
     String printPolStat()
