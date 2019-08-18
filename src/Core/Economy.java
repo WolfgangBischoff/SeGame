@@ -15,6 +15,25 @@ public class Economy
     }
 
     //Calculations
+    public void companiesPaySalary()
+    {
+        for (Company company : companies)
+            company.paySalaries();
+    }
+
+    public Company getCompanyByName(String name)
+    {
+        for(Company company : companies)
+            if(company.getName().equals(name))
+                return company;
+        return null;
+    }
+
+    boolean isCompanyNameUnique(String name)
+    {
+        return getCompanyByName(name) == null;
+    }
+
     public Integer calcNumberFreeWorkpositions()
     {
         Integer sum = 0;
@@ -27,7 +46,14 @@ public class Economy
     {
         for(int i=0; i<numberComp; i++)
         {
-            companies.add(new Company(NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK));
+            String name = Company.getRandomCompanyName();
+            Integer counter = 2;
+            while(!isCompanyNameUnique(name))
+            {
+                name = name + counter;
+                counter++;
+            }
+            companies.add(new Company(name, NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK));
         }
     }
 
@@ -58,12 +84,12 @@ public class Economy
         return "#Companies: " + companies.size() + " #FreeWorkplaces: " + calcNumberFreeWorkpositions() + " CompanyDeposits: " + economyStatistics.calcSumCompanyDeposits();
     }
 
-    public String economyCompanyData()
+    public String economyBaseCompanyData()
     {
         StringBuilder tmp = new StringBuilder();
         for(Company company : companies)
         {
-            tmp.append(company.toString() + "\n");
+            tmp.append(company.baseData() + "\n");
         }
         return tmp.toString();
     }

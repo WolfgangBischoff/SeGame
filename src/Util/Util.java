@@ -19,7 +19,7 @@ public class Util
     public static final String DEFAULT_FIRSTNAME = "FIRSTNAME";
     public static final String DEFAULT_LASTNAME = "LASTNAME";
     public static final EducationalLayer DEFAULT_EDU = EducationalLayer.EDU_UNKNOWN;
-    public static final Integer PERSON_DEFAULT_DEPOSIT = 100;
+    public static final Integer PERSON_DEFAULT_DEPOSIT = 0;
     public static final int INIT_BASE_HAPPINESS = 100;
     public static final int THRESHOLD_VERY_POOR = 1000;
     public static final int THRESHOLD_POOR = 1400;
@@ -31,7 +31,7 @@ public class Util
     public static final Integer NUM_APPR_EDU_WORK = 4;
     public static final Integer NUM_HIGH_EDU_WORK = 2;
     public static final Integer NUM_UNIV_EDU_WORK = 1;
-    public static final Integer COMP_DEFAULT_DEPOSIT = 30000;
+    public static final Integer COMP_DEFAULT_DEPOSIT = 10000;
 
     //Economy
     public static final int NUMBER_COMPANIES = 4;

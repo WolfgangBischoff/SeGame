@@ -2,10 +2,8 @@
 KNOWN BUGS:
 
 TODOS:
-    Add EcoStatistics with Number Workplaces/Companies/Sum Loans and deposit
-    Add deposit for companies and Persons, check money sum
-    Add Interpreter: new Company, print society all, tests, init instead of main, delete Game
-    Add Time
+    Add Interpreter: new Company, tests, init instead of main, delete Game
+    Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
 
 Ideas:

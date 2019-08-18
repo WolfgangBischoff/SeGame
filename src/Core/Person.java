@@ -108,6 +108,11 @@ public class Person
             politicalOpinion = PoliticalOpinion.Unpolitical;
     }
 
+    void receiveSalary(Integer salary)
+    {
+        deposit+= salary;
+    }
+
     //Prints
     @Override
     public String toString() {
@@ -116,7 +121,7 @@ public class Person
 
     public String printBasicData()
     {
-        return "ID: " + id + " " + firstname+ " " + lastname + " (" + age + ")";
+        return "ID: " + id + " " + firstname+ " " + lastname + " (" + age + ")" + " Deposit: " + deposit;
     }
 
     public String printHappiness()

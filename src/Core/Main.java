@@ -23,7 +23,7 @@ public class Main
         Government government = Government.getGoverment();
 
         //Calc after Init
-        soc.getSocietyStatistics().calcStatistics();
+        soc.getSocietyStatistics().calcAll();
         soc.calcSociety();
 
         //System.out.println(soc.printSocPeople());

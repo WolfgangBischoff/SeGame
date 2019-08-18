@@ -10,6 +10,8 @@ Person add -firstname -lastname -age
 economy print -companies
 society print -income
 government print
+company print -name -all
+company pay -name -all
 
  */
 public class Interpreter {
@@ -58,6 +60,7 @@ public class Interpreter {
                 processSecondParamAfterSociety(newParam);
                 break;
             case "company":
+            case "comp":
             case "com":
                 processSecondParamAfterCompany(newParam);
                 break;
@@ -166,7 +169,7 @@ public class Interpreter {
                     case "-income":
                     case "-inc":
                         if (entry.getValue() != null)
-                            throw new IllegalArgumentException("processSecondParamAfterSociety\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                            throw new IllegalArgumentException("In processSecondParamAfterSociety\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
                         printIncomeStat = true;
                         break;
                     default:
@@ -180,17 +183,98 @@ public class Interpreter {
             case "print":
                 societyPrint(printIncomeStat);
                 break;
+            case "calc":
+                societyCalc();
+                break;
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In processSecondParamAfterSociety\n\tArgument: " + param[0] + " not known, from\n >>>" + inputString);
         }
     }
 
     private void processSecondParamAfterCompany(String[] param)
     {
-        //GGF OPtions Processing in future
+       //Just: company
+        if (param.length == 0)
+        {
+            System.out.println("Further arguments needed");
+            return;
+        }
+
+        //Fill possible option parameter like person ??? -fn Wolfgang -a -b
         String[] optionPara = cutFirstIndexPositions(param, 1);
         Map<String, String> options = readOptionParameter(optionPara);
-        System.out.println("TODO");
+        Boolean allCompanies = false;
+        Company identyfiedCompany = null;
+        if (optionPara.length > 0)
+        {
+            for (Map.Entry<String, String> entry : options.entrySet())
+            {
+                switch (entry.getKey())
+                {
+                    case "-all":
+                        if (entry.getValue() != null)
+                            throw new IllegalArgumentException("processSecondParamAfterCompany\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                        allCompanies = true;
+                        break;
+
+                    case "-name":
+                        identyfiedCompany = economy.getCompanyByName(entry.getValue());
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                }
+            }
+        }
+
+        //Goto second parameter like "print"
+        switch (param[0].toLowerCase())
+        {
+            case "print":
+                companyPrint(identyfiedCompany, allCompanies);
+                break;
+            case "pay":
+                companyPay(identyfiedCompany, allCompanies);
+                break;
+            default:
+                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+        }
+    }
+
+    private void companyPay(Company comp, Boolean all)
+    {
+        //if a special company and all companies should pay
+        if(comp != null && all)
+        {
+            System.out.println("Ambigious command, dont use a special company and -all comparies");
+            return;
+        }
+
+        //One company pays
+        if(comp != null && !all)
+        {
+            comp.paySalaries();
+            System.out.println(comp.getName() + " payed salaries");
+        }
+
+        //All companies pay
+        if(comp == null && all)
+        {
+            economy.companiesPaySalary();
+            System.out.println("Companies payed salaries");
+        }
+    }
+
+
+    private void companyPrint(Company comp, Boolean printAllCompanies)
+    {
+        if(!printAllCompanies && comp == null)
+            System.out.println("Specify company. -all for printing all companies");
+
+        if(printAllCompanies)
+            System.out.println(economy.economyBaseCompanyData());
+
+        if(comp != null)
+            System.out.println(comp.baseData());
     }
 
     private void processSecondParamAfterGovernment(String[] param)
@@ -260,7 +344,7 @@ public class Interpreter {
     {
         System.out.println(economy.economyBaseData());
         if (AllData)
-            System.out.println(economy.economyCompanyData());
+            System.out.println(economy.economyBaseCompanyData());
     }
 
     private void societyPrint(Boolean printIncomeStats)
@@ -269,6 +353,11 @@ public class Interpreter {
         System.out.println(society.getSocietyStatistics().printBase());
         if (printIncomeStats)
             System.out.println(society.getSocietyStatistics().printIncomeStat());
+    }
+
+    private void societyCalc()
+    {
+        society.calcSociety();
     }
 
     private void personPrint(String firstname, String lastname, Integer age, Boolean Printall) throws NumberFormatException

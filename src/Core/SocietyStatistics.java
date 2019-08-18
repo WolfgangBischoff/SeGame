@@ -27,11 +27,11 @@ public class SocietyStatistics extends Statistics
     public SocietyStatistics(Society soc)
     {
         persons = soc.getPeople();
-        calcStatistics();
+        calcAll();
     }
 
     //Calculations
-    public void calcStatistics()
+    public void calcAll()
     {
         calcIncomes();
         calcEmploymentRate();

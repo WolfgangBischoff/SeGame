@@ -12,15 +12,15 @@ public class Company {
     private ArrayList<Workposition> workpositions = new ArrayList();
 
     //Constructors
-    public Company()
+    public Company(String name)
     {
-        name = Company.getRandomCompanyName();
+        this.name = name;
         deposit = COMP_DEFAULT_DEPOSIT;
     }
 
-    public Company(Integer base, Integer app, Integer high, Integer univ)
+    public Company(String name, Integer base, Integer app, Integer high, Integer univ)
     {
-        this();
+        this(name);
         for (int i = 0; i < base; i++)
             workpositions.add(new Workposition(this, EducationalLayer.EDU_BASE));
         for (int i = 0; i < app; i++)
@@ -32,6 +32,18 @@ public class Company {
     }
 
     //Calculations
+    void paySalaries()
+    {
+        for (Workposition workposition : workpositions)
+            paySalary(workposition);
+    }
+
+    private void paySalary(Workposition workposition)
+    {
+        workposition.worker.receiveSalary(workposition.netIncomeWork);
+        Government.getGoverment().raiseIncomeTax(workposition.incomeTaxWork);
+        deposit -= workposition.grossIncomeWork;
+    }
 
     public Integer calcNumberFreeWorkpositions()
     {
@@ -55,11 +67,19 @@ public class Company {
             return false;
     }
 
-
     static String getRandomCompanyName()
     {
         String[] names = {"HOFER", "Capgemini", "Allianz", "Löwenherz", "SwingKitchen", "PWC", "Kiss Bar", "Segafredo", "Merkur", "Maran Vegan", "Lenovo", "Bayer", "Young Living"};
         return names[Util.getRandom().nextInt(names.length)];
+    }
+
+    private Integer calcNumberWorkers()
+    {
+        Integer sum = 0;
+        for (Workposition workposition : workpositions)
+            if (workposition.worker != null)
+                sum++;
+        return sum;
     }
 
     //Prints
@@ -70,6 +90,11 @@ public class Company {
                 "name='" + name + '\'' +
                 ", workpositions=" + workpositions +
                 '}';
+    }
+
+    public String baseData()
+    {
+        return "Name: " + name + " Workers: " + calcNumberWorkers() + " Deposit: " + deposit;
     }
 
     //Getter and Setter

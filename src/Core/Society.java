@@ -17,9 +17,8 @@ public class Society {
     {
         for(Person person : people)
             person.calcState();
+        societyStatistics.calcAll();
     }
-
-
 
     //Prints
     @Override
