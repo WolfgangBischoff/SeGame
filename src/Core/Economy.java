@@ -7,7 +7,8 @@ import static Util.Util.*;
 public class Economy
 {
     ArrayList<Company> companies = new ArrayList<>();
-    EconomyStatistics economyStatistics;
+    private EconomyStatistics economyStatistics;
+
 
     public Economy()
     {
@@ -92,5 +93,13 @@ public class Economy
             tmp.append(company.baseData() + "\n");
         }
         return tmp.toString();
+    }
+
+    public ArrayList<Company> getCompanies() {
+        return companies;
+    }
+
+    public EconomyStatistics getEconomyStatistics() {
+        return economyStatistics;
     }
 }

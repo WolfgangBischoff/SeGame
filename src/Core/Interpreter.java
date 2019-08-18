@@ -40,7 +40,7 @@ public class Interpreter {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println("At readInstruction()\n\t" + e.getMessage() + "\nInput: " + inputString);
+            System.out.println("In readInstruction()\n\t" + e.getMessage() + "\nInput: " + inputString);
         }
         return returnRun;
     }
@@ -72,6 +72,9 @@ public class Interpreter {
             case "eco":
                 processSecondParamAfterEconomy(newParam);
                 break;
+            case "test":
+                processSecondParamAfterTest(newParam);
+                break;
 
             case "help":
             case "?":
@@ -82,7 +85,7 @@ public class Interpreter {
                 returnRun = false;
                 break;
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In processFirstParam\nArgument: " + param[0] + " not known, from\n >>>" + inputString);
         }
 
     }
@@ -240,43 +243,6 @@ public class Interpreter {
         }
     }
 
-    private void companyPay(Company comp, Boolean all)
-    {
-        //if a special company and all companies should pay
-        if(comp != null && all)
-        {
-            System.out.println("Ambigious command, dont use a special company and -all comparies");
-            return;
-        }
-
-        //One company pays
-        if(comp != null && !all)
-        {
-            comp.paySalaries();
-            System.out.println(comp.getName() + " payed salaries");
-        }
-
-        //All companies pay
-        if(comp == null && all)
-        {
-            economy.companiesPaySalary();
-            System.out.println("Companies payed salaries");
-        }
-    }
-
-
-    private void companyPrint(Company comp, Boolean printAllCompanies)
-    {
-        if(!printAllCompanies && comp == null)
-            System.out.println("Specify company. -all for printing all companies");
-
-        if(printAllCompanies)
-            System.out.println(economy.economyBaseCompanyData());
-
-        if(comp != null)
-            System.out.println(comp.baseData());
-    }
-
     private void processSecondParamAfterGovernment(String[] param)
     {
         if (param.length == 0)
@@ -339,7 +305,51 @@ public class Interpreter {
 
     }
 
+    private void  processSecondParamAfterTest(String[] param)
+    {
+        //Just: test
+        if (param.length == 0)
+        {
+            System.out.println("Further arguments needed");
+            return;
+        }
+
+        //Find Method arguments for further methods
+        String[] optionPara = cutFirstIndexPositions(param, 1);
+        Map<String, String> options = readOptionParameter(optionPara);
+        //Boolean checkAmountCash = false;
+        for (Map.Entry<String, String> entry : options.entrySet())
+        {
+            switch (entry.getKey())
+            {
+
+                default:
+                    throw new IllegalArgumentException("In processSecondParamAfterTest\n" + "Found illegal option: " + entry.getKey());
+            }
+        }
+
+        switch (param[0].toLowerCase())
+        {
+            case "cash":
+                test();
+                break;
+            default:
+                throw new IllegalArgumentException("In processSecondParamAfterTest\nArgument: " + param[0] + " not known, from\n >>>" + inputString);
+        }
+    }
+
     //OPTIONS
+    private void test()
+    {
+
+            Integer depPeople = society.getSocietyStatistics().depositSumPeople;
+            Integer depComp = economy.getEconomyStatistics().calcSumCompanyDeposits();
+            Integer depGov = government.getDeposit();
+            System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
+
+
+    }
+
     private void enconomyPrint(Boolean AllData)
     {
         System.out.println(economy.economyBaseData());
@@ -393,6 +403,42 @@ public class Interpreter {
         Person newPerson = new Person(firstname, lastname, age);
         society.addPerson(newPerson);
         System.out.println("Added Person: " + newPerson);
+    }
+
+    private void companyPay(Company comp, Boolean all)
+    {
+        //if a special company and all companies should pay
+        if(comp != null && all)
+        {
+            System.out.println("Ambigious command, dont use a special company and -all comparies");
+            return;
+        }
+
+        //One company pays
+        if(comp != null && !all)
+        {
+            comp.paySalaries();
+            System.out.println(comp.getName() + " payed salaries");
+        }
+
+        //All companies pay
+        if(comp == null && all)
+        {
+            economy.companiesPaySalary();
+            System.out.println("Companies payed salaries");
+        }
+    }
+
+    private void companyPrint(Company comp, Boolean printAllCompanies)
+    {
+        if(!printAllCompanies && comp == null)
+            System.out.println("Specify company. -all for printing all companies");
+
+        if(printAllCompanies)
+            System.out.println(economy.economyBaseCompanyData());
+
+        if(comp != null)
+            System.out.println(comp.baseData());
     }
 
     //Util

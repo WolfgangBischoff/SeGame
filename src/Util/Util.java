@@ -31,7 +31,7 @@ public class Util
     public static final Integer NUM_APPR_EDU_WORK = 4;
     public static final Integer NUM_HIGH_EDU_WORK = 2;
     public static final Integer NUM_UNIV_EDU_WORK = 1;
-    public static final Integer COMP_DEFAULT_DEPOSIT = 10000;
+    public static final Integer COMP_DEFAULT_DEPOSIT = 100000;
 
     //Economy
     public static final int NUMBER_COMPANIES = 4;
