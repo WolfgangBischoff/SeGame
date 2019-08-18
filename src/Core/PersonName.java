@@ -2,9 +2,6 @@ package Core;
 
 import Util.Util;
 
-import static Util.Util.DEFAULT_FIRSTNAME;
-import static Util.Util.DEFAULT_LASTNAME;
-
 public class PersonName {
     private String firstname;
     private String lastname;
@@ -31,6 +28,7 @@ public class PersonName {
 
         firstname = nameParts[0];
         StringBuilder sblastname = new StringBuilder();
+        //Concatinate all parts of lastname
         for (int i = 1; i < nameParts.length; i++)
         {
             if (i == nameParts.length - 1)

@@ -3,18 +3,6 @@ package Core;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-Existing Instructions:
-Person print -firstname -lastname -age -all
-Person add -firstname -lastname -age
-economy print -companies
-society print -income
-government print
-company print -name -all
-company pay -name -all
-test cash
-
- */
 public class Interpreter {
     private static Interpreter instance = null;
     private Society society;
@@ -42,7 +30,7 @@ public class Interpreter {
         }
         catch (IllegalArgumentException e)
         {
-            System.out.println("In readInstruction()\n\t" + e.getMessage() + "\nInput: " + inputString);
+            System.out.println("In readInstruction()\n\t" + e.getMessage());
         }
         return returnRun;
     }
@@ -50,6 +38,7 @@ public class Interpreter {
     //FIRST INSTRUCTION
     private void processFirstParam(String[] param) throws IllegalArgumentException
     {
+        String methodName = "processFirstParam";
         String[] newParam = cutFirstIndexPositions(param, 1);
         switch (param[0].toLowerCase())
         {
@@ -87,7 +76,7 @@ public class Interpreter {
                 returnRun = false;
                 break;
             default:
-                throw new IllegalArgumentException("In processFirstParam\nArgument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: \"" + param[0] + "\" undefined");
         }
 
     }
@@ -95,6 +84,7 @@ public class Interpreter {
     //SECOND INSTRUCTION
     private void processSecondParamAfterPerson(String[] param)
     {
+        String methodName = "processSecondParamAfterPerson";
         //just "person"
         if (param.length == 0)
         {
@@ -136,11 +126,12 @@ public class Interpreter {
                         break;
                     case "-all":
                         if (entry.getValue() != null)
-                            throw new IllegalArgumentException("processSecondParamAfterPerson\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                            throw new NoParametersAlloweException(methodName, entry.getValue());
                         printAll = true;
                         break;
                     default:
-                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                        //throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                        throw new UndefindedOptionException(methodName, entry.getKey());
                 }
             }
         }
@@ -155,12 +146,13 @@ public class Interpreter {
                 personPrint(firstname, lastname, age, printAll);
                 break;
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
     }
 
     private void processSecondParamAfterSociety(String[] param)
     {
+        String methodName = "processSecondParamAfterSociety";
         //Just: society
         if (param.length == 0)
         {
@@ -181,11 +173,11 @@ public class Interpreter {
                     case "-income":
                     case "-inc":
                         if (entry.getValue() != null)
-                            throw new IllegalArgumentException("In processSecondParamAfterSociety\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                            throw new NoParametersAlloweException(methodName, entry.getValue());
                         printIncomeStat = true;
                         break;
                     default:
-                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                        throw new UndefindedOptionException(methodName, entry.getKey());
                 }
             }
         }
@@ -199,12 +191,13 @@ public class Interpreter {
                 societyCalc();
                 break;
             default:
-                throw new IllegalArgumentException("In processSecondParamAfterSociety\n\tArgument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
     }
 
     private void processSecondParamAfterCompany(String[] param)
     {
+        String methodName = "processSecondParamAfterCompany";
        //Just: company
         if (param.length == 0)
         {
@@ -217,7 +210,6 @@ public class Interpreter {
         Map<String, String> options = readOptionParameter(optionPara);
         Boolean allCompanies = false;
         String companyName = null;
-        //Company identyfiedCompany = null;
         if (optionPara.length > 0)
         {
             for (Map.Entry<String, String> entry : options.entrySet())
@@ -226,7 +218,7 @@ public class Interpreter {
                 {
                     case "-all":
                         if (entry.getValue() != null)
-                            throw new IllegalArgumentException("processSecondParamAfterCompany\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                            throw new NoParametersAlloweException(methodName, entry.getValue());
                         allCompanies = true;
                         break;
 
@@ -235,7 +227,7 @@ public class Interpreter {
                         break;
 
                     default:
-                        throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                        throw new UndefindedOptionException(methodName, entry.getKey());
                 }
             }
         }
@@ -254,12 +246,13 @@ public class Interpreter {
                 break;
 
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
     }
 
     private void processSecondParamAfterGovernment(String[] param)
     {
+        String methodName = "processSecondParamAfterGovernment";
         if (param.length == 0)
         {
             System.out.println("Further arguments needed");
@@ -276,12 +269,13 @@ public class Interpreter {
                 System.out.println(government);
                 break;
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
     }
 
     private void processSecondParamAfterEconomy(String[] param)
     {
+        String methodName = "processSecondParamAfterEconomy";
         //Just: Economy
         if (param.length == 0)
         {
@@ -301,11 +295,11 @@ public class Interpreter {
                 case "-comp":
                 case "-c":
                     if (entry.getValue() != null)
-                        throw new IllegalArgumentException("processSecondParamAfterPerson\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
+                        throw new NoParametersAlloweException(methodName, entry.getValue());
                     printCompanies = true;
                     break;
                 default:
-                    throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
+                    throw new UndefindedOptionException(methodName, entry.getKey());
             }
         }
 
@@ -315,13 +309,14 @@ public class Interpreter {
                 enconomyPrint(printCompanies);
                 break;
             default:
-                throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
 
     }
 
     private void  processSecondParamAfterTest(String[] param)
     {
+        String methodName = "processSecondParamAfterTest";
         //Just: test
         if (param.length == 0)
         {
@@ -332,14 +327,13 @@ public class Interpreter {
         //Find Method arguments for further methods
         String[] optionPara = cutFirstIndexPositions(param, 1);
         Map<String, String> options = readOptionParameter(optionPara);
-        //Boolean checkAmountCash = false;
         for (Map.Entry<String, String> entry : options.entrySet())
         {
             switch (entry.getKey())
             {
 
                 default:
-                    throw new IllegalArgumentException("In processSecondParamAfterTest\n" + "Found illegal option: " + entry.getKey());
+                    throw new UndefindedOptionException(methodName, entry.getKey());
             }
         }
 
@@ -349,7 +343,7 @@ public class Interpreter {
                 test();
                 break;
             default:
-                throw new IllegalArgumentException("In processSecondParamAfterTest\nArgument: " + param[0] + " not known, from\n >>>" + inputString);
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
         }
     }
 
@@ -481,7 +475,7 @@ public class Interpreter {
 
     private void companyAdd(String companyName)
     {
-        economy.addCompanyByName(companyName);
+        System.out.println(economy.addCompanyByName(companyName));
     }
 
     //Util
@@ -546,13 +540,17 @@ public class Interpreter {
     //Helptext
     private void printGeneralHelp()
     {
+
         System.out.println(
                 "Existing Instructions:\n" +
-                "Person print -firstname -lastname -age -all\n" +
-                "Person add -firstname -lastname -age\n" +
+                "Person print -name -firstname -lastname -age -all\n" +
+                "Person add -name -firstname -lastname -age\n" +
                 "economy print -companies\n" +
                 "society print -income\n" +
-                "government print"
+                "government print\n" +
+                "company print -name -all\n" +
+                "company pay -name -all\n" +
+                "test cash\n"
         );
     }
 
