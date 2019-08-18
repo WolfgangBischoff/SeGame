@@ -1,7 +1,6 @@
 package Util;
 
 import Core.EducationalLayer;
-import Core.EducationalLayer.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Random;

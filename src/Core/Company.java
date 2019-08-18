@@ -35,7 +35,8 @@ public class Company {
     void paySalaries()
     {
         for (Workposition workposition : workpositions)
-            paySalary(workposition);
+            if(workposition.worker != null)
+                paySalary(workposition);
     }
 
     private void paySalary(Workposition workposition)

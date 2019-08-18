@@ -22,7 +22,6 @@ public class Interpreter {
     public boolean readInstruction(String input)
     {
         inputString = input;
-        //String[] param = inputParam.split(" ");
         String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
         try
         {
@@ -317,7 +316,7 @@ public class Interpreter {
     private void  processSecondParamAfterTest(String[] param)
     {
         String methodName = "processSecondParamAfterTest";
-        //Just: test
+        //Just: testCash
         if (param.length == 0)
         {
             System.out.println("Further arguments needed");
@@ -340,7 +339,7 @@ public class Interpreter {
         switch (param[0].toLowerCase())
         {
             case "cash":
-                test();
+                testCash();
                 break;
             default:
                 throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
@@ -348,7 +347,7 @@ public class Interpreter {
     }
 
     //OPTIONS
-    private void test()
+    private void testCash()
     {
 
             Integer depPeople = society.getSocietyStatistics().depositSumPeople;
@@ -550,7 +549,7 @@ public class Interpreter {
                 "government print\n" +
                 "company print -name -all\n" +
                 "company pay -name -all\n" +
-                "test cash\n"
+                "testCash cash\n"
         );
     }
 

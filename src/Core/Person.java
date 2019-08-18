@@ -8,8 +8,6 @@ public class Person
     private static Integer nextId = 1;
     private Integer id;
     PersonName name;
-    //String firstname;
-    //String lastname;
     Integer age;
     Integer baseHappiness;
     Integer effectiveHappiness;
