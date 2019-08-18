@@ -53,7 +53,7 @@ public class Person
         if(educationalLayer == null)
             educationalLayer = DEFAULT_EDU;
         if(deposit == null)
-            deposit = DEFAULT_DEPOSIT;
+            deposit = PERSON_DEFAULT_DEPOSIT;
 
         calcBaseHappiness();
         effectiveHappiness = baseHappiness;
@@ -129,7 +129,7 @@ public class Person
         if(worksAt == null)
             return "unemployed";
         else
-            return worksAt.company.name;
+            return worksAt.company.getName();
     }
 
     public String printEconomical()
@@ -141,9 +141,6 @@ public class Person
     {
         return "Edu: " + educationalLayer + " Eco: " + economicLayer + " Pol: " + politicalOpinion;
     }
-
-
-
 
     static String chooseRandomFirstname()
     {
@@ -158,7 +155,6 @@ public class Person
     }
 
     //Getter and Setter
-
     public int getGrossIncome()
     {
         if(worksAt != null)

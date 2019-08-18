@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import static Util.Util.*;
 
 public class Company {
-    String name;
-    Integer deposit = 0;
-    ArrayList<Workposition> workpositions = new ArrayList();
+    private String name;
+    private Integer deposit = 0;
+    private ArrayList<Workposition> workpositions = new ArrayList();
 
     //Constructors
     public Company()
     {
         name = Company.getRandomCompanyName();
+        deposit = COMP_DEFAULT_DEPOSIT;
     }
 
     public Company(Integer base, Integer app, Integer high, Integer univ)
@@ -29,6 +30,8 @@ public class Company {
         for (int i = 0; i < univ; i++)
             workpositions.add(new Workposition(this, EducationalLayer.EDU_UNIVERSITY));
     }
+
+    //Calculations
 
     public Integer calcNumberFreeWorkpositions()
     {
@@ -59,6 +62,7 @@ public class Company {
         return names[Util.getRandom().nextInt(names.length)];
     }
 
+    //Prints
     @Override
     public String toString()
     {
@@ -68,5 +72,16 @@ public class Company {
                 '}';
     }
 
+    //Getter and Setter
+    public String getName() {
+        return name;
+    }
 
+    public Integer getDeposit() {
+        return deposit;
+    }
+
+    public ArrayList<Workposition> getWorkpositions() {
+        return workpositions;
+    }
 }

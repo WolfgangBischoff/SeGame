@@ -6,31 +6,32 @@ public class Workposition
     Paygrade paygrade;
     Integer grossIncomeWork = 0;
     Integer netIncomeWork = 0;
+    Integer incomeTaxWork = 0;
     Person worker = null;
     Company company;
 
+    //Constructor
     public Workposition(Company company, EducationalLayer edu)
     {
         this.company = company;
         this.neededEducation = edu;
         setPaygrade();
-        setIncome();
-        //setGrossIncomeWorkOnPaygrade();
+        calcIncome();
     }
 
-    void setIncome()
+    //Calculations
+    void calcIncome()
     {
-        setGrossIncomeWorkOnPaygrade();
-        setNetIncome();
+        calcGrossIncomeWorkOnPaygrade();
+        calcNetIncome();
     }
-    void setNetIncome()
+    void calcNetIncome()
     {
-        Integer tax = Government.CalcIncomeTax(grossIncomeWork);
-        netIncomeWork = grossIncomeWork - tax;
-        Government.getGoverment().raiseIncomeTax(tax);
+        incomeTaxWork = Government.CalcIncomeTax(grossIncomeWork);
+        netIncomeWork = grossIncomeWork - incomeTaxWork;
     }
 
-    void setGrossIncomeWorkOnPaygrade()
+    void calcGrossIncomeWorkOnPaygrade()
     {
         switch (paygrade)
         {
@@ -49,6 +50,7 @@ public class Workposition
         return neededEducation.getInt() <= worker.educationalLayer.getInt() && worker.worksAt == null;
     }
 
+    //Prints
     @Override
     public String toString()
     {

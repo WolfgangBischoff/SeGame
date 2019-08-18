@@ -35,7 +35,7 @@ public class Economy
     {
         for(Company company : companies)
         {
-            for(Workposition workposition : company.workpositions)
+            for(Workposition workposition : company.getWorkpositions())
             {
                 for(Person person : worker)
                 {
@@ -55,7 +55,7 @@ public class Economy
 
     public String economyBaseData()
     {
-        return "#Companies: " + companies.size() + " #FreeWorkplaces: " + calcNumberFreeWorkpositions();
+        return "#Companies: " + companies.size() + " #FreeWorkplaces: " + calcNumberFreeWorkpositions() + " CompanyDeposits: " + economyStatistics.calcSumCompanyDeposits();
     }
 
     public String economyCompanyData()

@@ -1,18 +1,15 @@
 package Core;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
 /*
 Existing Instructions:
-Person print -fn -ln -a
-Person add -fn -ln -a
-economy print -base -all
+Person print -firstname -lastname -age -all
+Person add -firstname -lastname -age
+economy print -companies
 society print -income
+government print
 
  */
 public class Interpreter {
@@ -73,6 +70,10 @@ public class Interpreter {
                 processSecondParamAfterEconomy(newParam);
                 break;
 
+            case "help":
+            case "?":
+                printGeneralHelp(); break;
+
             case "quit":
             case "end":
                 returnRun = false;
@@ -119,7 +120,7 @@ public class Interpreter {
                         age = Integer.valueOf(entry.getValue());
                         break;
                     case "-all":
-                        if(entry.getValue() != null)
+                        if (entry.getValue() != null)
                             throw new IllegalArgumentException("processSecondParamAfterPerson\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
                         printAll = true;
                         break;
@@ -145,7 +146,7 @@ public class Interpreter {
 
     private void processSecondParamAfterSociety(String[] param)
     {
-
+        //Just: society
         if (param.length == 0)
         {
             System.out.println("Further arguments needed");
@@ -164,7 +165,7 @@ public class Interpreter {
                 {
                     case "-income":
                     case "-inc":
-                        if(entry.getValue() != null)
+                        if (entry.getValue() != null)
                             throw new IllegalArgumentException("processSecondParamAfterSociety\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
                         printIncomeStat = true;
                         break;
@@ -174,7 +175,6 @@ public class Interpreter {
             }
         }
 
-        String[] newParam = cutFirstIndexPositions(param, 1);
         switch (param[0].toLowerCase())
         {
             case "print":
@@ -217,6 +217,7 @@ public class Interpreter {
 
     private void processSecondParamAfterEconomy(String[] param)
     {
+        //Just: Economy
         if (param.length == 0)
         {
             System.out.println("Further arguments needed");
@@ -226,21 +227,17 @@ public class Interpreter {
         //Find Method arguments for further methods
         String[] optionPara = cutFirstIndexPositions(param, 1);
         Map<String, String> options = readOptionParameter(optionPara);
-        Boolean base = false;
-        Boolean all = false;
+        Boolean printCompanies = false;
         for (Map.Entry<String, String> entry : options.entrySet())
         {
             switch (entry.getKey())
             {
-                case "-base":
-                    base = true;
-                    if(entry.getValue() != null)
-                        throw new IllegalArgumentException("processSecondParamAfterPerson\n\t-base must not have arguments: " + entry.getKey() + " " + entry.getValue());
-                    break;
-                case "-all":
-                    if(entry.getValue() != null)
+                case "-companies":
+                case "-comp":
+                case "-c":
+                    if (entry.getValue() != null)
                         throw new IllegalArgumentException("processSecondParamAfterPerson\n\t-all must not have arguments: " + entry.getKey() + " " + entry.getValue());
-                    all = true;
+                    printCompanies = true;
                     break;
                 default:
                     throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
@@ -250,7 +247,7 @@ public class Interpreter {
         switch (param[0].toLowerCase())
         {
             case "print":
-                enconomyPrint(base, all);
+                enconomyPrint(printCompanies);
                 break;
             default:
                 throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
@@ -259,22 +256,18 @@ public class Interpreter {
     }
 
     //OPTIONS
-    private void enconomyPrint(Boolean baseData, Boolean AllData)
+    private void enconomyPrint(Boolean AllData)
     {
-        if(!baseData && !AllData)
-            System.out.println("No arguments given");
-
-        if(baseData)
-            System.out.println(economy.economyBaseData());
-        if(AllData)
+        System.out.println(economy.economyBaseData());
+        if (AllData)
             System.out.println(economy.economyCompanyData());
     }
 
     private void societyPrint(Boolean printIncomeStats)
     {
         //Analyse Options
-        System.out.println(society.getSocietyStatistics().printGeneral());
-        if(printIncomeStats)
+        System.out.println(society.getSocietyStatistics().printBase());
+        if (printIncomeStats)
             System.out.println(society.getSocietyStatistics().printIncomeStat());
     }
 
@@ -313,7 +306,7 @@ public class Interpreter {
         System.out.println("Added Person: " + newPerson);
     }
 
-    //Helper
+    //Util
     private String[] cutFirstIndexPositions(String[] input, Integer NumberCutPostions)
     {
         String[] ret = new String[input.length - NumberCutPostions];
@@ -352,6 +345,19 @@ public class Interpreter {
             }
         }
         return results;
+    }
+
+    //Helptext
+    private void printGeneralHelp()
+    {
+        System.out.println(
+                "Existing Instructions:\n" +
+                "Person print -firstname -lastname -age -all\n" +
+                "Person add -firstname -lastname -age\n" +
+                "economy print -companies\n" +
+                "society print -income\n" +
+                "government print"
+        );
     }
 
     //Getter

@@ -12,7 +12,18 @@ public class EconomyStatistics extends Statistics
 
     void calcState()
     {
+        //GRP
+        //GINI
+    }
 
+    public Integer calcSumCompanyDeposits()
+    {
+        Integer sum = 0;
+        for(Company company : economy.companies)
+        {
+            sum += company.getDeposit();
+        }
+        return sum;
     }
 
 }

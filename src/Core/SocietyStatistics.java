@@ -105,14 +105,14 @@ public class SocietyStatistics extends Statistics
     public String toString()
     {
         return "\nSocietyStatistics " +
-                printGeneral() +
+                printBase() +
                 "\n" + printIncomeStat() +
                 "\n" + printPolStat() +
                 "\n" + printEduStat()
                 ;
     }
 
-    String printGeneral() { return "Population: " + persons.size() + " Unemployed: " + unemploymentRate; }
+    String printBase() { return "Population: " + persons.size() + " Unemployed: " + unemploymentRate; }
 
     String printIncomeStat()
     {
