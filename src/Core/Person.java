@@ -7,8 +7,9 @@ public class Person
 {
     private static Integer nextId = 1;
     private Integer id;
-    String firstname;
-    String lastname;
+    PersonName name;
+    //String firstname;
+    //String lastname;
     Integer age;
     Integer baseHappiness;
     Integer effectiveHappiness;
@@ -23,38 +24,30 @@ public class Person
     //Constructor and Creators
     public Person (EducationalLayer definedEdu)
     {
-        this(chooseRandomFirstname(), chooseRandomLastname(), getRandom().nextInt(100) , definedEdu);
+        this(chooseRandomFirstname(), chooseRandomLastname(), getRandom().nextInt(100) , definedEdu, PERSON_DEFAULT_DEPOSIT);
     }
-
+    public Person(String fn, String ln)
+    {
+        this(fn, ln, DEFAULT_AGE, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
+    }
     public Person(String fn, String ln, Integer ag)
     {
-        this(fn, ln, ag, null);
+        this(fn, ln, ag, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
     }
 
-    public Person(String firstname, String lastname, Integer age, EducationalLayer edu)
+    public Person(String firstname, String lastname, Integer age, EducationalLayer edu, Integer deposit)
     {
         id = nextId++;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        name = new PersonName(firstname, lastname);
         this.age = age;
         educationalLayer = edu;
+        this.deposit = deposit;
         initState();
     }
 
     //Init und Calculate
     void initState()
     {
-        if(firstname == null)
-            firstname = DEFAULT_FIRSTNAME;
-        if(lastname == null)
-            lastname = DEFAULT_LASTNAME;
-        if(age == null)
-            age = DEFAULT_AGE;
-        if(educationalLayer == null)
-            educationalLayer = DEFAULT_EDU;
-        if(deposit == null)
-            deposit = PERSON_DEFAULT_DEPOSIT;
-
         calcBaseHappiness();
         effectiveHappiness = baseHappiness;
         calculateEconomicLayer();
@@ -121,7 +114,7 @@ public class Person
 
     public String printBasicData()
     {
-        return "ID: " + id + " " + firstname+ " " + lastname + " (" + age + ")" + " Deposit: " + deposit;
+        return "ID: " + id + " " + name.getFirstname() + " " + name.getLastname() + " (" + age + ")" + " Deposit: " + deposit;
     }
 
     public String printHappiness()
@@ -184,14 +177,14 @@ public class Person
     public Integer getId() {
         return id;
     }
-
+/*
     public String getFirstname() {
-        return firstname;
+        return name.getFirstname();
     }
 
     public String getLastname() {
-        return lastname;
-    }
+        return name.getLastname();
+    }*/
 
     public Integer getAge() {
         return age;

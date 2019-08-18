@@ -12,6 +12,7 @@ society print -income
 government print
 company print -name -all
 company pay -name -all
+test cash
 
  */
 public class Interpreter {
@@ -30,10 +31,11 @@ public class Interpreter {
         government = gov;
     }
 
-    public boolean readInstruction(String inputParam)
+    public boolean readInstruction(String input)
     {
-        inputString = inputParam;
-        String[] param = inputParam.split(" ");
+        inputString = input;
+        //String[] param = inputParam.split(" ");
+        String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
         try
         {
             processFirstParam(param);
@@ -113,6 +115,13 @@ public class Interpreter {
             {
                 switch (entry.getKey())
                 {
+                    case "-name":
+                    case "-n":
+                        //-name "Hans von Hohenzollern" => Hans - von Hohenzollern
+                        PersonName name = new PersonName(entry.getValue());
+                        firstname = name.getFirstname();
+                        lastname = name.getLastname();
+                        break;
                     case "-firstname":
                     case "-fn":
                         firstname = entry.getValue();
@@ -140,7 +149,7 @@ public class Interpreter {
         switch (param[0].toLowerCase())
         {
             case "add":
-                personAdd(firstname, lastname, age);
+                personAdd(firstname, lastname);
                 break;
             case "print":
                 personPrint(firstname, lastname, age, printAll);
@@ -207,7 +216,8 @@ public class Interpreter {
         String[] optionPara = cutFirstIndexPositions(param, 1);
         Map<String, String> options = readOptionParameter(optionPara);
         Boolean allCompanies = false;
-        Company identyfiedCompany = null;
+        String companyName = null;
+        //Company identyfiedCompany = null;
         if (optionPara.length > 0)
         {
             for (Map.Entry<String, String> entry : options.entrySet())
@@ -221,8 +231,9 @@ public class Interpreter {
                         break;
 
                     case "-name":
-                        identyfiedCompany = economy.getCompanyByName(entry.getValue());
+                        companyName = entry.getValue();
                         break;
+
                     default:
                         throw new IllegalArgumentException("Found illegal argument: " + entry.getKey());
                 }
@@ -233,11 +244,15 @@ public class Interpreter {
         switch (param[0].toLowerCase())
         {
             case "print":
-                companyPrint(identyfiedCompany, allCompanies);
+                companyPrint(companyName, allCompanies);
                 break;
             case "pay":
-                companyPay(identyfiedCompany, allCompanies);
+                companyPay(companyName, allCompanies);
                 break;
+            case "add":
+                companyAdd(companyName);
+                break;
+
             default:
                 throw new IllegalArgumentException("Argument: " + param[0] + " not known, from\n >>>" + inputString);
         }
@@ -385,8 +400,8 @@ public class Interpreter {
         {
             if //if query == null => we dont need to check => true
             (
-                    (firstname == null || firstname.equals(p.firstname)) &&
-                            (lastname == null || lastname.equals(p.lastname)) &&
+                    (firstname == null || firstname.equals(p.name.getFirstname())) &&
+                            (lastname == null || lastname.equals(p.name.getLastname())) &&
                             (age == null || age.equals(p.age))
             )
             {
@@ -398,19 +413,30 @@ public class Interpreter {
             System.out.println("No Entries found");
     }
 
-    private void personAdd(String firstname, String lastname, Integer age)
+    private void personAdd(String firstname, String lastname)
     {
-        Person newPerson = new Person(firstname, lastname, age);
+        Person newPerson = new Person(firstname, lastname);
         society.addPerson(newPerson);
         System.out.println("Added Person: " + newPerson);
     }
 
-    private void companyPay(Company comp, Boolean all)
+    private void companyPay(String compName, Boolean all)
     {
-        //if a special company and all companies should pay
+        //Check if company exists
+        Company comp = null;
+        if(compName != null)
+        {
+            comp = economy.getCompanyByName(compName);
+            if(comp == null)
+            {
+                System.out.println("No Company found with name: " + compName);
+                return;
+            }
+        }
+
         if(comp != null && all)
         {
-            System.out.println("Ambigious command, dont use a special company and -all comparies");
+            System.out.println("Ambiguous command, don`t use a special company and -all companies");
             return;
         }
 
@@ -429,8 +455,20 @@ public class Interpreter {
         }
     }
 
-    private void companyPrint(Company comp, Boolean printAllCompanies)
+    private void companyPrint(String compName, Boolean printAllCompanies)
     {
+        //Check if company exists
+        Company comp = null;
+        if(compName != null)
+        {
+            comp = economy.getCompanyByName(compName);
+            if(comp == null)
+            {
+                System.out.println("No Company found with name: " + compName);
+                return;
+            }
+        }
+
         if(!printAllCompanies && comp == null)
             System.out.println("Specify company. -all for printing all companies");
 
@@ -439,6 +477,11 @@ public class Interpreter {
 
         if(comp != null)
             System.out.println(comp.baseData());
+    }
+
+    private void companyAdd(String companyName)
+    {
+        economy.addCompanyByName(companyName);
     }
 
     //Util
@@ -461,6 +504,10 @@ public class Interpreter {
             //Next Token is parameter type
             if (residualParams[0].contains("-"))
             {
+                //TODO Case "Multiple Words are one Parameter" and "Word"
+
+
+
                 //paramter type with parameter value (-n Wolfgang)
                 if (residualParams.length >= 2 && !residualParams[1].contains("-"))
                 {
@@ -480,6 +527,20 @@ public class Interpreter {
             }
         }
         return results;
+    }
+
+    private String[] splitInstruction(String input)
+    {
+        //Case company add "Multiple Words are one Parameter"
+        //Case company add "Word"
+        String[] ret = null;
+
+
+
+
+
+        return ret;
+
     }
 
     //Helptext

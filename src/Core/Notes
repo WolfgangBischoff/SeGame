@@ -2,9 +2,10 @@
 KNOWN BUGS:
 
 TODOS:
-    Add Interpreter: new Company, tests, init instead of main, delete Game
+    Add Interpreter: new Company, init instead of main, delete Game
     Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
+    Add socialWellfare
 
 Ideas:
     Influences:

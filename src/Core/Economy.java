@@ -16,6 +16,26 @@ public class Economy
     }
 
     //Calculations
+    public String createUniqueCompanyName(String nameBase)
+    {
+        String name = nameBase;
+        Integer counter = 2;
+        while(!isCompanyNameUnique(name))
+        {
+            name = name + counter;
+            counter++;
+        }
+        return name;
+    }
+
+    public Company addCompanyByName(String name)
+    {
+        String UniqueName = createUniqueCompanyName(name);
+        Company newCompany = new Company(UniqueName, NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK);
+        companies.add(newCompany);
+        return newCompany;
+    }
+
     public void companiesPaySalary()
     {
         for (Company company : companies)
@@ -47,14 +67,9 @@ public class Economy
     {
         for(int i=0; i<numberComp; i++)
         {
-            String name = Company.getRandomCompanyName();
-            Integer counter = 2;
-            while(!isCompanyNameUnique(name))
-            {
-                name = name + counter;
-                counter++;
-            }
-            companies.add(new Company(name, NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK));
+            //String name = createUniqueCompanyName(Company.getRandomCompanyName());
+            //companies.add(new Company(name, NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK));
+            addCompanyByName(Company.getRandomCompanyName());
         }
     }
 

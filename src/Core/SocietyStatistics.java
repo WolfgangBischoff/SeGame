@@ -27,6 +27,9 @@ public class SocietyStatistics extends Statistics
     public SocietyStatistics(Society soc)
     {
         persons = soc.getPeople();
+
+        System.out.println(persons);
+
         calcAll();
     }
 
@@ -57,7 +60,7 @@ public class SocietyStatistics extends Statistics
         depositSumPeople = 0;
         ArrayList<Integer> grossIncomes = new ArrayList<>();
         ArrayList<Integer> netIncomes = new ArrayList<>();
-        for(Person p :persons)
+        for(Person p : persons)
         {
             grossIncomes.add(p.getGrossIncome());
             netIncomes.add(p.getNettIncome());
