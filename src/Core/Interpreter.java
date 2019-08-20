@@ -1,5 +1,9 @@
 package Core;
 
+import Core.Exceptions.InterpreterInvalidOptionCombination;
+import Core.Exceptions.InterpreterNoParametersAlloweException;
+import Core.Exceptions.InterpreterUndefindedOptionException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -323,6 +327,11 @@ public class Interpreter
     {
         String methodname = "personPrint()";
         Map<String, String> options = readOptionParameter(inputOptions);
+
+        String forbiddenParam = notContainsForbiddenOptionParameter(options, new String[]{"-all"});
+        if(forbiddenParam != null)
+            throw new InterpreterNoParametersAlloweException(methodname, forbiddenParam);
+
         //Case no options
         if (options.size() == 0)
         {
@@ -344,6 +353,7 @@ public class Interpreter
                 if (person.name.equals(new PersonName(options.get("-name"))))
                     System.out.println(person);
             }
+            return;
         }
 
         throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
@@ -427,6 +437,10 @@ public class Interpreter
         String methodname = "companyAdd()";
         Map<String, String> options = readOptionParameter(inputOptions);
 
+        String forbiddenParam = notContainsForbiddenOptionParameter(options, new String[]{"-all"});
+        if(forbiddenParam != null)
+            throw new InterpreterNoParametersAlloweException(methodname, forbiddenParam);
+
         //Case no options
         if (options.size() == 0)
         {
@@ -481,6 +495,21 @@ public class Interpreter
         for (int i = 0; i < ret.length; i++)
             ret[i] = input[i + NumberCutPostions];
         return ret;
+    }
+
+    /**
+     * Checks if options which should not have parameter really dont have parameter. Example: -all parmeter => forbidden
+     * @param options option/parameter pairs
+     * @param parameterForbiddenOptions options which should not have parameter
+     * @return
+     */
+    private String notContainsForbiddenOptionParameter(Map<String, String> options, String[] parameterForbiddenOptions)
+    {
+        for(String forbiddenParameterOption : parameterForbiddenOptions)
+            if(options.get(forbiddenParameterOption) != null)
+                return options.get(forbiddenParameterOption);
+
+            return null;
     }
 
     private Map<String, String> readOptionParameter(String[] params)

@@ -1,4 +1,4 @@
-package Core;
+package Core.Exceptions;
 
 public class InterpreterUndefindedOptionException extends IllegalArgumentException
 {
