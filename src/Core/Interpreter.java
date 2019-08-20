@@ -11,8 +11,6 @@ public class Interpreter
     private Government government;
 
     private boolean run = true;
-    //   private String inputString = null;
-
 
     //Constructors
     private Interpreter(Society soc, Economy eco, Government gov)
@@ -71,7 +69,6 @@ public class Interpreter
         }
     }
 
-
     private String normalizeOption(String inputString)
     {
         String methodName = "normalizeOption";
@@ -95,13 +92,17 @@ public class Interpreter
             case "-income":
             case "-inc":
                 return "-income";
+            case "-companies":
+            case "-comp":
+            case "-c":
+                return "-companies";
             default:
                 throw new UndefindedOptionException(methodName, inputString);
         }
     }
 
     //FIRST INSTRUCTION
-    private void processFirstParam(String[] inputParameter) throws IllegalArgumentException
+    private void processFirstParam(String[] inputParameter)
     {
         String methodName = "processFirstParam";
         String parameter = normalizeParameter(inputParameter[0]);
@@ -191,121 +192,73 @@ public class Interpreter
         }
     }
 
-    private void processSecondParamAfterCompany(String[] param)
+    private void processSecondParamAfterCompany(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterCompany";
+        String[] optionPara = cutFirstIndexPositions(inputParameters, 1);
         //Just: company
-        if (param.length == 0)
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
-        }
-
-        //Fill possible option parameter like person ??? -fn Wolfgang -a -b
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
-        Boolean allCompanies = false;
-        String companyName = null;
-        if (optionPara.length > 0)
-        {
-            for (Map.Entry<String, String> entry : options.entrySet())
-            {
-                switch (entry.getKey())
-                {
-                    case "-all":
-                        if (entry.getValue() != null)
-                            throw new NoParametersAlloweException(methodName, entry.getValue());
-                        allCompanies = true;
-                        break;
-
-                    case "-name":
-                        companyName = entry.getValue();
-                        break;
-
-                    default:
-                        throw new UndefindedOptionException(methodName, entry.getKey());
-                }
-            }
         }
 
         //Goto second parameter like "print"
-        switch (param[0].toLowerCase())
+        switch (inputParameters[0].toLowerCase())
         {
             case "print":
-                companyPrint(companyName, allCompanies);
+                companyPrint(optionPara);
                 break;
             case "pay":
-                companyPay(companyName, allCompanies);
+                companyPay(optionPara);
                 break;
             case "add":
-                companyAdd(companyName);
+                companyAdd(optionPara);
                 break;
 
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
+                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + inputParameters[0] + " not known");
         }
     }
 
-    private void processSecondParamAfterGovernment(String[] param)
+    private void processSecondParamAfterGovernment(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterGovernment";
-        if (param.length == 0)
+        String[] optionPara = cutFirstIndexPositions(inputParameters, 1);
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        //Ggf options processing in future
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
-
-        switch (param[0].toLowerCase())
+        switch (inputParameters[0].toLowerCase())
         {
             case "print":
                 System.out.println(government);
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
+                throw new UndefindedOptionException(methodName, inputParameters[0]);
         }
     }
 
-    private void processSecondParamAfterEconomy(String[] param)
+    private void processSecondParamAfterEconomy(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterEconomy";
+        String[] optionPara = cutFirstIndexPositions(inputParameters, 1);
         //Just: Economy
-        if (param.length == 0)
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        //Find Method arguments for further methods
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
-        Boolean printCompanies = false;
-        for (Map.Entry<String, String> entry : options.entrySet())
-        {
-            switch (entry.getKey())
-            {
-                case "-companies":
-                case "-comp":
-                case "-c":
-                    if (entry.getValue() != null)
-                        throw new NoParametersAlloweException(methodName, entry.getValue());
-                    printCompanies = true;
-                    break;
-                default:
-                    throw new UndefindedOptionException(methodName, entry.getKey());
-            }
-        }
-
-        switch (param[0].toLowerCase())
+        switch (inputParameters[0].toLowerCase())
         {
             case "print":
-                enconomyPrint(printCompanies);
+                enconomyPrint(optionPara);
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
+                throw new UndefindedOptionException(methodName, inputParameters[0]);
         }
 
     }
@@ -355,11 +308,19 @@ public class Interpreter
 
     }
 
-    private void enconomyPrint(Boolean AllData)
+    private void enconomyPrint(String[] inputOptions)
     {
-        System.out.println(economy.economyBaseData());
-        if (AllData)
-            System.out.println(economy.economyBaseCompanyData());
+        String methodname = "economyPrint()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+
+        //Case no options
+        if(options.size() == 0)
+        {
+            System.out.println(economy.economyBaseData());
+        }
+        if(options.containsKey("-companies"))
+            System.out.println(economy.getCompanies());
+
     }
 
     private void societyPrint(String[] inputOptions)
@@ -372,7 +333,6 @@ public class Interpreter
 
         if(options.containsKey("-income"))
             System.out.println(society.getSocietyStatistics().printIncomeStat());
-
     }
 
     private void societyCalc()
@@ -407,7 +367,7 @@ public class Interpreter
             }
         }
 
-        System.out.println(methodname + " option parameter invalid");
+        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
     }
 
     private void personAdd(String[] inputOptions)
@@ -440,71 +400,91 @@ public class Interpreter
             return;
         }
 
-        System.out.println(methodname + " option parameter invalid");
+        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
     }
 
-    private void companyPay(String compName, Boolean all)
+    private void companyPay(String[] inputOptions)
     {
-        //Check if company exists
-        Company comp = null;
-        if (compName != null)
-        {
-            comp = economy.getCompanyByName(compName);
-            if (comp == null)
-            {
-                System.out.println("No Company found with name: " + compName);
-                return;
-            }
-        }
+        String methodname = "companyAdd()";
+        Map<String, String> options = readOptionParameter(inputOptions);
 
-        if (comp != null && all)
+        //Case no options
+        if (options.size() == 0)
         {
-            System.out.println("Ambiguous command, don`t use a special company and -all companies");
+            System.out.println("No Company specified. Did you forget -name?");
             return;
         }
 
-        //One company pays
-        if (comp != null && !all)
+        //Case all companies
+        if(options.containsKey("-all"))
         {
-            comp.paySalaries();
-            System.out.println(comp.getName() + " payed salaries");
+            for(Company company : economy.getCompanies())
+                System.out.println(company);
+            return;
         }
 
-        //All companies pay
-        if (comp == null && all)
+        //Case name given
+        if(options.containsKey("-name"))
         {
-            economy.companiesPaySalary();
-            System.out.println("Companies payed salaries");
+            economy.getCompanyByName(options.get("-name"));
+            return;
         }
+
+        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
     }
 
-    private void companyPrint(String compName, Boolean printAllCompanies)
+    private void companyPrint(String[] inputOptions)
     {
-        //Check if company exists
-        Company comp = null;
-        if (compName != null)
+        String methodname = "companyAdd()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+
+        //Case no options
+        if (options.size() == 0)
         {
-            comp = economy.getCompanyByName(compName);
-            if (comp == null)
-            {
-                System.out.println("No Company found with name: " + compName);
-                return;
-            }
+            System.out.println("No Company specified. Did you forget -name?");
+            return;
         }
 
-        if (!printAllCompanies && comp == null)
-            System.out.println("Specify company. -all for printing all companies");
-
-        if (printAllCompanies)
+        //Case print all companies
+        if(options.containsKey("-all"))
+        {
             System.out.println(economy.economyBaseCompanyData());
+            return;
+        }
 
-        if (comp != null)
-            System.out.println(comp.baseData());
+        //Case print company with name
+        if(options.containsKey("-name"))
+        {
+            System.out.println(economy.getCompanyByName(options.get("-name")));
+            return;
+        }
+
+        //TODO Excep
+        System.out.println(methodname + " option parameter invalid");
     }
 
-    private void companyAdd(String companyName)
+    private void companyAdd(String[] inputOptions)
     {
-        System.out.println(economy.addCompanyByName(companyName));
+        String methodname = "companyAdd()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+
+        //Case no options
+        if (options.size() == 0)
+        {
+            System.out.println("No Company specified. Did you forget -name?");
+            return;
+        }
+
+        //Case name given
+        if(options.containsKey("-name"))
+        {
+            System.out.println(economy.addCompanyByName(options.get("-name")));
+            return;
+        }
+
+        //TODO Excep
+        System.out.println(methodname + " option parameter invalid");
+
     }
 
     //Util
