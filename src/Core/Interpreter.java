@@ -49,7 +49,7 @@ public class Interpreter
             case "company":
             case "comp":
             case "com":
-                return "society";
+                return "company";
             case "government":
             case "gov":
                 return "government";
@@ -299,13 +299,13 @@ public class Interpreter
     //OPTIONS
     private void testCash()
     {
+        String methodname = "testCash()";
+        //Map<String, String> options = readOptionParameter(inputOptions);
 
         Integer depPeople = society.getSocietyStatistics().depositSumPeople;
         Integer depComp = economy.getEconomyStatistics().calcSumCompanyDeposits();
         Integer depGov = government.getDeposit();
         System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
-
-
     }
 
     private void enconomyPrint(String[] inputOptions)
@@ -459,8 +459,7 @@ public class Interpreter
             return;
         }
 
-        //TODO Excep
-        System.out.println(methodname + " option parameter invalid");
+        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
     }
 
     private void companyAdd(String[] inputOptions)
@@ -482,8 +481,7 @@ public class Interpreter
             return;
         }
 
-        //TODO Excep
-        System.out.println(methodname + " option parameter invalid");
+        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
 
     }
 
