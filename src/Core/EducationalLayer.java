@@ -2,7 +2,7 @@ package Core;
 
 public enum EducationalLayer
 {
-    EDU_BASE(0), EDU_APPRENTICESHIP(1), EDU_HIGHER(2), EDU_UNIVERSITY(3), EDU_UNKNOWN(4);
+    EDU_BASE(0), EDU_APPRENTICESHIP(1), EDU_HIGHER(2), EDU_UNIVERSITY(3), EDU_CHILD(4), EDU_UNKNOWN(5);
 
     private int IntNr;
 
