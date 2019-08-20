@@ -1,8 +1,8 @@
 package Core;
 
-public class InvalidInterpreterOptionCombination extends IllegalArgumentException
+public class InterpreterInvalidOptionCombination extends IllegalArgumentException
 {
-    public InvalidInterpreterOptionCombination(String methodName, String[] option)
+    public InterpreterInvalidOptionCombination(String methodName, String[] option)
     {
         /*StringBuilder sb = new StringBuilder()
                 for(String args : option)

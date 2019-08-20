@@ -97,7 +97,7 @@ public class Interpreter
             case "-c":
                 return "-companies";
             default:
-                throw new UndefindedOptionException(methodName, inputString);
+                throw new InterpreterUndefindedOptionException(methodName, inputString);
         }
     }
 
@@ -134,7 +134,7 @@ public class Interpreter
                 run = false;
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: \"" + inputParameter[0] + "\" undefined");
+                throw new InterpreterUndefindedOptionException(methodName, parameter);
         }
 
     }
@@ -163,7 +163,7 @@ public class Interpreter
                 personPrint(newParam);
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + inputParameter[0] + " not known");
+                throw new InterpreterUndefindedOptionException(methodName, inputParameter[0].toLowerCase());
         }
     }
 
@@ -188,7 +188,7 @@ public class Interpreter
                 societyCalc();
                 break;
             default:
-                throw new UndefindedOptionException(methodName, inputParameter[0]);
+                throw new InterpreterUndefindedOptionException(methodName, inputParameter[0]);
         }
     }
 
@@ -217,7 +217,7 @@ public class Interpreter
                 break;
 
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + inputParameters[0] + " not known");
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0].toLowerCase());
         }
     }
 
@@ -237,7 +237,7 @@ public class Interpreter
                 System.out.println(government);
                 break;
             default:
-                throw new UndefindedOptionException(methodName, inputParameters[0]);
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
         }
     }
 
@@ -258,118 +258,34 @@ public class Interpreter
                 enconomyPrint(optionPara);
                 break;
             default:
-                throw new UndefindedOptionException(methodName, inputParameters[0]);
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
         }
 
     }
 
-    private void processSecondParamAfterTest(String[] param)
+    private void processSecondParamAfterTest(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterTest";
-        //Just: testCash
-        if (param.length == 0)
+        String[] optionPara = cutFirstIndexPositions(inputParameters, 1);
+
+        //Just: test
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        //Find Method arguments for further methods
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
-        for (Map.Entry<String, String> entry : options.entrySet())
-        {
-            switch (entry.getKey())
-            {
-
-                default:
-                    throw new UndefindedOptionException(methodName, entry.getKey());
-            }
-        }
-
-        switch (param[0].toLowerCase())
+        switch (inputParameters[0].toLowerCase())
         {
             case "cash":
                 testCash();
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0].toLowerCase());
         }
     }
 
     //OPTIONS
-    private void testCash()
-    {
-        String methodname = "testCash()";
-        //Map<String, String> options = readOptionParameter(inputOptions);
-
-        Integer depPeople = society.getSocietyStatistics().depositSumPeople;
-        Integer depComp = economy.getEconomyStatistics().calcSumCompanyDeposits();
-        Integer depGov = government.getDeposit();
-        System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
-    }
-
-    private void enconomyPrint(String[] inputOptions)
-    {
-        String methodname = "economyPrint()";
-        Map<String, String> options = readOptionParameter(inputOptions);
-
-        //Case no options
-        if(options.size() == 0)
-        {
-            System.out.println(economy.economyBaseData());
-        }
-        if(options.containsKey("-companies"))
-            System.out.println(economy.getCompanies());
-
-    }
-
-    private void societyPrint(String[] inputOptions)
-    {
-        String methodname = "personPrint()";
-        Map<String, String> options = readOptionParameter(inputOptions);
-        //Case no options
-        if(options.size() == 0)
-            System.out.println(society.getSocietyStatistics().printBase());
-
-        if(options.containsKey("-income"))
-            System.out.println(society.getSocietyStatistics().printIncomeStat());
-    }
-
-    private void societyCalc()
-    {
-        society.calcSociety();
-    }
-
-    private void personPrint(String[] inputOptions)
-    {
-        String methodname = "personPrint()";
-        Map<String, String> options = readOptionParameter(inputOptions);
-        //Case no options
-        if (options.size() == 0)
-        {
-            System.out.println("No Person specified. Did you forget -name or -all?");
-            return;
-        }
-        //case all persons
-        if (options.containsKey("-all"))
-        {
-            System.out.println(society.printSocPeople());
-            return;
-        }
-        //case some persons
-        //TODO implement search function in Society and then use all options
-        if (options.containsKey("-name"))
-        {
-            for (Person person : society.getPeople())
-            {
-                if (person.name.equals(new PersonName(options.get("-name"))))
-                    System.out.println(person);
-            }
-        }
-
-        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
-    }
-
     private void personAdd(String[] inputOptions)
     {
         String methodname = "personAdd()";
@@ -400,7 +316,80 @@ public class Interpreter
             return;
         }
 
-        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
+        throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
+    }
+
+    private void personPrint(String[] inputOptions)
+    {
+        String methodname = "personPrint()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+        //Case no options
+        if (options.size() == 0)
+        {
+            System.out.println("No Person specified. Did you forget -name or -all?");
+            return;
+        }
+        //case all persons
+        if (options.containsKey("-all"))
+        {
+            System.out.println(society.printSocPeople());
+            return;
+        }
+        //case some persons
+        //TODO implement search function in Society and then use all options
+        if (options.containsKey("-name"))
+        {
+            for (Person person : society.getPeople())
+            {
+                if (person.name.equals(new PersonName(options.get("-name"))))
+                    System.out.println(person);
+            }
+        }
+
+        throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
+    }
+
+    private void societyPrint(String[] inputOptions)
+    {
+        String methodname = "personPrint()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+        //Case no options
+        if (options.size() == 0)
+            System.out.println(society.getSocietyStatistics().printBase());
+
+        if (options.containsKey("-income"))
+            System.out.println(society.getSocietyStatistics().printIncomeStat());
+    }
+
+    private void societyCalc()
+    {
+        society.calcSociety();
+    }
+
+    private void enconomyPrint(String[] inputOptions)
+    {
+        String methodname = "economyPrint()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+
+        //Case no options
+        if (options.size() == 0)
+        {
+            System.out.println(economy.economyBaseData());
+        }
+        if (options.containsKey("-companies"))
+            System.out.println(economy.getCompanies());
+
+    }
+
+    private void testCash()
+    {
+        String methodname = "testCash()";
+        //Map<String, String> options = readOptionParameter(inputOptions);
+
+        Integer depPeople = society.getSocietyStatistics().depositSumPeople;
+        Integer depComp = economy.getEconomyStatistics().calcSumCompanyDeposits();
+        Integer depGov = government.getDeposit();
+        System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
     }
 
     private void companyPay(String[] inputOptions)
@@ -416,21 +405,21 @@ public class Interpreter
         }
 
         //Case all companies
-        if(options.containsKey("-all"))
+        if (options.containsKey("-all"))
         {
-            for(Company company : economy.getCompanies())
+            for (Company company : economy.getCompanies())
                 System.out.println(company);
             return;
         }
 
         //Case name given
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
             economy.getCompanyByName(options.get("-name"));
             return;
         }
 
-        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
+        throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
     }
 
     private void companyPrint(String[] inputOptions)
@@ -446,20 +435,20 @@ public class Interpreter
         }
 
         //Case print all companies
-        if(options.containsKey("-all"))
+        if (options.containsKey("-all"))
         {
             System.out.println(economy.economyBaseCompanyData());
             return;
         }
 
         //Case print company with name
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
             System.out.println(economy.getCompanyByName(options.get("-name")));
             return;
         }
 
-        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
+        throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
     }
 
     private void companyAdd(String[] inputOptions)
@@ -475,13 +464,13 @@ public class Interpreter
         }
 
         //Case name given
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
             System.out.println(economy.addCompanyByName(options.get("-name")));
             return;
         }
 
-        throw new InvalidInterpreterOptionCombination(methodname, inputOptions);
+        throw new InterpreterInvalidOptionCombination(methodname, inputOptions);
 
     }
 
@@ -522,12 +511,11 @@ public class Interpreter
             }
             else
             {
-                throw new UndefindedOptionException(methodname, residualParams[0]);
+                throw new InterpreterUndefindedOptionException(methodname, residualParams[0]);
             }
         }
         return results;
     }
-
 
     //Helptext
     private void printGeneralHelp()
