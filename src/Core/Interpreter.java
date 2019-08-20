@@ -11,8 +11,8 @@ public class Interpreter
     private Government government;
 
     private boolean run = true;
-    private String inputString = null;
-    private Map<String, String> normalizedParams;
+    //   private String inputString = null;
+
 
     //Constructors
     private Interpreter(Society soc, Economy eco, Government gov)
@@ -24,7 +24,7 @@ public class Interpreter
 
     public boolean readInstruction(String input)
     {
-        inputString = input;
+        //inputString = input;
         String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
 
         try
@@ -36,27 +36,6 @@ public class Interpreter
         }
         return run;
     }
-
-   /* private String[] normalizeParams(String[] rawParams)
-    {
-        String[] normalizedParams = new String[rawParams.length];
-        int idx = 0;
-
-        //Normalize Params (will terminate after first option like -all
-        do
-        {
-            normalizedParams[idx] = normalizeParameter(rawParams[idx]);
-        }
-        while(!rawParams[idx].startsWith("-"));
-
-        //Normalize Options
-        for (; idx<rawParams.length; idx++)
-        {
-
-        }
-
-        return normalizedParams;
-    }*/
 
     private String normalizeParameter(String rawInput)
     {
@@ -113,6 +92,9 @@ public class Interpreter
             case "-all":
             case "-a":
                 return "-all";
+            case "-income":
+            case "-inc":
+                return "-income";
             default:
                 throw new UndefindedOptionException(methodName, inputString);
         }
@@ -184,48 +166,28 @@ public class Interpreter
         }
     }
 
-    private void processSecondParamAfterSociety(String[] param)
+    private void processSecondParamAfterSociety(String[] inputParameter)
     {
         String methodName = "processSecondParamAfterSociety";
+        String[] newParam = cutFirstIndexPositions(inputParameter, 1);
+
         //Just: society
-        if (param.length == 0)
+        if (inputParameter.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        //Fill possible option parameter like person ??? -fn Wolfgang -a -b
-        String[] optionPara = cutFirstIndexPositions(param, 1);
-        Map<String, String> options = readOptionParameter(optionPara);
-        Boolean printIncomeStat = false;
-        if (optionPara.length > 0)
-        {
-            for (Map.Entry<String, String> entry : options.entrySet())
-            {
-                switch (entry.getKey())
-                {
-                    case "-income":
-                    case "-inc":
-                        if (entry.getValue() != null)
-                            throw new NoParametersAlloweException(methodName, entry.getValue());
-                        printIncomeStat = true;
-                        break;
-                    default:
-                        throw new UndefindedOptionException(methodName, entry.getKey());
-                }
-            }
-        }
-
-        switch (param[0].toLowerCase())
+        switch (inputParameter[0].toLowerCase())
         {
             case "print":
-                societyPrint(printIncomeStat);
+                societyPrint(newParam);
                 break;
             case "calc":
                 societyCalc();
                 break;
             default:
-                throw new IllegalArgumentException("In " + methodName + "\nArgument: " + param[0] + " not known");
+                throw new UndefindedOptionException(methodName, inputParameter[0]);
         }
     }
 
@@ -400,12 +362,17 @@ public class Interpreter
             System.out.println(economy.economyBaseCompanyData());
     }
 
-    private void societyPrint(Boolean printIncomeStats)
+    private void societyPrint(String[] inputOptions)
     {
-        //Analyse Options
-        System.out.println(society.getSocietyStatistics().printBase());
-        if (printIncomeStats)
+        String methodname = "personPrint()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+        //Case no options
+        if(options.size() == 0)
+            System.out.println(society.getSocietyStatistics().printBase());
+
+        if(options.containsKey("-income"))
             System.out.println(society.getSocietyStatistics().printIncomeStat());
+
     }
 
     private void societyCalc()
@@ -431,11 +398,11 @@ public class Interpreter
         }
         //case some persons
         //TODO implement search function in Society and then use all options
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
             for (Person person : society.getPeople())
             {
-                if(person.name.equals(new PersonName(options.get("-name"))))
+                if (person.name.equals(new PersonName(options.get("-name"))))
                     System.out.println(person);
             }
         }
@@ -455,7 +422,7 @@ public class Interpreter
         }
 
         //case name
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
             Person newPerson = new Person(new PersonName(options.get("-name")));
             society.addPerson(newPerson);
@@ -464,7 +431,7 @@ public class Interpreter
         }
 
         //case first and lastname
-        if(options.containsKey("-firstname") && options.containsKey("-lastname"))
+        if (options.containsKey("-firstname") && options.containsKey("-lastname"))
         {
             PersonName name = new PersonName(options.get("-firstname"), options.get("-lastname"));
             Person newPerson = new Person(name);
@@ -590,8 +557,8 @@ public class Interpreter
 
         System.out.println(
                 "Existing Instructions:\n" +
-                        "Person print -name -firstname -lastname -age -all\n" +
-                        "Person add -name -firstname -lastname -age\n" +
+                        "Person print -name -all\n" +
+                        "Person add -name -firstname -lastname\n" +
                         "economy print -companies\n" +
                         "society print -income\n" +
                         "government print\n" +
