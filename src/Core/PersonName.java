@@ -39,6 +39,17 @@ public class PersonName {
         lastname = sblastname.toString();
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(obj instanceof PersonName)
+        {
+            PersonName other = (PersonName) obj;
+            return other.firstname.equals(firstname) && other.lastname.equals(lastname);
+        }
+        return false;
+    }
+
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }

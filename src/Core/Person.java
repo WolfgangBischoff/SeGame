@@ -22,21 +22,27 @@ public class Person
     //Constructor and Creators
     public Person (EducationalLayer definedEdu)
     {
-        this(chooseRandomFirstname(), chooseRandomLastname(), getRandom().nextInt(100) , definedEdu, PERSON_DEFAULT_DEPOSIT);
+        this(new PersonName(chooseRandomFirstname(), chooseRandomLastname()), getRandom().nextInt(100) , definedEdu, PERSON_DEFAULT_DEPOSIT);
     }
+    public Person(PersonName name)
+    {
+        this(name, DEFAULT_AGE);
+    }
+/*
     public Person(String fn, String ln)
     {
         this(fn, ln, DEFAULT_AGE, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
     }
-    public Person(String fn, String ln, Integer ag)
+  */
+    public Person(PersonName name, Integer ag)
     {
-        this(fn, ln, ag, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
+        this(name, ag, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
     }
 
-    public Person(String firstname, String lastname, Integer age, EducationalLayer edu, Integer deposit)
+    public Person(PersonName name, Integer age, EducationalLayer edu, Integer deposit)
     {
         id = nextId++;
-        name = new PersonName(firstname, lastname);
+        this.name = name;
         this.age = age;
         educationalLayer = edu;
         this.deposit = deposit;
