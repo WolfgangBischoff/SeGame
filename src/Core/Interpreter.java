@@ -41,6 +41,20 @@ public class Interpreter
         return run;
     }
 
+
+    //TODO Read all orders and compute in one switch
+    private void computeInstructions(String[] inputParameters)
+    {
+        //Known combinations soc add "Wolf B"
+        //while starts with, add args (use noramlize)
+        //Chose last fitting
+    }
+
+    //TODO Method computes varargs
+
+
+
+
     private String normalizeFirstParameter(String rawInput)
     {
         String methodName = "normalizeFirstParameter()";

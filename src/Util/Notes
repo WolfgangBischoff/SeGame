@@ -3,7 +3,13 @@ KNOWN BUGS:
 
 TODOS:
     Add Interpreter:
-        eco populate workplaces
+        add person 10 -rnd
+        Change:
+        Parameter - Input - Options
+        1) go through switches with Parameters
+        2) At the end of switch method gets params...
+        3) method reads input and options
+
     Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
     Add socialWellfare

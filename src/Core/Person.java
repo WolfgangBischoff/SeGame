@@ -28,12 +28,7 @@ public class Person
     {
         this(name, DEFAULT_AGE);
     }
-/*
-    public Person(String fn, String ln)
-    {
-        this(fn, ln, DEFAULT_AGE, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
-    }
-  */
+
     public Person(PersonName name, Integer ag)
     {
         this(name, ag, DEFAULT_EDU, PERSON_DEFAULT_DEPOSIT);
