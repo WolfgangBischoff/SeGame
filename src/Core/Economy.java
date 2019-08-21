@@ -102,6 +102,8 @@ public class Economy
 
     public String economyBaseCompanyData()
     {
+        if(companies.size()==0)
+            return "Economy has no companies";
         StringBuilder tmp = new StringBuilder();
         for(Company company : companies)
         {

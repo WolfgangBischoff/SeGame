@@ -31,6 +31,9 @@ public class Society {
 
     public String printSocPeople()
     {
+        if(people.size() == 0)
+            return "Society has no members";
+
         StringBuilder ret = new StringBuilder();
         for(Person person : people)
             ret.append("\nPerson: " +
@@ -101,6 +104,7 @@ public class Society {
     {
         return societyStatistics;
     }
+
 
     public static Society getSociety()
     {

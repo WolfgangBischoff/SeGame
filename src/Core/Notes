@@ -3,7 +3,6 @@ KNOWN BUGS:
 
 TODOS:
     Add Interpreter: init instead of main, delete Game
-        rename Exception ggf add one
         Interpreter should create new instances of Game or Game Class
     Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
@@ -21,6 +20,7 @@ Ideas:
     Different Econical Choices: Central PLanning or markets => Market Distribution logics
     Society Politics: autoritan or liberal
     Money politics
+    Migration, Player can emigrate
 
     Gameplay:
     1) Define your layers (first easy grow)

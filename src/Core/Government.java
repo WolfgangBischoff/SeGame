@@ -23,7 +23,7 @@ public class Government
     }
 
 
-    public static Government getGoverment()
+   public static Government getGoverment()
     {
         if(singleton == null)
             singleton = new Government();
