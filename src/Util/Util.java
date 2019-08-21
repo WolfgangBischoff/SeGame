@@ -33,9 +33,17 @@ public class Util
     public static final Integer COMP_DEFAULT_DEPOSIT = 100000;
 
     //Economy
-    public static final int NUMBER_COMPANIES = 4;
+
 
     //Government
+
+    //Interpreter
+    public static final Integer INTER_DEF_NUM_EDU_BASE = 3;
+    public static final Integer INTER_DEF_NUM_EDU_APPR = 4;
+    public static final Integer INTER_DEF_NUM_EDU_HIGH = 2;
+    public static final Integer INTER_DEF_NUM_EDU_UNIV = 1;
+    public static final Integer INTER_DEF_NUM_COMPANIES = 4;
+
 
     //Random
     static Random rand = new Random();

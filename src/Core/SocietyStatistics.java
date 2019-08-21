@@ -27,9 +27,7 @@ public class SocietyStatistics extends Statistics
     public SocietyStatistics(Society soc)
     {
         persons = soc.getPeople();
-
-        System.out.println(persons);
-
+        //System.out.println("PPP" + persons);
         calcAll();
     }
 
@@ -48,7 +46,10 @@ public class SocietyStatistics extends Statistics
             if(person.worksAt != null)
                 employed++;
 
+        if(persons.size() == 0)//prevent NaN
+            return;
         Double employmentRate = ((double) employed) / persons.size();
+
 
         unemploymentRate = Util.roundTwoDigits((1-employmentRate));
         employedNumber = employed;
@@ -115,7 +116,12 @@ public class SocietyStatistics extends Statistics
                 ;
     }
 
-    String printBase() { return "Population: " + persons.size() + " Unemployed: " + unemploymentRate; }
+    String printBase()
+    {
+        if(persons.size() == 0)
+            return "Society has no people";
+        return "Population: " + persons.size() + " Unemployed: " + unemploymentRate;
+    }
 
     String printIncomeStat()
     {

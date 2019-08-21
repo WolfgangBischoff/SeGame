@@ -65,10 +65,9 @@ public class Economy
 
     public void populateEconomy(Integer numberComp)
     {
+        companies = new ArrayList<>();
         for(int i=0; i<numberComp; i++)
         {
-            //String name = createUniqueCompanyName(Company.getRandomCompanyName());
-            //companies.add(new Company(name, NUM_BASE_EDU_WORK, NUM_APPR_EDU_WORK, NUM_HIGH_EDU_WORK, NUM_UNIV_EDU_WORK));
             addCompanyByName(Company.getRandomCompanyName());
         }
     }
@@ -97,6 +96,8 @@ public class Economy
 
     public String economyBaseData()
     {
+        if(companies.size()==0)
+            return "Economy has no Companies";
         return "#Companies: " + companies.size() + " #FreeWorkplaces: " + calcNumberFreeWorkpositions() + " CompanyDeposits: " + economyStatistics.calcSumCompanyDeposits();
     }
 

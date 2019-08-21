@@ -7,6 +7,8 @@ import Core.Exceptions.InterpreterUndefindedOptionException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static Util.Util.*;
+
 public class Interpreter
 {
     private static Interpreter instance = null;
@@ -39,9 +41,9 @@ public class Interpreter
         return run;
     }
 
-    private String normalizeParameter(String rawInput)
+    private String normalizeFirstParameter(String rawInput)
     {
-        String methodName = "normalizeParameter";
+        String methodName = "normalizeFirstParameter()";
         switch (rawInput.toLowerCase())
         {
             case "person":
@@ -69,7 +71,30 @@ public class Interpreter
             case "end":
                 return "quit";
             default:
-                throw new IllegalArgumentException(methodName + ": Command not known \"" + rawInput + "\"");
+                throw new InterpreterUndefindedOptionException(methodName, rawInput);
+        }
+    }
+
+    private String normalizeSecondParameter(String rawInput)
+    {
+        String methodName = "normalizeSecondParameter()";
+        switch (rawInput.toLowerCase())
+        {
+            case "print":
+            case "p":
+                return "print";
+            case "populate":
+            case "pop":
+                return "populate";
+            case "add":
+            case "a":
+                return "add";
+            case "cash":
+                return "cash"; //test()
+            case "pay":
+                return "pay"; //company
+            default:
+                throw new InterpreterUndefindedOptionException(methodName, rawInput);
         }
     }
 
@@ -109,7 +134,7 @@ public class Interpreter
     private void processFirstParam(String[] inputParameter)
     {
         String methodName = "processFirstParam";
-        String parameter = normalizeParameter(inputParameter[0]);
+        String parameter = normalizeFirstParameter(inputParameter[0]);
         String[] newParam = cutFirstIndexPositions(inputParameter, 1);
         switch (parameter)
         {
@@ -144,21 +169,21 @@ public class Interpreter
     }
 
     //SECOND INSTRUCTION
-    private void processSecondParamAfterPerson(String[] inputParameter)
+    private void processSecondParamAfterPerson(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterPerson";
-        String[] newParam = cutFirstIndexPositions(inputParameter, 1);
+        String[] newParam = cutFirstIndexPositions(inputParameters, 1);
 
         //just "person"
-        if (inputParameter.length == 0)
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        //TODO Just use second param here; send to successor method with residual param
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
         //Switch to second param
-        switch (inputParameter[0].toLowerCase())
+        switch (parameter)
         {
             case "add":
                 personAdd(newParam);
@@ -167,23 +192,24 @@ public class Interpreter
                 personPrint(newParam);
                 break;
             default:
-                throw new InterpreterUndefindedOptionException(methodName, inputParameter[0].toLowerCase());
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0].toLowerCase());
         }
     }
 
-    private void processSecondParamAfterSociety(String[] inputParameter)
+    private void processSecondParamAfterSociety(String[] inputParameters)
     {
         String methodName = "processSecondParamAfterSociety";
-        String[] newParam = cutFirstIndexPositions(inputParameter, 1);
+        String[] newParam = cutFirstIndexPositions(inputParameters, 1);
 
         //Just: society
-        if (inputParameter.length == 0)
+        if (inputParameters.length == 0)
         {
             System.out.println("Further arguments needed");
             return;
         }
 
-        switch (inputParameter[0].toLowerCase())
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
+        switch (parameter)
         {
             case "print":
                 societyPrint(newParam);
@@ -191,8 +217,11 @@ public class Interpreter
             case "calc":
                 societyCalc();
                 break;
+            case "populate":
+                societyPopulate();
+                break;
             default:
-                throw new InterpreterUndefindedOptionException(methodName, inputParameter[0]);
+                throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
         }
     }
 
@@ -207,8 +236,8 @@ public class Interpreter
             return;
         }
 
-        //Goto second parameter like "print"
-        switch (inputParameters[0].toLowerCase())
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
+        switch (parameter)
         {
             case "print":
                 companyPrint(optionPara);
@@ -235,7 +264,8 @@ public class Interpreter
             return;
         }
 
-        switch (inputParameters[0].toLowerCase())
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
+        switch (parameter)
         {
             case "print":
                 System.out.println(government);
@@ -255,11 +285,14 @@ public class Interpreter
             System.out.println("Further arguments needed");
             return;
         }
-
-        switch (inputParameters[0].toLowerCase())
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
+        switch (parameter)
         {
             case "print":
                 enconomyPrint(optionPara);
+                break;
+            case "populate":
+                economyPopulate();
                 break;
             default:
                 throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
@@ -279,7 +312,8 @@ public class Interpreter
             return;
         }
 
-        switch (inputParameters[0].toLowerCase())
+        String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
+        switch (parameter)
         {
             case "cash":
                 testCash();
@@ -329,7 +363,7 @@ public class Interpreter
         Map<String, String> options = readOptionParameter(inputOptions);
 
         String forbiddenParam = notContainsForbiddenOptionParameter(options, new String[]{"-all"});
-        if(forbiddenParam != null)
+        if (forbiddenParam != null)
             throw new InterpreterNoParametersAlloweException(methodname, forbiddenParam);
 
         //Case no options
@@ -376,6 +410,12 @@ public class Interpreter
         society.calcSociety();
     }
 
+    private void societyPopulate()
+    {
+        society.populateSociety(INTER_DEF_NUM_EDU_BASE, INTER_DEF_NUM_EDU_APPR, INTER_DEF_NUM_EDU_HIGH, INTER_DEF_NUM_EDU_UNIV);
+        society.calcSociety();
+    }
+
     private void enconomyPrint(String[] inputOptions)
     {
         String methodname = "economyPrint()";
@@ -391,6 +431,12 @@ public class Interpreter
 
     }
 
+    private void economyPopulate()
+    {
+        economy.populateEconomy(INTER_DEF_NUM_COMPANIES);
+        //economy.fillWorkspaces(soc.getPeople());
+    }
+
     private void testCash()
     {
         String methodname = "testCash()";
@@ -404,7 +450,7 @@ public class Interpreter
 
     private void companyPay(String[] inputOptions)
     {
-        String methodname = "companyAdd()";
+        String methodname = "companyPay()";
         Map<String, String> options = readOptionParameter(inputOptions);
 
         //Case no options
@@ -418,14 +464,16 @@ public class Interpreter
         if (options.containsKey("-all"))
         {
             for (Company company : economy.getCompanies())
-                System.out.println(company);
+                company.paySalaries();
+            System.out.println("All Companies payed loans");
+            society.calcSociety();
             return;
         }
 
         //Case name given
         if (options.containsKey("-name"))
         {
-            economy.getCompanyByName(options.get("-name"));
+            economy.getCompanyByName(options.get("-name")).paySalaries();
             return;
         }
 
@@ -438,7 +486,7 @@ public class Interpreter
         Map<String, String> options = readOptionParameter(inputOptions);
 
         String forbiddenParam = notContainsForbiddenOptionParameter(options, new String[]{"-all"});
-        if(forbiddenParam != null)
+        if (forbiddenParam != null)
             throw new InterpreterNoParametersAlloweException(methodname, forbiddenParam);
 
         //Case no options
@@ -499,17 +547,18 @@ public class Interpreter
 
     /**
      * Checks if options which should not have parameter really dont have parameter. Example: -all parmeter => forbidden
-     * @param options option/parameter pairs
+     *
+     * @param options                   option/parameter pairs
      * @param parameterForbiddenOptions options which should not have parameter
      * @return
      */
     private String notContainsForbiddenOptionParameter(Map<String, String> options, String[] parameterForbiddenOptions)
     {
-        for(String forbiddenParameterOption : parameterForbiddenOptions)
-            if(options.get(forbiddenParameterOption) != null)
+        for (String forbiddenParameterOption : parameterForbiddenOptions)
+            if (options.get(forbiddenParameterOption) != null)
                 return options.get(forbiddenParameterOption);
 
-            return null;
+        return null;
     }
 
     private Map<String, String> readOptionParameter(String[] params)
@@ -556,6 +605,7 @@ public class Interpreter
                         "Person add -name -firstname -lastname\n" +
                         "economy print -companies\n" +
                         "society print -income\n" +
+                        "society populate\n" +
                         "government print\n" +
                         "company print -name -all\n" +
                         "company pay -name -all\n" +

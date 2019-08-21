@@ -10,7 +10,10 @@ public class Society {
     private SocietyStatistics societyStatistics;
 
     //Constructors
-    private Society(){}
+    private Society()
+    {
+        societyStatistics = new SocietyStatistics(this);
+    }
 
     //Calculations
     public void calcSociety()
@@ -56,6 +59,7 @@ public class Society {
      */
     public void populateSociety(Integer numberPersons)
     {
+        people = new ArrayList<>();
         //Create People
         for(int i=0; i<numberPersons; i++)
         {
@@ -70,6 +74,8 @@ public class Society {
 
     public void populateSociety(Integer baseEdu, Integer apprEdu, Integer higherEdu, Integer unicEdu)
     {
+        people = new ArrayList<>();
+
         for(int i=0; i < baseEdu; i++)
         {
             people.add(new Person(EducationalLayer.EDU_BASE));
