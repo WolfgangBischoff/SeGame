@@ -72,18 +72,24 @@ public class Economy
         }
     }
 
-    public void fillWorkspaces(ArrayList<Person> worker)
+    public void fillWorkplaces(Company company)
+    {
+        ArrayList<Person> worker = Society.getSociety().getPeople();
+        for(Workposition workposition : company.getWorkpositions())
+        {
+            for(Person person : worker)
+            {
+                if(person.worksAt == null && company.hireWorker(workposition, person))
+                {break;}
+            }
+        }
+    }
+
+    public void fillWorkplaces()
     {
         for(Company company : companies)
         {
-            for(Workposition workposition : company.getWorkpositions())
-            {
-                for(Person person : worker)
-                {
-                    if(person.worksAt == null && company.hireWorker(workposition, person))
-                    {break;}
-                }
-            }
+            fillWorkplaces(company);
         }
     }
 

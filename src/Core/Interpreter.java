@@ -93,6 +93,10 @@ public class Interpreter
                 return "cash"; //test()
             case "pay":
                 return "pay"; //company
+            case "hire":
+                return "hire"; //economy
+            case "calc":
+                return "calc"; //society
             default:
                 throw new InterpreterUndefindedOptionException(methodName, rawInput);
         }
@@ -294,6 +298,9 @@ public class Interpreter
             case "populate":
                 economyPopulate();
                 break;
+            case "hire":
+                economyHire(optionPara);
+                break;
             default:
                 throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
         }
@@ -322,6 +329,7 @@ public class Interpreter
                 throw new InterpreterUndefindedOptionException(methodName, inputParameters[0].toLowerCase());
         }
     }
+
 
     //OPTIONS
     private void personAdd(String[] inputOptions)
@@ -434,7 +442,27 @@ public class Interpreter
     private void economyPopulate()
     {
         economy.populateEconomy(INTER_DEF_NUM_COMPANIES);
-        //economy.fillWorkspaces(soc.getPeople());
+    }
+
+    private void economyHire(String[] inputOptions)
+    {
+        String methodname = "economyHire()";
+        Map<String, String> options = readOptionParameter(inputOptions);
+
+        if(options.containsKey("-name"))
+        {
+            if(economy.getCompanyByName(options.get("-name")) == null)
+            {
+                System.out.println("Company with name " + options.get("-name") + " does not exist");
+                return;
+            }
+            Company hires = economy.getCompanyByName(options.get("-name"));
+            economy.fillWorkplaces(hires);
+            return;
+        }
+
+        economy.fillWorkplaces();
+
     }
 
     private void testCash()

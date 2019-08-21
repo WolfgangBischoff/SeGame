@@ -20,7 +20,7 @@ public class Simulation
 
         economy = new Economy();
         //economy.populateEconomy(NUMBER_COMPANIES);
-        //economy.fillWorkspaces(soc.getPeople());
+        //economy.fillWorkplaces(soc.getPeople());
 
         government = Government.getGoverment();
 

@@ -2,8 +2,8 @@
 KNOWN BUGS:
 
 TODOS:
-    Add Interpreter: init instead of main, delete Game
-        Interpreter should create new instances of Game or Game Class
+    Add Interpreter:
+        eco populate workplaces
     Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
     Add socialWellfare
