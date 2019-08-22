@@ -41,10 +41,50 @@ public class Interpreter
         return run;
     }
 
-
+//https://gist.github.com/ervinsh/9c3be271c8dc62e356ca
     //TODO Read all orders and compute in one switch
     private void computeInstructions(String[] inputParameters)
     {
+        String methodName = "computeInstructions";
+        String[] validInstructions = {
+                "society print", //base, -income -persons
+                "society add", //name -rnd
+                "society populate",
+                "person print", //name
+                "economy print", //base -companies
+                "economy add", //name
+                "economy pay", //
+                "company print", //name
+                "company pay", //name
+                "testCash"
+
+        };
+
+
+        //TODO Why not simply add parts and ask everytim if in valid list???
+        String lastCompleteValidInst = null;
+        String processedPart = inputParameters[0];
+        //InstructionLoop:
+        for(int i = 1; i<inputParameters.length; i++)//each instruction, starting at second
+        {
+            for(String s : validInstructions)//check all valid instructions
+            {
+                if(s.startsWith(processedPart))
+                {
+                    processedPart += inputParameters[i];
+                    break;
+                }
+
+                if(s.equals(processedPart))
+                    lastCompleteValidInst = processedPart;
+
+                if(lastCompleteValidInst == null)
+                    throw new InterpreterUndefindedOptionException(methodName, processedPart);
+
+            }
+        }
+
+
         //Known combinations soc add "Wolf B"
         //while starts with, add args (use noramlize)
         //Chose last fitting
