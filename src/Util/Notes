@@ -4,9 +4,13 @@ KNOWN BUGS:
 TODOS:
     Add Interpreter:
         add person 10 -rnd (check options at first?)
+        change paths to be more logic
 
+    Add first interface that print things
+    Add companies produce Goods with border prices (Food, Commodities), consider effectivsness dependent on infrastructure and personal
+    Add person buy products from companies
     Add Time (calc stat after each period, delete old calcs)
-    Add Housing conditions (quality and price), Goods with surplus (Food, Commodities)
+    Add Housing conditions (quality and price),
     Add socialWellfare
 
 Ideas:
