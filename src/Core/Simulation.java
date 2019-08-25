@@ -16,18 +16,8 @@ public class Simulation
     {
         //Init Players
         society = Society.getSociety();
-        //soc.populateSociety(15, 20, 10, 5);
-
         economy = new Economy();
-        //economy.populateEconomy(NUMBER_COMPANIES);
-        //economy.fillWorkplaces(soc.getPeople());
-
         government = Government.getGoverment();
-
-        //Calc after Init
-        //soc.getSocietyStatistics().calcAll();
-        //soc.calcSociety();
-
         //Init Interpreter
         interpreter = Interpreter.getInterpreter(society, economy, government);
     }

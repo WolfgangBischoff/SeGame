@@ -28,9 +28,7 @@ public class Interpreter
 
     public boolean readInstruction(String input)
     {
-        //inputString = input;
         String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
-
         try
         {
             processFirstParam(param);
