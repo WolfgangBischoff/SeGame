@@ -120,7 +120,7 @@ public class SocietyStatistics extends Statistics
     {
         if(persons.size() == 0)
             return "Society has no people";
-        return "Population: " + persons.size() + " Unemployed: " + unemploymentRate;
+        return "Population: " + persons.size() + " Unemployed: " + unemploymentRate + " " + printPolStat();
     }
 
     String printIncomeStat()

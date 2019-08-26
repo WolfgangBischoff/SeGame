@@ -176,14 +176,6 @@ public class Person
     public Integer getId() {
         return id;
     }
-/*
-    public String getFirstname() {
-        return name.getFirstname();
-    }
-
-    public String getLastname() {
-        return name.getLastname();
-    }*/
 
     public Integer getAge() {
         return age;

@@ -27,18 +27,4 @@ public class Simulation
         return interpreter;
     }
 
-    public void runInterpreter() throws IOException
-    {
-        boolean run = true;
-        while (run)
-        {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.print(">>> ");
-            String s;
-            s = br.readLine();
-
-            run = interpreter.readInstruction(s);
-
-        }
-    }
 }

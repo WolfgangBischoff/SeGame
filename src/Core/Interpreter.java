@@ -15,6 +15,8 @@ public class Interpreter
     private Society society;
     private Economy economy;
     private Government government;
+    private Console console;
+    private final boolean PRINTSYSOUT = true;
 
     private boolean run = true;
 
@@ -24,73 +26,40 @@ public class Interpreter
         society = soc;
         economy = eco;
         government = gov;
+        console = new Console();
+        console.setListener(this);
     }
+
+    public Console getConsole() {
+        return console;
+    }
+
+    private void print(String text)
+    {
+        if(PRINTSYSOUT)
+            System.out.println(text);
+        console.println(text);
+    }
+
+    private void print(Object object)
+    {
+        print(object.toString());
+    }
+
 
     public boolean readInstruction(String input)
     {
+        String methodName = "readInstruction()";
         String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
         try
         {
             processFirstParam(param);
         } catch (IllegalArgumentException e)
         {
-            System.out.println("In readInstruction()\n\t" + e.getMessage());
+            print(methodName + "\n\t" + e.getMessage());//System.out.println("In readInstruction()\n\t" + e.getMessage());
         }
         return run;
     }
-
-//https://gist.github.com/ervinsh/9c3be271c8dc62e356ca
-    //TODO Read all orders and compute in one switch
-    private void computeInstructions(String[] inputParameters)
-    {
-        String methodName = "computeInstructions";
-        String[] validInstructions = {
-                "society print", //base, -income -persons
-                "society add", //name -rnd
-                "society populate",
-                "person print", //name
-                "economy print", //base -companies
-                "economy add", //name
-                "economy pay", //
-                "company print", //name
-                "company pay", //name
-                "testCash"
-
-        };
-
-
-        //TODO Why not simply add parts and ask everytim if in valid list???
-        String lastCompleteValidInst = null;
-        String processedPart = inputParameters[0];
-        //InstructionLoop:
-        for(int i = 1; i<inputParameters.length; i++)//each instruction, starting at second
-        {
-            for(String s : validInstructions)//check all valid instructions
-            {
-                if(s.startsWith(processedPart))
-                {
-                    processedPart += inputParameters[i];
-                    break;
-                }
-
-                if(s.equals(processedPart))
-                    lastCompleteValidInst = processedPart;
-
-                if(lastCompleteValidInst == null)
-                    throw new InterpreterUndefindedOptionException(methodName, processedPart);
-
-            }
-        }
-
-
-        //Known combinations soc add "Wolf B"
-        //while starts with, add args (use noramlize)
-        //Chose last fitting
-    }
-
-    //TODO Method computes varargs
-
-
 
 
     private String normalizeFirstParameter(String rawInput)
@@ -192,6 +161,7 @@ public class Interpreter
         String methodName = "processFirstParam";
         String parameter = normalizeFirstParameter(inputParameter[0]);
         String[] newParam = cutFirstIndexPositions(inputParameter, 1);
+
         switch (parameter)
         {
             case "person":
@@ -227,13 +197,13 @@ public class Interpreter
     //SECOND INSTRUCTION
     private void processSecondParamAfterPerson(String[] inputParameters)
     {
-        String methodName = "processSecondParamAfterPerson";
+        String methodName = "processSecondParamAfterPerson()";
         String[] newParam = cutFirstIndexPositions(inputParameters, 1);
 
         //just "person"
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
 
@@ -260,7 +230,7 @@ public class Interpreter
         //Just: society
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
 
@@ -288,7 +258,7 @@ public class Interpreter
         //Just: company
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
 
@@ -316,7 +286,7 @@ public class Interpreter
         String[] optionPara = cutFirstIndexPositions(inputParameters, 1);
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
 
@@ -324,7 +294,7 @@ public class Interpreter
         switch (parameter)
         {
             case "print":
-                System.out.println(government);
+                print(government);
                 break;
             default:
                 throw new InterpreterUndefindedOptionException(methodName, inputParameters[0]);
@@ -338,7 +308,7 @@ public class Interpreter
         //Just: Economy
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
         String parameter = normalizeSecondParameter(inputParameters[0].toLowerCase());
@@ -367,7 +337,7 @@ public class Interpreter
         //Just: test
         if (inputParameters.length == 0)
         {
-            System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
             return;
         }
 
@@ -391,7 +361,7 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println("No Person specified. Did you forget -name or -all?");
+            print("No Person specified. Did you forget -name or -all?");//System.out.println("No Person specified. Did you forget -name or -all?");
             return;
         }
 
@@ -400,7 +370,7 @@ public class Interpreter
         {
             Person newPerson = new Person(new PersonName(options.get("-name")));
             society.addPerson(newPerson);
-            System.out.println("Added Person: " + newPerson);
+            print("Added Person: " + newPerson);//System.out.println("Added Person: " + newPerson);
             return;
         }
 
@@ -410,7 +380,7 @@ public class Interpreter
             PersonName name = new PersonName(options.get("-firstname"), options.get("-lastname"));
             Person newPerson = new Person(name);
             society.addPerson(newPerson);
-            System.out.println("Added Person: " + newPerson);
+            print("Added Person: " + newPerson);//System.out.println("Added Person: " + newPerson);
             return;
         }
 
@@ -429,13 +399,13 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println("No Person specified. Did you forget -name or -all?");
+            print("No Person specified. Did you forget -name?");//System.out.println("No Person specified. Did you forget -name?");
             return;
         }
         //case all persons
         if (options.containsKey("-all"))
         {
-            System.out.println(society.printSocPeople());
+            print(society.printSocPeople());
             return;
         }
         //case some persons
@@ -445,7 +415,7 @@ public class Interpreter
             for (Person person : society.getPeople())
             {
                 if (person.name.equals(new PersonName(options.get("-name"))))
-                    System.out.println(person);
+                    print(person);//System.out.println(person);
             }
             return;
         }
@@ -459,15 +429,16 @@ public class Interpreter
         Map<String, String> options = readOptionParameter(inputOptions);
         //Case no options
         if (options.size() == 0)
-            System.out.println(society.getSocietyStatistics().printBase());
+            print(society.getSocietyStatistics().printBase());//System.out.println(society.getSocietyStatistics().printBase());
 
         if (options.containsKey("-income"))
-            System.out.println(society.getSocietyStatistics().printIncomeStat());
+            print(society.getSocietyStatistics().printIncomeStat());//System.out.println(society.getSocietyStatistics().printIncomeStat());
     }
 
     private void societyCalc()
     {
         society.calcSociety();
+        print("Calculated Societey");
     }
 
     private void societyPopulate()
@@ -484,10 +455,10 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println(economy.economyBaseData());
+            print(economy.economyBaseData());//System.out.println(economy.economyBaseData());
         }
         if (options.containsKey("-companies"))
-            System.out.println(economy.getCompanies());
+            print(economy.getCompanies());//System.out.println(economy.getCompanies());
 
     }
 
@@ -505,7 +476,7 @@ public class Interpreter
         {
             if(economy.getCompanyByName(options.get("-name")) == null)
             {
-                System.out.println("Company with name " + options.get("-name") + " does not exist");
+                print("Company with name " + options.get("-name") + " does not exist");//System.out.println("Company with name " + options.get("-name") + " does not exist");
                 return;
             }
             Company hires = economy.getCompanyByName(options.get("-name"));
@@ -525,7 +496,7 @@ public class Interpreter
         Integer depPeople = society.getSocietyStatistics().depositSumPeople;
         Integer depComp = economy.getEconomyStatistics().calcSumCompanyDeposits();
         Integer depGov = government.getDeposit();
-        System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
+        print("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));//System.out.println("Society: " + depPeople + "\nCompanies: " + depComp + "\nGovernment: " + depGov + "\nSum: " + (depPeople + depGov + depComp));
     }
 
     private void companyPay(String[] inputOptions)
@@ -536,7 +507,7 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println("No Company specified. Did you forget -name?");
+            print("No Company specified. Did you forget -name?");//System.out.println("No Company specified. Did you forget -name?");
             return;
         }
 
@@ -545,7 +516,7 @@ public class Interpreter
         {
             for (Company company : economy.getCompanies())
                 company.paySalaries();
-            System.out.println("All Companies payed loans");
+            print("All Companies payed loans");//System.out.println("All Companies payed loans");
             society.calcSociety();
             return;
         }
@@ -572,21 +543,21 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println("No Company specified. Did you forget -name?");
+            print("No Company specified. Did you forget -name?");//System.out.println("No Company specified. Did you forget -name?");
             return;
         }
 
         //Case print all companies
         if (options.containsKey("-all"))
         {
-            System.out.println(economy.economyBaseCompanyData());
+            print(economy.economyBaseCompanyData());//System.out.println(economy.economyBaseCompanyData());
             return;
         }
 
         //Case print company with name
         if (options.containsKey("-name"))
         {
-            System.out.println(economy.getCompanyByName(options.get("-name")));
+            print(economy.getCompanyByName(options.get("-name")));
             return;
         }
 
@@ -601,14 +572,14 @@ public class Interpreter
         //Case no options
         if (options.size() == 0)
         {
-            System.out.println("No Company specified. Did you forget -name?");
+            print("No Company specified. Did you forget -name?");
             return;
         }
 
         //Case name given
         if (options.containsKey("-name"))
         {
-            System.out.println(economy.addCompanyByName(options.get("-name")));
+            print(economy.addCompanyByName(options.get("-name")));
             return;
         }
 
@@ -619,7 +590,11 @@ public class Interpreter
     //Util
     private String[] cutFirstIndexPositions(String[] input, Integer NumberCutPostions)
     {
-        String[] ret = new String[input.length - NumberCutPostions];
+        Integer lengthReturnArray = input.length - NumberCutPostions;
+        if(lengthReturnArray < 0)
+            lengthReturnArray = 0;
+
+        String[] ret = new String[lengthReturnArray];
         for (int i = 0; i < ret.length; i++)
             ret[i] = input[i + NumberCutPostions];
         return ret;
@@ -679,7 +654,7 @@ public class Interpreter
     private void printGeneralHelp()
     {
 
-        System.out.println(
+        print(
                 "Existing Instructions:\n" +
                         "Person print -name -all\n" +
                         "Person add -name -firstname -lastname\n" +
