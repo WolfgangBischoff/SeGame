@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static Util.Util.*;
+import static javafx.application.Platform.exit;
 
 public class Interpreter
 {
@@ -18,7 +19,7 @@ public class Interpreter
     private Console console;
     private final boolean PRINTSYSOUT = true;
 
-    private boolean run = true;
+    //private boolean run = true;
 
     //Constructors
     private Interpreter(Society soc, Economy eco, Government gov)
@@ -47,7 +48,7 @@ public class Interpreter
     }
 
 
-    public boolean readInstruction(String input)
+    public void readInstruction(String input)
     {
         String methodName = "readInstruction()";
         String[] param = input.split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$)\"?");//split along whitespaces, but respects quotation marks "two strings"
@@ -58,7 +59,7 @@ public class Interpreter
         {
             print(methodName + "\n\t" + e.getMessage());//System.out.println("In readInstruction()\n\t" + e.getMessage());
         }
-        return run;
+        //return run;
     }
 
 
@@ -186,7 +187,7 @@ public class Interpreter
                 printGeneralHelp();
                 break;
             case "quit":
-                run = false;
+                exit();//run = false;
                 break;
             default:
                 throw new InterpreterUndefindedOptionException(methodName, parameter);
@@ -590,7 +591,7 @@ public class Interpreter
     //Util
     private String[] cutFirstIndexPositions(String[] input, Integer NumberCutPostions)
     {
-        Integer lengthReturnArray = input.length - NumberCutPostions;
+        int lengthReturnArray = input.length - NumberCutPostions;
         if(lengthReturnArray < 0)
             lengthReturnArray = 0;
 
@@ -605,7 +606,7 @@ public class Interpreter
      *
      * @param options                   option/parameter pairs
      * @param parameterForbiddenOptions options which should not have parameter
-     * @return
+     * @return forbidden parameter or null
      */
     private String notContainsForbiddenOptionParameter(Map<String, String> options, String[] parameterForbiddenOptions)
     {
