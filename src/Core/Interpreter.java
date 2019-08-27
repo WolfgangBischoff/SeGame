@@ -19,25 +19,25 @@ public class Interpreter
     private Console console;
     private final boolean PRINTSYSOUT = true;
 
-    //private boolean run = true;
-
     //Constructors
     private Interpreter(Society soc, Economy eco, Government gov)
     {
         society = soc;
         economy = eco;
         government = gov;
-        console = new Console();
-        console.setListener(this);
     }
 
-    public Console getConsole() {
+    /*public Console getConsole()
+    {
         return console;
+    }*/
+    public void setConsole(Console console) {
+        this.console = console;
     }
 
     private void print(String text)
     {
-        if(PRINTSYSOUT)
+        if (PRINTSYSOUT)
             System.out.println(text);
         console.println(text);
     }
@@ -57,9 +57,8 @@ public class Interpreter
             processFirstParam(param);
         } catch (IllegalArgumentException e)
         {
-            print(methodName + "\n\t" + e.getMessage());//System.out.println("In readInstruction()\n\t" + e.getMessage());
+            print(methodName + "\n\t" + e.getMessage());
         }
-        //return run;
     }
 
 
@@ -204,7 +203,7 @@ public class Interpreter
         //just "person"
         if (inputParameters.length == 0)
         {
-            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");
             return;
         }
 
@@ -231,7 +230,7 @@ public class Interpreter
         //Just: society
         if (inputParameters.length == 0)
         {
-            print(methodName + " Further arguments needed");//System.out.println("Further arguments needed");
+            print(methodName + " Further arguments needed");
             return;
         }
 
@@ -473,9 +472,9 @@ public class Interpreter
         String methodname = "economyHire()";
         Map<String, String> options = readOptionParameter(inputOptions);
 
-        if(options.containsKey("-name"))
+        if (options.containsKey("-name"))
         {
-            if(economy.getCompanyByName(options.get("-name")) == null)
+            if (economy.getCompanyByName(options.get("-name")) == null)
             {
                 print("Company with name " + options.get("-name") + " does not exist");//System.out.println("Company with name " + options.get("-name") + " does not exist");
                 return;
@@ -592,7 +591,7 @@ public class Interpreter
     private String[] cutFirstIndexPositions(String[] input, Integer NumberCutPostions)
     {
         int lengthReturnArray = input.length - NumberCutPostions;
-        if(lengthReturnArray < 0)
+        if (lengthReturnArray < 0)
             lengthReturnArray = 0;
 
         String[] ret = new String[lengthReturnArray];
@@ -680,8 +679,12 @@ public class Interpreter
         }
     }
 
-    public static Interpreter getInterpreter(Society soc, Economy eco, Government gov)
+    public static Interpreter getInterpreter(Simulation simulation)
     {
+        Society soc = simulation.society;
+        Economy eco = simulation.economy;
+        Government gov = simulation.government;
+
         if (instance != null)
             throw new RuntimeException("Interpreter already initialized");
         else

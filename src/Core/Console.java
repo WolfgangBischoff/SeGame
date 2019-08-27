@@ -23,14 +23,13 @@ public class Console extends BorderPane {
     private Consumer<String> onMessageReceivedHandler;
     private Interpreter interpreter;
 
-    public void setListener(Interpreter interpreter)
-    {
-        this.interpreter = interpreter;
-    }
-
-    public Console() {
+    public Console(Simulation simulation) {
         textArea.setEditable(false);
         setCenter(textArea);
+
+        //Connect interpreter with Console
+        interpreter = Interpreter.getInterpreter(simulation);
+        interpreter.setConsole(this);
 
         textField.addEventHandler(KeyEvent.KEY_RELEASED, keyEvent -> {
             switch (keyEvent.getCode()) {

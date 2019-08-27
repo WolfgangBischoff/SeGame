@@ -21,7 +21,7 @@ public class Main extends Application
         //Console Window
         Stage consoleWindow = new Stage();
         consoleWindow.setTitle("SeGame Console");
-        consoleWindow.setScene(new Scene(simulation.getInterpreter().getConsole()));
+        consoleWindow.setScene(new Scene(simulation.getConsole()));
         consoleWindow.show();
 
         //gameWindow.show();

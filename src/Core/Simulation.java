@@ -1,16 +1,13 @@
 package Core;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 public class Simulation
 {
     Society society;
     Economy economy;
     Government government;
-    Interpreter interpreter;
+    //Interpreter interpreter;
+    Console console;
 
     public Simulation()
     {
@@ -19,12 +16,17 @@ public class Simulation
         economy = new Economy();
         government = Government.getGoverment();
         //Init Interpreter
-        interpreter = Interpreter.getInterpreter(society, economy, government);
+        //interpreter = Interpreter.getInterpreter(society, economy, government);
+        console = new Console(this);
     }
 
-    public Interpreter getInterpreter()
+    /*public Interpreter getInterpreter()
     {
         return interpreter;
-    }
+    }*/
 
+    public Console getConsole()
+    {
+        return console;
+    }
 }
