@@ -10,11 +10,9 @@ public class GuiPersonGrid extends GridPane
 {
     public GuiPersonGrid(Person person)
     {
-        //Person test = new Person(new PersonName("Alex Husar"), 28);
         Person test = person;
         test.calcState();
 
-        //GridPane personPane = new GridPane();
         setHgap(5);
         setVgap(5);
         setGridLinesVisible(true);

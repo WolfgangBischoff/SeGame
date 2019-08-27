@@ -3,27 +3,28 @@ package Core;
 
 public class Simulation
 {
+    private static Simulation singleton;
     Society society;
     Economy economy;
     Government government;
-    //Interpreter interpreter;
     Console console;
 
-    public Simulation()
+    private Simulation()
     {
-        //Init Players
         society = Society.getSociety();
         economy = new Economy();
         government = Government.getGoverment();
-        //Init Interpreter
-        //interpreter = Interpreter.getInterpreter(society, economy, government);
         console = new Console(this);
     }
 
-    /*public Interpreter getInterpreter()
+    public static Simulation getSingleton()
     {
-        return interpreter;
-    }*/
+        if(singleton == null)
+        {
+            singleton = new Simulation();
+        }
+        return singleton;
+    }
 
     public Console getConsole()
     {

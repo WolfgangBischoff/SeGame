@@ -21,7 +21,7 @@ public class Main extends Application
     @Override
     public void start(Stage gameWindow)
     {
-        Simulation simulation = new Simulation();
+        Simulation simulation = Simulation.getSingleton();
 
         //Console Window
         Stage consoleWindow = new Stage();
@@ -29,8 +29,10 @@ public class Main extends Application
         consoleWindow.setScene(new Scene(simulation.getConsole()));
         consoleWindow.show();
 
+        GuiSociety guiSociety = new GuiSociety();
         GuiPersonGrid guiPersonGrid = new GuiPersonGrid(new Person(new PersonName("Hans Hubertus"), 42, EducationalLayer.fromInt(2),12345));
-        gameWindow.setScene(new Scene(guiPersonGrid,600,400 ));
+        gameWindow.setScene(new Scene(guiSociety,600,400 ));
+
         gameWindow.setTitle("SeGame");
         gameWindow.show();
 
