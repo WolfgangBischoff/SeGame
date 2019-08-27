@@ -11,6 +11,9 @@ TODOS:
             comp print/pay
 
     Add first interface that print things
+    https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/TilePane.html
+    https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/GridPane.html
+
     Add companies produce Goods with border prices (Food, Commodities), consider effectivsness dependent on infrastructure and personal
     Add person buy products from companies
     Add Time (calc stat after each period, delete old calcs)

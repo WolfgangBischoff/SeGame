@@ -3,6 +3,11 @@ package Core;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -24,7 +29,10 @@ public class Main extends Application
         consoleWindow.setScene(new Scene(simulation.getConsole()));
         consoleWindow.show();
 
-        //gameWindow.show();
+        GuiPersonGrid guiPersonGrid = new GuiPersonGrid(new Person(new PersonName("Hans Hubertus"), 42, EducationalLayer.fromInt(2),12345));
+        gameWindow.setScene(new Scene(guiPersonGrid,600,400 ));
+        gameWindow.setTitle("SeGame");
+        gameWindow.show();
 
     }
 }

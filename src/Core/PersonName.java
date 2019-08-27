@@ -40,6 +40,12 @@ public class PersonName {
     }
 
     @Override
+    public String toString()
+    {
+        return firstname + " " + lastname;
+    }
+
+    @Override
     public boolean equals(Object obj)
     {
         if(obj instanceof PersonName)
