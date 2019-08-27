@@ -11,6 +11,9 @@ TODOS:
             comp print/pay
 
     Add first interface that print things
+        Check listener pattern
+        Add Person Screen
+        Add Menu
     https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/TilePane.html
     https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/GridPane.html
 

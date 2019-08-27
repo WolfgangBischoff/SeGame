@@ -11,7 +11,11 @@ public class GuiSociety extends GridPane
     Simulation simulation;
     Society society;
 
-    Text basedata;
+    Text numberPersonsLabel = new Text("Population: ");
+    Text numberPersons;
+    Text avgGrossIncomeLabel = new Text("Average Gross Income: ");
+    Text avgGrossIncome;
+    Button refreshBttn;
 
     public GuiSociety()
     {
@@ -19,21 +23,27 @@ public class GuiSociety extends GridPane
         society = simulation.society;
 
         Text headline = new Text("Society Overview");
-        headline.setFont(Font.font("Arial", FontWeight.BOLD, 25));
+        headline.setFont(Font.font("Verdana", FontWeight.BOLD, 25));
         add(headline, 0,0);
 
-        basedata = new Text(society.printSocStatistics());
-        add(basedata, 0,1);
+        add(numberPersonsLabel, 0, 1);
+        numberPersons = new Text("" + society.getSocietyStatistics().persons.size());
+        add(numberPersons, 1,1);
 
-        Button calc = new Button("Refresh");
-        calc.setOnAction(
+        add(avgGrossIncomeLabel, 0,2);
+        avgGrossIncome = new Text(society.getSocietyStatistics().avgGrossIncome.toString());
+        add(avgGrossIncome, 1,2);
+
+        refreshBttn = new Button("Refresh");
+        refreshBttn.setOnAction(
                 (none) -> calc()
         );
-        add(calc, 1,2);
+        add(refreshBttn, 1,3);
     }
 
     public void calc()
     {
-        basedata.setText(society.printSocStatistics());
+        numberPersons.setText("" + society.getSocietyStatistics().persons.size());
+        avgGrossIncome.setText(society.getSocietyStatistics().avgGrossIncome.toString());
     }
 }
