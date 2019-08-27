@@ -27,10 +27,6 @@ public class Interpreter
         government = gov;
     }
 
-    /*public Console getConsole()
-    {
-        return console;
-    }*/
     public void setConsole(Console console) {
         this.console = console;
     }
