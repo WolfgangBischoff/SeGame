@@ -18,6 +18,9 @@ TODOS:
     https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/GridPane.html
 
     Add companies produce Goods with border prices (Food, Commodities), consider effectivsness dependent on infrastructure and personal
+        - marketCompany (Gets money through goods, sets price by demand and cost)
+        - govermentComany (gets money through goverment and goods, sets price based on politics)
+        - CharityCompany (gets money from gov and people, goods are free)
     Add person buy products from companies
     Add Time (calc stat after each period, delete old calcs)
     Add Housing conditions (quality and price),
