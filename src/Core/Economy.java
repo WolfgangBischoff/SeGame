@@ -2,7 +2,7 @@ package Core;
 
 import java.util.ArrayList;
 
-import static Util.Util.*;
+import static Core.Util.*;
 
 public class Economy
 {

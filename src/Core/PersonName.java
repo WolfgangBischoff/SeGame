@@ -1,7 +1,5 @@
 package Core;
 
-import Util.Util;
-
 public class PersonName {
     private String firstname;
     private String lastname;

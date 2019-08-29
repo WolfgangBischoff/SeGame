@@ -1,6 +1,6 @@
 package Core;
 
-import static Util.Util.*;
+import static Core.Util.*;
 
 
 public class Person

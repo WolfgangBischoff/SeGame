@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Util.Util.*;
+import static Core.Util.*;
 
 public abstract class Statistics
 {

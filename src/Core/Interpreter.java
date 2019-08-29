@@ -7,7 +7,7 @@ import Core.Exceptions.InterpreterUndefindedOptionException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Util.Util.*;
+import static Core.Util.*;
 import static javafx.application.Platform.exit;
 
 public class Interpreter

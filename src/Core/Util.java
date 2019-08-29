@@ -1,4 +1,4 @@
-package Util;
+package Core;
 
 import Core.EducationalLayer;
 import java.text.DecimalFormat;

@@ -1,10 +1,8 @@
 package Core;
 
-import Util.Util;
-
 import java.util.ArrayList;
 
-import static Util.Util.*;
+import static Core.Util.*;
 
 public class Company {
     private String name;
