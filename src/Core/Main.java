@@ -2,12 +2,9 @@ package Core;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -19,7 +16,7 @@ public class Main extends Application
     }
 
     @Override
-    public void start(Stage gameWindow)
+    public void start(Stage gameWindow) throws IOException
     {
         Simulation simulation = Simulation.getSingleton();
 
@@ -29,9 +26,15 @@ public class Main extends Application
         consoleWindow.setScene(new Scene(simulation.getConsole()));
         consoleWindow.show();
 
+
+        //Parent gameroot = FXMLLoader.load(getClass().getResource("../../resources/fxml/mainMenu.fxml"));
+        //Scene gamescene = new Scene(gameroot, 300,275);
+        //gameWindow.setScene(gamescene);
+
         GuiSociety guiSociety = new GuiSociety();
         GuiPersonGrid guiPersonGrid = new GuiPersonGrid(new Person(new PersonName("Hans Hubertus"), 42, EducationalLayer.fromInt(2),12345));
         gameWindow.setScene(new Scene(guiSociety,600,400 ));
+
 
         gameWindow.setTitle("SeGame");
         gameWindow.show();
